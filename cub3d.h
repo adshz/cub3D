@@ -18,10 +18,17 @@ typedef struct s_file_input
     char **textures_path;
     int **map;
     int map_size;
+    char palyer_spawn_direction;
 }   t_file_input;
 
+typedef struct s_player_pos
+{
+    int player_x_pox;
+    int player_y_pos;
+}   t_player_pos;
 
-void print_input(t_file_input *input);
+void    last_check(t_file_input* input, t_player_pos* player);
+void    print_input(t_file_input *input);
 bool    check_extension(char *str);
 void    obj_init(char * file,t_file_input *input);
 void    pars_input(char *v,t_file_input* input);

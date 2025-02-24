@@ -134,7 +134,7 @@ void print_input(t_file_input *input)
     printf("\nMap:\n");
     for (i = 0; input->map[i] != NULL; i++)
     {
-        printf("Row %d: ", i);
+        printf("Row: ");
         for (j = 0; j < input->map_size; j++)
         {
             printf("%d ", input->map[i][j]);

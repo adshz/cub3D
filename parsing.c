@@ -1,5 +1,32 @@
 #include"cub3d.h"
 
+bool valid_start_point(char c)
+{
+    if(c == 'N' || c == 'S'
+        || c == 'W' || c == 'E')
+        return true;
+    return false;
+}
+
+bool valid_char(char c)
+{
+    if (is_blank(c) || c == '0' || c == '1' ||(valid_start_point(c)))
+        return true;
+    return false;
+}
+
+int check_map_data_type(char c, t_file_input * input)
+{
+    if(!valid_char(c))
+        return (-42);
+    else if (valid_start_point(c))
+    {
+        input->palyer_spawn_direction = c;
+        return (-2);
+    }
+    return (c - '0');
+}
+
 bool    check_extension(char *str)
 {
     while(*str)
@@ -44,21 +71,18 @@ void map_assigment(char *line, t_file_input *input)
     int i = 0, j = 0;
     int map_size = input->map_size;
 
-    // Find the next available row that is not initialized
     while (i < map_size && input->map[i] && input->map[i][1] != 21)
         ++i;
     
-    if (i >= map_size || !input->map[i])  // Prevent accessing uninitialized rows
+    if (i >= map_size || !input->map[i])
         return;
     
     j = 0;
-    while (line[j] && j < map_size - 2) // Fill in the content (excluding borders)
+    while (line[j] && j < map_size - 2)
     {
-        input->map[i][j + 1] = line[j];  // Offset by 1 to keep border intact
+        input->map[i][j + 1] = check_map_data_type(line[j], input);
         ++j;
     }
-
-    // Fill remaining spaces with 42
     while (j < map_size - 1)
     {
         input->map[i][j + 1] = 21;
@@ -66,29 +90,6 @@ void map_assigment(char *line, t_file_input *input)
     }
 }
 
-
-/*
-void    map_assigment(char *line, t_file_input *input)
-{
-    int i = 0;
-    int j = 0;
-    int map_size = input->map_size;
-
-    while ((input->map[i]) && (input->map[i][1] != 42))
-        ++i;
-    while (line[j] && j < map_size)
-    {
-        input->map[i][j + 1] = line[j];
-        ++j;
-    }
-    while (j < map_size)
-    {
-        input->map[i][j] = 42;
-        ++j;
-    }
-}
-
-*/
 void    line_assigment(char *line, t_file_input* input)
 {
     if(str_cmp(line,"NO",2) || str_cmp(line,"SO",2)
@@ -97,6 +98,33 @@ void    line_assigment(char *line, t_file_input* input)
         texture_assigment(line, input);
     else
         map_assigment(line,input);
+}
+
+void player_pos_init(t_player_pos *player, int x_pos, int y_pos)
+{
+    player->player_x_pox = x_pos;
+    player->player_y_pos = y_pos;
+}
+
+void last_check(t_file_input* input, t_player_pos* player)
+{
+    int i = -1;
+    int j;
+    int size = input->map_size;
+    while(++i < size)
+    {
+        j = -1;
+        while (++j < size)
+        {
+            if (input->map[i][j] == -42)
+            {
+                free_input(input);
+                somthing_went_wrong("wrong map char");
+            }
+            if (input->map[i][j] == -2)
+                player_pos_init(player, j, i);
+        }
+    }
 }
 
 void    pars_input(char *file,t_file_input* input)
