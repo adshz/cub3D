@@ -28,13 +28,13 @@ void map_obj_init(t_file_input* input)
     i = 0;
     input->map = malloc(sizeof(int *) * (map_size + 1));
     if (!input->map)
-        somthing_went_wrong("Memory allocation failed for map rows!");
+        something_went_wrong("Memory allocation failed for map rows!");
 
     while(i < map_size)
     {
         input->map[i] = malloc(sizeof(int) * map_size);
         if (!input->map[i])
-            somthing_went_wrong("Memory allocation failed for map row!");
+            something_went_wrong("Memory allocation failed for map row!");
         j = -1;
         while (++j < map_size)
             input->map[i][j] = 21;
@@ -50,7 +50,7 @@ void    malloc_obj(t_file_input *input)
 
     input->textures_path = malloc(sizeof(char *) * 7);
     if (!input->textures_path)
-        somthing_went_wrong("Memory allocation failed for textures_path!");
+        something_went_wrong("Memory allocation failed for textures_path!");
     while (j < 6)
     {
         input->textures_path[j] = NULL;
@@ -69,11 +69,11 @@ void obj_init(char *file, t_file_input *input)
     char *line = NULL;
 
     if (!check_extension(file))
-        somthing_went_wrong("Wrong file extension!");
+        something_went_wrong("Wrong file extension!");
 
     fd = open(file, O_RDONLY);
     if (fd == -1)
-        somthing_went_wrong("File doesn't exist! Stop trolling, please.");
+        something_went_wrong("File doesn't exist! Stop trolling, please.");
 
     while ((line = get_next_line(fd)) != NULL)
     {
@@ -84,7 +84,7 @@ void obj_init(char *file, t_file_input *input)
     }
     close(fd);
     if (i < 9)
-        somthing_went_wrong("wrong file format");
+        something_went_wrong("wrong file format");
     if (i - 6 > j)
         input->map_size = i - 4;
     input->map_size = j + 2;

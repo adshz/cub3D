@@ -37,34 +37,39 @@ bool    check_extension(char *str)
     return (false);
 }
 
-void texture_assigment(char *line, t_file_input *input)
+void texture_assignment(char *line, t_file_input *input)
 {
     int i = 0;
-    int k = 0;
     int j = 0;
+    int k = 0;
 
-    while (input->textures_path[i] != NULL && i < 6)
+    // Find the first empty slot in textures_path
+    while (i < 6 && input->textures_path[i] != NULL)
         ++i;
-    if (i >= 6) {
-        somthing_went_wrong("Too many textures!");
-        return;
-    }
 
-    k = str_len(line);
-    input->textures_path[i] = malloc(sizeof(char) * (k + 1));
-    k = 0;
+    // Check if we have exceeded the limit
+    if (i >= 6)
+        something_went_wrong("Too many textures!");
+
+    // Trim leading spaces
+    while (line[k] && is_blank(line[k]))
+        k++;
+
+    // Allocate memory for the new texture path
+    int len = str_len(line + k); // Calculate length without leading spaces
+    input->textures_path[i] = malloc(sizeof(char) * (len + 1));
+    if (!input->textures_path[i])
+        something_went_wrong("Memory allocation failed!");
+
+    // Copy non-blank characters
     while (line[k])
     {
-        if (!is_blank(line[k]))
-        {
-            input->textures_path[i][j] = line[k];
-            ++j;
-        }
-        ++k;
+        input->textures_path[i][j++] = line[k++];
     }
 
-    input->textures_path[i][j] = '\0';
+    input->textures_path[i][j] = '\0'; // Null-terminate the string
 }
+
 
 void map_assigment(char *line, t_file_input *input)
 {
@@ -95,9 +100,12 @@ void    line_assigment(char *line, t_file_input* input)
     if(str_cmp(line,"NO",2) || str_cmp(line,"SO",2)
     || str_cmp(line,"WE",2) || str_cmp(line,"EA",2)
     || str_cmp(line,"F",1) || str_cmp(line,"C",1))
-        texture_assigment(line, input);
+    {
+        printf("assigining line %s\n", line);
+        texture_assignment(line, input);
+    }
     else
-        map_assigment(line,input);
+        map_assigment(line, input);
 }
 
 void player_pos_init(t_player_pos *player, int x_pos, int y_pos)
@@ -106,26 +114,40 @@ void player_pos_init(t_player_pos *player, int x_pos, int y_pos)
     player->player_y_pos = y_pos;
 }
 
+
+/*
 void last_check(t_file_input* input, t_player_pos* player)
 {
-    int i = -1;
+    int i = 0;
     int j;
     int size = input->map_size;
     while(++i < size)
     {
-        j = -1;
+        j = 0;
         while (++j < size)
         {
             if (input->map[i][j] == -42)
             {
                 free_input(input);
-                somthing_went_wrong("wrong map char");
+                something_went_wrong("wrong map char");
             }
             if (input->map[i][j] == -2)
+            {
                 player_pos_init(player, j, i);
+                bool t = fill(input->map, i , j);
+                if(!t)
+                {
+                    printf("fill output %d\n", t);
+                    free_input(input);
+                    something_went_wrong("open map border");
+                }
+            }
         }
     }
 }
+
+
+*/
 
 void    pars_input(char *file,t_file_input* input)
 {
@@ -133,11 +155,7 @@ void    pars_input(char *file,t_file_input* input)
     char *line;
 
     line = NULL;
-    if(!check_extension(file))
-        somthing_went_wrong("wrong file extention!!");
     fd = open(file,O_RDONLY);
-    if (-1 == fd)
-        somthing_went_wrong("file doesn't exist!!\nstop trolling please");
     while (1)
     {
         line = get_next_line(fd);

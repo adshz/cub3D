@@ -1,6 +1,6 @@
 #include"cub3d.h"
 
-void somthing_went_wrong(char *str)
+void something_went_wrong(char *str)
 {
     printf("%s\n",str);
     exit(EXIT_FAILURE);
