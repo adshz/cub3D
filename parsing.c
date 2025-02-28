@@ -65,6 +65,8 @@ void map_assigment(char *line, t_file_input *input)
     int i = 0, j = 0;
     int map_size = input->map_size;
 
+    if (!input || !input->map) // Ensure valid input
+        return;
     while (i < map_size && input->map[i] && input->map[i][1] != 21)
         ++i;
     

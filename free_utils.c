@@ -92,27 +92,38 @@ void obj_init(char *file, t_file_input *input)
     malloc_obj(input);
 }
 
-void free_input(t_file_input* input)
+void free_input(t_file_input *input)
 {
     int i;
 
-    i = 0;
-    while(input->textures_path[i])
-    {
-        free(input->textures_path[i]);
-        ++i;
-    }
+    if (!input)
+        return; // Prevent invalid access if input is NULL
+
     if (input->textures_path)
-        free(input->textures_path);
-    i = 0;
-    while (i < input->map_size)
     {
-        free(input->map[i]);
-        ++i;
+        i = 0;
+        while (input->textures_path[i])
+        {
+            free(input->textures_path[i]);
+            ++i;
+        }
+        free(input->textures_path);
+        input->textures_path = NULL; // Avoid dangling pointer
     }
+
     if (input->map)
+    {
+        i = 0;
+        while (i < input->map_size)
+        {
+            free(input->map[i]);
+            ++i;
+        }
         free(input->map);
+        input->map = NULL; // Avoid dangling pointer
+    }
 }
+
 
 void print_input(t_file_input *input)
 {
