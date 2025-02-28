@@ -1,0 +1,6 @@
+*.o
+*.pdf
+*.cub
+game
+*.txt
+minilibx-linux/
