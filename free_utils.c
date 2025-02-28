@@ -88,6 +88,7 @@ void obj_init(char *file, t_file_input *input)
     if (i - 6 > j)
         input->map_size = i - 4;
     input->map_size = j + 2;
+    input->textures_counter = 0;
     malloc_obj(input);
 }
 

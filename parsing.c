@@ -43,33 +43,22 @@ void texture_assignment(char *line, t_file_input *input)
     int j = 0;
     int k = 0;
 
-    // Find the first empty slot in textures_path
     while (i < 6 && input->textures_path[i] != NULL)
-        ++i;
-
-    // Check if we have exceeded the limit
+        i++;
+    
     if (i >= 6)
         something_went_wrong("Too many textures!");
-
-    // Trim leading spaces
     while (line[k] && is_blank(line[k]))
         k++;
-
-    // Allocate memory for the new texture path
-    int len = str_len(line + k); // Calculate length without leading spaces
+    size_t len = ft_strlen(line + k);
     input->textures_path[i] = malloc(sizeof(char) * (len + 1));
     if (!input->textures_path[i])
         something_went_wrong("Memory allocation failed!");
-
-    // Copy non-blank characters
     while (line[k])
-    {
         input->textures_path[i][j++] = line[k++];
-    }
-
     input->textures_path[i][j] = '\0'; // Null-terminate the string
+//    printf("proccesed line %s\n", input->textures_path[i]);
 }
-
 
 void map_assigment(char *line, t_file_input *input)
 {
@@ -102,6 +91,7 @@ void    line_assigment(char *line, t_file_input* input)
     || str_cmp(line,"F",1) || str_cmp(line,"C",1))
     {
         printf("assigining line %s\n", line);
+        input->textures_counter += 1;
         texture_assignment(line, input);
     }
     else
@@ -113,41 +103,6 @@ void player_pos_init(t_player_pos *player, int x_pos, int y_pos)
     player->player_x_pox = x_pos;
     player->player_y_pos = y_pos;
 }
-
-
-/*
-void last_check(t_file_input* input, t_player_pos* player)
-{
-    int i = 0;
-    int j;
-    int size = input->map_size;
-    while(++i < size)
-    {
-        j = 0;
-        while (++j < size)
-        {
-            if (input->map[i][j] == -42)
-            {
-                free_input(input);
-                something_went_wrong("wrong map char");
-            }
-            if (input->map[i][j] == -2)
-            {
-                player_pos_init(player, j, i);
-                bool t = fill(input->map, i , j);
-                if(!t)
-                {
-                    printf("fill output %d\n", t);
-                    free_input(input);
-                    something_went_wrong("open map border");
-                }
-            }
-        }
-    }
-}
-
-
-*/
 
 void    pars_input(char *file,t_file_input* input)
 {

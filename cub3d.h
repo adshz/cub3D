@@ -15,6 +15,7 @@
 
 typedef struct s_file_input
 {
+	int		textures_counter;
 	int		map_size;
 	char	palyer_spawn_direction;
 	char	**textures_path;

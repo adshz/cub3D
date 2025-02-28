@@ -87,7 +87,7 @@ void last_check(t_file_input *input, t_player_pos *player)
             {
                 ++flag;
                 player_pos_init(player, j, i);
-                if (flag > 1 || !check_map_enclosed(input, i, j))
+                if (flag != 1 || !check_map_enclosed(input, i, j))
                 {
                     free_input(input);
                     something_went_wrong("Map is not enclosed!");
