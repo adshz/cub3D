@@ -55,12 +55,6 @@ bool flood_fill(int **map, int i, int j, int size)
     return true;
 }
 */
-typedef struct s_point
-{
-    int x;
-    int y;
-} t_point;
-
 
 void print_map(int **map, int size)
 {
@@ -76,51 +70,45 @@ void print_map(int **map, int size)
     }
 }
 
-bool flood_fill(int **map, int start_x, int start_y, int size)
+bool	flood_fill(int **map, int x, int y, int size)
 {
-    int d;
-    int directions[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // Down, Up, Right, Left
+	t_point		*queue;
+	t_point		curr;
+	int			front;
+	int			rear;
+	int			d;
 
-    t_point *queue = malloc(size * size * sizeof(t_point)); // Allocate space for the queue
-    if (!queue)
-        return false; // Memory allocation failure
-
-    int front = 0, rear = 0;
-
-    queue[rear++] = (t_point){start_x, start_y}; // Push starting point into the queue
-    map[start_x][start_y] = 38; // Mark as visited
-
-    while (front < rear) // While queue is not empty
-    {
-        t_point current = queue[front++]; // Dequeue
-        d = 0;
-        while(d < 4)
-        {
-            int new_x = current.x + directions[d][0];
-            int new_y = current.y + directions[d][1];
-
-            if ((new_x < 1 || new_y < 1 || new_x > size || new_y > size)
-                || (map[new_x][new_y] == 21))
-            {
-                free(queue);
-                return false; // Found an opening in the map => Not enclosed
-            }
-            if (map[new_x][new_y] == 0) // Unvisited open space
-            {
-                map[new_x][new_y] = 38; // Mark as visited
-                queue[rear++] = (t_point){new_x, new_y}; // Enqueue
-            }
-            ++d;
-        }
-    }
-    free(queue);
+	queue = malloc(size * size * sizeof(t_point));
+	if (!queue)
+		return (false);
+	front = 0;
+	rear = 0;
+	queue[rear++] = (t_point){x, y};
+	map[x][y] = 38;
+	while (front < rear)
+	{
+		curr = queue[front++];
+		d = -1;
+		while (++d < 4)
+		{
+			x = curr.x + (d == 0) - (d == 1);
+			y = curr.y + (d == 2) - (d == 3);
+			if (x < 1 || y < 1 || x >= size || y >= size || map[x][y] == 21 || map[x][y] == -16)
+			{
+				free(queue);
+				return (false);
+			}
+			if (map[x][y] == 0)
+			{
+				map[x][y] = 38;
+				queue[rear++] = (t_point){x, y};
+			}
+		}
+	}
+	free(queue);
     print_map(map,size);
-    return true; // Successfully filled area without hitting an opening
+	return (true);
 }
-
-
-
-
 bool check_map_enclosed(t_file_input *input, int y, int x)
 {
     int **map_copy;
