@@ -6,14 +6,14 @@ void copy_map(int **src, int ***dest, int size)
 
     *dest = malloc(sizeof(int *) * size);
     if (!*dest)
-        something_went_wrong("Memory allocation failed!");
+        something_went_wrong("Memory allocation failed!", NULL);
 
     i = 0;
     while (i < size)
     {
         (*dest)[i] = malloc(sizeof(int) * size);
         if (!(*dest)[i])
-            something_went_wrong("Memory allocation failed!");
+            something_went_wrong("Memory allocation failed!", NULL);
         j = 0;
         while (j < size)
         {
@@ -63,6 +63,7 @@ typedef struct s_point
 
 bool flood_fill(int **map, int start_x, int start_y, int size)
 {
+    int d;
     int directions[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}; // Down, Up, Right, Left
 
     t_point *queue = malloc(size * size * sizeof(t_point)); // Allocate space for the queue
@@ -77,8 +78,8 @@ bool flood_fill(int **map, int start_x, int start_y, int size)
     while (front < rear) // While queue is not empty
     {
         t_point current = queue[front++]; // Dequeue
-
-        for (int d = 0; d < 4; d++)
+        d = 0;
+        while(d < 4)
         {
             int new_x = current.x + directions[d][0];
             int new_y = current.y + directions[d][1];
@@ -94,9 +95,9 @@ bool flood_fill(int **map, int start_x, int start_y, int size)
                 map[new_x][new_y] = 38; // Mark as visited
                 queue[rear++] = (t_point){new_x, new_y}; // Enqueue
             }
+            ++d;
         }
     }
-
     free(queue);
     return true; // Successfully filled area without hitting an opening
 }
@@ -125,20 +126,14 @@ void last_check(t_file_input *input, t_player_pos *player)
         j = 0;
         while (++j < size)
         {
-            if (input->map[i][j] == -42 || input->map[i][j] == 21)
-            {
-                free_input(input);
-                something_went_wrong("Invalid map character!");
-            }
+            if (input->map[i][j] == -42)
+                something_went_wrong("Invalid map character!", input);
             if (input->map[i][j] == -2)
             {
                 ++flag;
                 player_pos_init(player, j, i);
                 if (flag > 1 || !check_map_enclosed(input, i, j))
-                {
-                    free_input(input);
-                    something_went_wrong("Map is not enclosed!");
-                }
+                    something_went_wrong("Map is not enclosed!", input);
             }
         }
     }

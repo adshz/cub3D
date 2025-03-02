@@ -42,7 +42,7 @@ void	pars_input(char *v, t_file_input *input);
 bool	str_cmp(char *s1, char *s2, int k);
 void	texture_assignment(char *line, t_file_input *input);
 void	map_assigment(char *line, t_file_input *input);
-void	something_went_wrong(char *str);
+void	something_went_wrong(char *str, t_file_input *input);
 void	free_input(t_file_input *input);
 
 #endif

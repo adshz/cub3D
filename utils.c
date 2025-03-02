@@ -1,7 +1,9 @@
 #include"cub3d.h"
 
-void something_went_wrong(char *str)
+void something_went_wrong(char *str, t_file_input *input)
 {
+    if(input)
+        free_input(input);
     printf("%s\n",str);
     exit(EXIT_FAILURE);
 }

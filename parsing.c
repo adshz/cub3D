@@ -47,13 +47,13 @@ void texture_assignment(char *line, t_file_input *input)
         i++;
     
     if (i >= 6)
-        something_went_wrong("Too many textures!");
+        something_went_wrong("Too many textures!", NULL);
     while (line[k] && is_blank(line[k]))
         k++;
     size_t len = ft_strlen(line + k);
     input->textures_path[i] = malloc(sizeof(char) * (len + 1));
     if (!input->textures_path[i])
-        something_went_wrong("Memory allocation failed!");
+        something_went_wrong("Memory allocation failed!", NULL);
     while (line[k])
         input->textures_path[i][j++] = line[k++];
     input->textures_path[i][j] = '\0'; // Null-terminate the string
