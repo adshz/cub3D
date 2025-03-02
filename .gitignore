@@ -4,3 +4,4 @@
 game
 *.txt
 minilibx-linux/
+.vscode
