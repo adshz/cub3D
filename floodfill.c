@@ -61,6 +61,21 @@ typedef struct s_point
     int y;
 } t_point;
 
+
+void print_map(int **map, int size)
+{
+    int i = 0;
+    int j;
+    while (i < size)
+    {
+        j = 0;
+        while(++j < size)
+            printf("%d  ",map[i][j]);
+        printf("\n");
+        i++;
+    }
+}
+
 bool flood_fill(int **map, int start_x, int start_y, int size)
 {
     int d;
@@ -84,12 +99,12 @@ bool flood_fill(int **map, int start_x, int start_y, int size)
             int new_x = current.x + directions[d][0];
             int new_y = current.y + directions[d][1];
 
-            if (new_x < 1 || new_y < 1 || new_x >= size || new_y >= size)
+            if ((new_x < 1 || new_y < 1 || new_x > size || new_y > size)
+                || (map[new_x][new_y] == 21))
             {
                 free(queue);
                 return false; // Found an opening in the map => Not enclosed
             }
-
             if (map[new_x][new_y] == 0) // Unvisited open space
             {
                 map[new_x][new_y] = 38; // Mark as visited
@@ -99,6 +114,7 @@ bool flood_fill(int **map, int start_x, int start_y, int size)
         }
     }
     free(queue);
+    print_map(map,size);
     return true; // Successfully filled area without hitting an opening
 }
 

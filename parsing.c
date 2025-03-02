@@ -92,7 +92,6 @@ void    line_assigment(char *line, t_file_input* input)
     || str_cmp(line,"WE",2) || str_cmp(line,"EA",2)
     || str_cmp(line,"F",1) || str_cmp(line,"C",1))
     {
-        printf("assigining line %s\n", line);
         input->textures_counter += 1;
         texture_assignment(line, input);
     }
