@@ -7,7 +7,7 @@ int main(int c, char **v)
 
     if (c != 2)
         something_went_wrong("enter one map, no more no less", NULL);
-    obj_init(v[1], &input);
+    input_obj_init(v[1], &input);
     pars_input(v[1], &input);
 //    print_input(&input);
     last_check(&input, &player);

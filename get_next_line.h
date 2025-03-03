@@ -21,8 +21,8 @@
 #  define BUFFER_SIZE 1000
 # endif
 
-int     str_len(char *str);
-int     is_blank(char i);
+int		str_len(char *str);
+int		is_blank(char i);
 char	*get_next_line(int fd);
 size_t	ft_strlen(char *str);
 char	*ft_strchr(char *s, int c);

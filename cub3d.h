@@ -37,7 +37,7 @@ bool	valid_start_point(char c);
 void	last_check(t_file_input *input, t_player_pos *player);
 void	print_input(t_file_input *input);
 bool	check_extension(char *str);
-void	obj_init(char *file, t_file_input *input);
+void	input_obj_init(char *file, t_file_input *input);
 void	pars_input(char *v, t_file_input *input);
 bool	str_cmp(char *s1, char *s2, int k);
 void	texture_assignment(char *line, t_file_input *input);
