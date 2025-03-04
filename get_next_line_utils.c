@@ -14,25 +14,25 @@
 
 int	is_blank(char i)
 {
-	return(i == ' ' || i == '	'|| i == '\n' );
+	return (i == ' ' || i == '	' || i == '\n');
 }
 
-int str_len(char *str)
+int	str_len(char *str)
 {
-	int len;
-	int i;
+	int	len;
+	int	i;
 
 	i = 0;
 	len = 0;
-	if(!str)
+	if (!str)
 		return (0);
-	while(str[i])
+	while (str[i])
 	{
 		if (!is_blank(str[i]))
 			++len;
 		++i;
 	}
-	return(len);
+	return (len);
 }
 
 size_t	ft_strlen(char *str)
