@@ -10,6 +10,7 @@ int	main(int c, char **v)
 	input_obj_init(v[1], &input);
 	pars_input(v[1], &input);
 	last_check(&input, &player);
+	print_input(&input);
 	free_input(&input);
 	return (0);
 }

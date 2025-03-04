@@ -41,7 +41,7 @@ void	map_assigment(char *line, t_file_input *input)
 	if (i >= map_size || !input->map[i])
 		return ;
 	j = 0;
-	while (line[j] && j < map_size - 2)
+	while (line[j] && j < map_size - 1)
 	{
 		input->map[i][j + 1] = check_map_data_type(line[j], input);
 		++j;
@@ -51,6 +51,7 @@ void	map_assigment(char *line, t_file_input *input)
 		input->map[i][j + 1] = 21;
 		++j;
 	}
+	input->map[i][map_size - 1] = 42;
 }
 
 void	line_assigment(char *line, t_file_input *input)

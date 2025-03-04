@@ -36,3 +36,19 @@ bool	check_extension(char *str)
 		return (true);
 	return (false);
 }
+
+void	line_check(char *line, int *max)
+{
+	int	counter;
+	int	i;
+
+	counter = 0;
+	i = -1;
+	while (line[++i])
+	{
+		if (valid_char(line[i]))
+			++counter;
+	}
+	if (counter > *max)
+		*max = counter;
+}

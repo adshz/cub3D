@@ -37,13 +37,40 @@ void	free_map(int **map, int size)
 	free(map);
 }
 
-bool	flood_fill(int **map, int x, int y, int size)
+static bool	process_queue_item(t_flood_fill_data *data, t_point curr)
 {
-	t_point		*queue;
-	t_point		curr;
-	int			front;
-	int			rear;
-	int			d;
+	int	d;
+	int	x;
+	int	y;
+
+	d = -1;
+	while (++d < 4)
+	{
+		x = curr.x + (d == 0) - (d == 1);
+		y = curr.y + (d == 2) - (d == 3);
+		if (x < 1 || y < 1 || x >= data->size || y >= data->size || \
+				data->map[x][y] == 21 || data->map[x][y] == -16)
+		{
+			free(data->queue);
+			return (false);
+		}
+		if (data->map[x][y] == 0)
+		{
+			data->map[x][y] = 38;
+			data->queue[(*data->rear)++] = (t_point){x, y};
+		}
+	}
+	(*data->front)++;
+	return (true);
+}
+
+bool	flood_fill(int **map, int y, int x, int size)
+{
+	t_point				*queue;
+	t_point				curr;
+	t_flood_fill_data	data;
+	int					front;
+	int					rear;
 
 	queue = malloc(size * size * sizeof(t_point));
 	if (!queue)
@@ -52,30 +79,18 @@ bool	flood_fill(int **map, int x, int y, int size)
 	rear = 0;
 	queue[rear++] = (t_point){x, y};
 	map[x][y] = 38;
+	data.map = map;
+	data.queue = queue;
+	data.front = &front;
+	data.rear = &rear;
+	data.size = size;
 	while (front < rear)
 	{
-		curr = queue[front++];
-		d = -1;
-		while (++d < 4)
-		{
-			x = curr.x + (d == 0) - (d == 1);
-			y = curr.y + (d == 2) - (d == 3);
-			if (x < 1 || y < 1 || x >= size || \
-					y >= size || map[x][y] == 21 || \
-					map[x][y] == -16)
-			{
-				free(queue);
-				return (false);
-			}
-			if (map[x][y] == 0)
-			{
-				map[x][y] = 38;
-				queue[rear++] = (t_point){x, y};
-			}
-		}
+		curr = queue[front];
+		if (!process_queue_item(&data, curr))
+			return (false);
 	}
 	free(queue);
-	print_map(map, size);
 	return (true);
 }
 
@@ -112,7 +127,7 @@ void	last_check(t_file_input *input, t_player_pos *player)
 			{
 				++flag;
 				player_pos_init(player, j, i);
-				if (flag > 1 || !check_map_enclosed(input, i, j))
+				if (flag > 1 || !check_map_enclosed(input, j, i))
 					something_went_wrong("Map is not enclosed!", input);
 			}
 		}

@@ -66,11 +66,9 @@ void	malloc_obj(t_file_input *input)
 void	input_obj_init(char *file, t_file_input *input)
 {
 	int		j;
-	int		i;
 	int		fd;
 	char	*line;
 
-	i = 0;
 	j = 0;
 	line = NULL;
 	if (!check_extension(file))
@@ -79,18 +77,15 @@ void	input_obj_init(char *file, t_file_input *input)
 	if (fd == -1)
 		something_went_wrong("File doesn't exist! Stop trolling, please.", \
 				NULL);
-	while ((line = get_next_line(fd)))
+	while (1)
 	{
-		if ((int)ft_strlen(line) > j)
-			j = (int)ft_strlen(line);
-		++i;
+		line = get_next_line(fd);
+		if (!(line))
+			break ;
+		line_check(line, &j);
 		free(line);
 	}
 	close(fd);
-	if (i < 9)
-		something_went_wrong("wrong file format", NULL);
-	if (i - 6 > j)
-		input->map_size = i - 4;
 	input->map_size = j + 2;
 	input->textures_counter = 0;
 	malloc_obj(input);

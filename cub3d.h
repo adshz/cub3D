@@ -28,12 +28,22 @@ typedef struct s_point
 	int	y;
 }	t_point;
 
+typedef struct s_flood_fill_data
+{
+	int **map;
+	t_point *queue;
+	int *front;
+	int *rear;
+	int size;
+} t_flood_fill_data;
+
 typedef struct s_player_pos
 {
 	int	player_x_pox;
 	int	player_y_pos;
 }	t_player_pos;
 
+void	line_check(char *line, int *max);
 bool	check_map_enclosed(t_file_input *input, int x, int y);
 void	player_pos_init(t_player_pos *player, int x_pos, int y_pos);
 void	print_map(int **map, int size);
