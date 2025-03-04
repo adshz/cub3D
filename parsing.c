@@ -1,42 +1,5 @@
 #include"cub3d.h"
 
-bool	valid_start_point(char c)
-{
-	if (c == 'N' || c == 'S'
-		|| c == 'W' || c == 'E')
-		return (true);
-	return (false);
-}
-
-bool	valid_char(char c)
-{
-	if (is_blank(c) || c == '0' || c == '1' || (valid_start_point(c)))
-		return (true);
-	return (false);
-}
-
-int	check_map_data_type(char c, t_file_input *input)
-{
-	if (!(valid_char(c)))
-		return (-42);
-	else if (valid_start_point(c))
-	{
-		input->palyer_spawn_direction = c;
-		return (-2);
-	}
-	return (c - '0');
-}
-
-bool	check_extension(char *str)
-{
-	while (*str)
-		++str;
-	str = str - 4;
-	if (str_cmp(str, ".cub", 4))
-		return (true);
-	return (false);
-}
-
 void	texture_assignment(char *line, t_file_input *input)
 {
 	int		i;
@@ -101,12 +64,6 @@ void	line_assigment(char *line, t_file_input *input)
 	}
 	else
 		map_assigment(line, input);
-}
-
-void	player_pos_init(t_player_pos *player, int x_pos, int y_pos)
-{
-	player->player_x_pox = x_pos;
-	player->player_y_pos = y_pos;
 }
 
 void	pars_input(char *file, t_file_input *input)

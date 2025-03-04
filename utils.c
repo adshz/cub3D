@@ -22,3 +22,9 @@ bool	str_cmp(char *s1, char *s2, int k)
 	}
 	return (true);
 }
+
+void	player_pos_init(t_player_pos *player, int x_pos, int y_pos)
+{
+	player->player_x_pox = x_pos;
+	player->player_y_pos = y_pos;
+}

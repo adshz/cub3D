@@ -37,22 +37,6 @@ void	free_map(int **map, int size)
 	free(map);
 }
 
-void	print_map(int **map, int size)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < size)
-	{
-		j = 0;
-		while (++j < size)
-			printf("%d  ", map[i][j]);
-		printf("\n");
-		i++;
-	}
-}
-
 bool	flood_fill(int **map, int x, int y, int size)
 {
 	t_point		*queue;

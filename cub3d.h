@@ -22,6 +22,12 @@ typedef struct s_file_input
 	int		**map;
 }	t_file_input;
 
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}	t_point;
+
 typedef struct s_player_pos
 {
 	int	player_x_pox;

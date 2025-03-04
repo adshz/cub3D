@@ -12,7 +12,7 @@ void	print_input(t_file_input *input)
 		return ;
 	}
 	printf("Textures Paths:\n");
-	while (input->texturs_path[++i])
+	while (input->textures_path[++i])
 		printf("  [%d]: %s\n", i, input->textures_path[i]);
 	printf("\nMap:\n");
 	i = -1;
@@ -23,5 +23,22 @@ void	print_input(t_file_input *input)
 		while (++j < input->map_size)
 			printf("%d ", input->map[i][j]);
 		printf("\n");
+	}
+}
+
+
+void	print_map(int **map, int size)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < size)
+	{
+		j = 0;
+		while (++j < size)
+			printf("%d  ", map[i][j]);
+		printf("\n");
+		i++;
 	}
 }
