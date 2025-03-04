@@ -96,11 +96,11 @@ void	last_check(t_file_input *input, t_player_pos *player)
 	int	i;
 	int	j;
 	int	size;
-	int	flag;
-	int	size;	
+	int	flag;	
 
 	size = input->map_size;
 	flag = 0;
+	i = -1;
 	while (++i < size)
 	{
 		j = 0;

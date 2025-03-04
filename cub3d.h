@@ -36,6 +36,8 @@ typedef struct s_player_pos
 
 bool	check_map_enclosed(t_file_input *input, int x, int y);
 void	player_pos_init(t_player_pos *player, int x_pos, int y_pos);
+void	print_map(int **map, int size);
+int		check_map_data_type(char c, t_file_input *input);
 void	copy_map(int **src, int ***dest, int size);
 void	free_map(int **map, int size);
 bool	valid_char(char c);

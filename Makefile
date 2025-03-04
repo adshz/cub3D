@@ -14,7 +14,8 @@ SRCS = get_next_line.c \
        parsing.c \
        free_utils.c\
        floodfill.c \
-       test.c
+       test.c \
+       str_utils.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
