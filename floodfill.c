@@ -132,4 +132,5 @@ void	last_check(t_file_input *input, t_player_pos *player)
 			}
 		}
 	}
+	printf("valid map\n");
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   str_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aalissa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/07 17:40:32 by aalissa           #+#    #+#             */
+/*   Updated: 2025/03/07 17:40:35 by aalissa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 bool	valid_start_point(char c)
@@ -21,7 +33,7 @@ int	check_map_data_type(char c, t_file_input *input)
 		return (-42);
 	else if (valid_start_point(c))
 	{
-		input->palyer_spawn_direction = c;
+		input->player_spawn_direction = c;
 		return (-2);
 	}
 	return (c - '0');

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aalissa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/07 17:34:54 by aalissa           #+#    #+#             */
+/*   Updated: 2025/03/07 17:37:16 by aalissa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -17,7 +29,7 @@ typedef struct s_file_input
 {
 	int		textures_counter;
 	int		map_size;
-	char	palyer_spawn_direction;
+	char	player_spawn_direction;
 	char	**textures_path;
 	int		**map;
 }	t_file_input;
@@ -30,12 +42,12 @@ typedef struct s_point
 
 typedef struct s_flood_fill_data
 {
-	int **map;
-	t_point *queue;
-	int *front;
-	int *rear;
-	int size;
-} t_flood_fill_data;
+	t_point	*queue;
+	int		**map;
+	int		*front;
+	int		*rear;
+	int		size;
+}	t_flood_fill_data;
 
 typedef struct s_player_pos
 {
