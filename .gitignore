@@ -5,3 +5,4 @@ game
 *.txt
 minilibx-linux/
 .vscode
+.swp
