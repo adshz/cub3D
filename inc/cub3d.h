@@ -22,7 +22,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include "get_next_line.h"
-# include "minilibx-linux/mlx.h"
+# include "mlx.h"
 # include <time.h>
 
 typedef struct s_file_input
