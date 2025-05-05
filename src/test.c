@@ -22,15 +22,15 @@ void	print_input(t_file_input *input)
 		printf("Input is NULL!\n");
 		return ;
 	}
-	printf("Textures Paths:\n");
+	printf("Textures Paths: raw data as follows\n");
 	i = -1;
 	while (input->textures_path[++i])
-		printf("  [%d]: %s\n", i, input->textures_path[i]);
-	printf("\nMap:\n");
+		printf("  [%d]: here======================= %s\n", i, input->textures_path[i]);
+	printf("\nMap: Raw Data as follows:\n");
 	i = -1;
 	while (input->map[++i])
 	{
-		printf("Row: ");
+		printf("Row: faw data as follows:");
 		j = -1;
 		while (++j < input->map_size)
 			printf("%d ", input->map[i][j]);
