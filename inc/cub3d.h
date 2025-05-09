@@ -24,6 +24,7 @@
 # include "get_next_line.h"
 # include "mlx.h"
 # include <time.h>
+# include "libft.h"
 
 typedef struct s_file_input
 {

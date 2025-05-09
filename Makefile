@@ -34,7 +34,15 @@ SRCS = get_next_line.c \
        free_utils.c\
        floodfill.c \
        test.c \
-       str_utils.c
+       str_utils.c \
+	   ft_atoi.c \
+	   ft_split.c \
+	   ft_isdigit.c \
+	   ft_substr.c \
+	   my_strlen.c \
+	   ft_isnumber.c \
+	   ft_strtrim.c \
+	   my_strchr.c 
 
 # Object files
 OBJS = $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRCS)))

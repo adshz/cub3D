@@ -6,7 +6,7 @@
 /*   By: aalissa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:39:42 by aalissa           #+#    #+#             */
-/*   Updated: 2025/03/07 17:39:53 by aalissa          ###   ########.fr       */
+/*   Updated: 2025/05/09 17:11:38 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_texture_data
 	char			*west;
 	char			*east;
 	int				*floor;
-	int				ceiling;
+	int				*ceiling;
 	unsigned long	hex_floor;
 	unsigned long	hex_ceiling;
 	int				size;
@@ -81,6 +81,8 @@ typedef struct s_cub
 	char			**map_matrix;
 	t_map_data		map_data;
 	t_img			mlx_img;
+	// int				**texture_pixels;
+	// int				**textures;
 }	t_cub;
 
 void	init_map_data(t_map_data *map_data)
@@ -96,7 +98,6 @@ void	init_map_data(t_map_data *map_data)
 
 void	init_player(t_player *player)
 {
-	printf("%s here player %p\n", __func__, player);
 	player->dir = '\0';
 	player->pos_x = 0.0;
 	player->pos_y = 0.0;
@@ -112,7 +113,6 @@ void	init_player(t_player *player)
 
 void	init_texture_data(t_texture_data *texture_data)
 {
-	printf("%s here texture_data %p\n", __func__, texture_data);
 	texture_data->north = NULL;
 	texture_data->south = NULL;
 	texture_data->east = NULL;
@@ -139,7 +139,6 @@ void	init_mlx_img(t_img *mlx_img)
 
 void	init_data(t_cub *cub)
 {
-	printf("%s yeah the pointer of cub is %p\n", __func__, cub);
 	cub->mlx_ptr = NULL;
 	cub->win_ptr = NULL;
 	cub->win_height = WIN_HEIGHT;
@@ -152,68 +151,150 @@ void	init_data(t_cub *cub)
 
 	return ;
 }
+
 void	init_game(t_cub *cub)
 {
-	printf("%s yeah the pointer of cub is %p\n", __func__, cub);
 	init_data(cub);
 	return ;
 }
 
-char	*get_texture_path(char *line, int i)
+void	free_matrix(void **matrix)
 {
-	// #TODO
-	// I don't think we need this complex because the parse is done already
-	// so next step
-	// I will simply print the `t_file_input input->textures_path` to see if it
-	// is clear
-	// =====================================
-	// int		len;
-	// int		j;
-	// char	*path;
-	// while (line[i] && (line[i] == ' ' || line[i] == '\t')
-	// 	i++;
-	// len = i;
-	// while (line[len] && (line[len] != ' ' && line[len] != '\t'))
-	// 	len++;
-	// path = malloc(sizeof(char) * (len - i + 1);
-	// if (!path)
-	// 	return (NULL);
-	// j = 0;
-	// while (line[i] && (line[i] != ' ' && line[i] != '\t' && line[i] != '\n'))
-	// 	path[j++] = line[i++];
-	// path[j] = '\0';
-	// while (line[i] && (line[i] == ' ' || line[i] == '\t'))
-	// 	i++;
-	// if (line[i] && line[i] != '\n')
-	// {
-	// 	free(path);
-	// 	path = NULL;
-	// }
-	// return (path);
+	size_t	i;
+
+	i = 0;
+	while (matrix[i])
+	{
+		free(matrix[i]);
+		i++;
+	}
+	if (matrix)
+	{
+		free(matrix);
+		matrix = NULL;
+	}
 }
 
-int	get_dir_texture_data(t_texture_data *texture, char *line)
+int	*convert_rgb_type(char **rgb_matrix, int *rgb)
+{
+	int	i;
+
+	i = 0;
+	while (rgb_matrix[i])
+	{
+		rgb[i] = ft_atoi(rgb_matrix[i]);
+		if (rgb[i] == -1)
+		{
+			free_matrix((void **)rgb_matrix);
+			free(rgb);
+			return (0);
+		}
+		i++;
+	}
+	free_matrix((void **)rgb_matrix);
+	return (rgb);
+}
+
+bool	check_has_no_digit(char **rgb_matrix)
+{
+	bool	has_no_digit;
+	int		i;
+	int		j;
+	char	*nbr;
+
+	i = 0;
+	has_no_digit = false;
+	while (rgb_matrix[i])
+	{
+		j = 0;
+		nbr = ft_strtrim(rgb_matrix[i], "\n");
+		while (nbr[j])
+		{
+			if (ft_isdigit(nbr[j]) == 0)
+			{
+				has_no_digit = true;
+				break ;
+			}
+			j++;
+		}
+		i++;
+	}
+	if (has_no_digit)
+		return (true);
+	return (false);
+}
+
+int	*configure_rgb(char *line)
+{
+	char	**rgb_split;
+	int		*rgb;
+	int		num;
+
+	rgb_split = ft_split(line, ',');
+	num = 0;
+	while (rgb_split[num])
+		num++;
+	if (num != 3 || check_has_no_digit(rgb_split))
+	{
+		free_matrix((void **)rgb_split);
+		return (0);
+	}
+	rgb = (int *)malloc(sizeof(int) * 3);
+	if (!rgb)
+	{
+		return (NULL);
+	}
+	return (convert_rgb_type(rgb_split, rgb));
+
+}
+
+int	get_direction_texture_data(t_texture_data *texture_data, char *line)
 {
 	int	i;
 
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == 'N' && line[i + 1] == 'O' && !(texture->north))
-			texture->north = get_texture_path(line, i + 2);
+		if (line[i] == 'N' && line[i + 1] == 'O' && !(texture_data->north))
+			texture_data->north = line + 3;
+		else if (line[i] == 'S' && line[i + 1] == 'O' && !(texture_data->south))
+			texture_data->south = line + 3;
+		else if (line[i] == 'W' && line[i + 1] == 'E' && !(texture_data->west))
+			texture_data->west = line + 3;
+		else if (line[i] == 'E' && line[i + 1] == 'A' && !(texture_data->east))
+			texture_data->east = line + 3;
+		else if (!texture_data->floor && line[i] == 'F')
+		{
+			texture_data->floor = configure_rgb(line + i + 2);
+			// if (texture_data->floor == NULL)
+			// 	return (1); // #TODO: error message and clean
+		}
+		else if (!texture_data->ceiling && line[i] == 'C')
+		{
+			texture_data->ceiling = configure_rgb(line + i + 2);
+			// if (texture_data->ceiling == NULL)
+			// 	return (1); // #TODO: error message and clean
+		}
+		i++;
 	}
-	
-
+	// I think I should write something to prevent error from happening??
+	return (0);
 }
-void	assign_map_data(t_cub *cub, t_file_input *map_file)
+
+void	assign_texture_data(t_cub *cub, t_file_input *map_file)
 {
 	int	i;
-	int	j;
+	// int	j;
 
 	i = -1;
 	while (map_file->textures_path[++i])
-		get_dir_texture_data(t_texture_data *texture, map_file->texttures_path[i]);
+	{
+		if (1 == get_direction_texture_data(&cub->texture_data, map_file->textures_path[i]))
+			break ;
+	}
+	// next step is to make assign_map_data
 }
+
 int	main(int c, char **v)
 {
 	t_cub			cub;
@@ -226,7 +307,7 @@ int	main(int c, char **v)
 	input_obj_init(v[1], &input);
 	pars_input(v[1], &input);
 	last_check(&input, &player);
-	assign_map_data(&cub, &input);
+	assign_texture_data(&cub, &input);
 	print_input(&input);
 	free_input(&input);
 	return (0);
