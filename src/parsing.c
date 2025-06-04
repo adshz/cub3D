@@ -75,8 +75,8 @@ void	line_assigment(char *line, t_file_input *input)
 		input->textures_counter += 1;
 		texture_assignment(line, input);
 	}
-	else
-		map_assigment(line, input);
+	// else
+	// 	map_assigment(line, input);
 }
 
 void	pars_input(char *file, t_file_input *input)

@@ -6,7 +6,7 @@
 /*   By: aalissa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:39:42 by aalissa           #+#    #+#             */
-/*   Updated: 2025/05/09 17:11:38 by szhong           ###   ########.fr       */
+/*   Updated: 2025/06/04 15:34:09 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -508,6 +508,308 @@ void	parse_map_data(char *filepath, t_cub *cub)
 	}
 }
 
+size_t	find_biggest_len(t_map_data *map_data, int i)
+{
+	size_t	biggest_len;
+
+	biggest_len = ft_strlen(map_data->file[i]);
+	while (map_data->file[i])
+	{
+		if (ft_strlen(map_data->file[i]) > biggest_len)
+			biggest_len = ft_strlen(map_data->file[i]);
+		i++;
+	}
+	return (biggest_len);
+}
+
+int	fill_map_matrix(t_map_data *map_data, char **map_matrix, int index)
+{
+	int	i;
+	int	j;
+
+	map_data->width = find_biggest_len(map_data, index);
+	i = 0;
+	while (i < map_data->height)
+	{
+		j = 0;
+		map_matrix[i] = malloc(sizeof(char) * (map_data->width + 1));
+		if (!map_matrix[i])
+			return (err_msg(NULL, ERR_MALLOC, FAILURE);
+		while (map_data->file[index][j] && map_data->file[index[j] != '\n')
+		{
+			map_data[i][j] = map_data->file[index][j];
+			j++;
+		}
+		while (j < map_data->width)
+			map_data[i][j++] = '\0';
+		i++;
+		index++;
+	}
+	map_matrix[i] = NULL;
+	return (SUCCESS);
+}
+
+int	get_map_info(t_cub *cub, char **file, int i)
+{
+	cub->map_data.height = count_map_lines(cub, file, i);
+	cub->map_matrix = malloc(sizeof(char *) * (cub->map_data.height + 1));
+	if (!cub->map_matrix)
+		return (err_msg(NULL, ERR_MALLOC, FAILURE);
+	if (fill_map_matrix(&cub->map_data, cub->map_matrix, i) == FAILURE)
+		return (FAILURE);
+	return (SUCCESS);
+}
+
+void	turn_space_to_wall(t_cub *cub)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (cub->map_matrix[i])
+	{
+		j = 0;
+		while (cub->map_matrix[i][j] == ' ' || cub->map_matrix[i][j] == '\t' \
+			|| cub->map_matrix[i][j] == '\r' || cub->map_matrix[i][j] == '\v' \
+			|| cub->map_matrix[i][j] == '\f')
+			j ++;
+		while (cub->map_matrix[i][++j])
+		{
+			if (cub->map_matrix[i][j] == ' ' && \
+				j != cub->map_matrix[i][ft_strlen(cub->map_matrix[i]) -1])
+				cub->map_matrix[i][j] = '1';
+		}
+		i++;
+	}
+}
+
+int	assign_map_data(t_cub *cub, char **map, int i)
+{
+	if (get_map_info(cub, map, i) == FAILURE)
+		return (FAILURE);
+	turn_space_to_wall(cub);
+	return (SUCCESS);
+}
+
+int	get_valid_data(t_cub *cub, char **map, int i, int j)
+{
+	while (map[i][j] == ' ' || map[i][j] == '\t' || map[i][j] == '\n')
+		j++;
+	if (ft_isdigit(map[i][j])
+	{
+		if (assign_map_data(cub, map, i) == FAILURE)
+			return (err_msg(cub->map_data.filepath, \
+				"Please check if map description is wrong or incomplete", \
+				FAILURE);
+		return (SUCCESS);
+	}
+	return (CONTINUE);
+}
+
+int	get_map_data(t_cub *cub, char **map)
+{
+	int	i;
+	int	j;
+	int	ret;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			ret = get_valid_data(cub, map, i, j);
+			if (ret == FAILURE)
+				return (FAILURE);
+			else if (ret == SUCCESS)
+				return (SUCESS);
+			j ++;
+		}
+		i++;
+	}
+}
+
+int	check_top_or_bottom(char *map_matrix, int i, int j)
+{
+	if (!map_matrix || !map_matrix[i] || !map_matrix[i][j])
+		return (FAILURE);
+	while (map_matrix[i][j] == ' ' || map_matrix[i][j] == '\t' || \
+		map_matrix[i][j] == '\r' || map_matrix[i][j] '\v' || \
+		map_matrix[i][j] == '\f')
+		j++;
+	while (map_matrix[i][j])
+	{
+		if (map_matrix[i][j] != '1')
+			return (FAILURE);
+		j++;
+	}
+	return (SUCCESS);
+}
+
+int	check_map_sides(t_map_data *map_data, char **map_matrix)
+{
+	int	i;
+	int	j;
+
+	if (check_top_or_bottom(map_matrix, 0, 0) == FAILURE)
+		return (FAILURE);
+	i = 1;
+	while (i < (map_data->height - 1))
+	{
+		j = ft_strlen(map_matrix[i]) - 1;
+		if (map_matrix[i][j] != '1')
+			return (FAILURE);
+		i++;
+	}
+	if (check_top_or_bottom(map_matrix, i, 0) == FAILURE)
+		return (FAILURE);
+	return (SUCCESS);
+}
+
+int	check_map_elements(t_cub *cub, char **map_matrix)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	cub->player.dir = '0';
+	while (map_matrix[i] != NULL)
+	{
+		j = 0;
+		while (map_matrix[i][j])
+		{
+			while (map_matrix[i][j] == ' ' || map_matrix[i][j] == '\t' || \
+				map_matrix[i][j] == '\r' || map_matrix[i][j] '\v' || \
+				map_matrix[i][j] == '\f')
+				j++;
+			if (!(ft_strchr("10NSEW", map_matrix[i][j])))
+				return (err_msg(cub->map_data.filepath, \
+					"Invalid character in map", FAILURE));
+			if (ft_strchr("NSEW", map_matrix[i][j]) && cub->player.dir != '0')
+				return (err_msg(cub->map_data[i][j], \
+					"Only one player is allowed", FAILURE));
+			if (ft_strchr("NSEW", map_matrix[i][j]) && cub->player.dir == '0')
+				cub->player.dir = map_matrix[i][j];
+			j++;
+		}
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int	check_player_position(t_cub *cub, char **map_matrix)
+{
+	int	i;
+	int	j;
+
+	if (cub->player.dir == '0')
+		return (err_msg(cub->map_data.filepath, \
+				"Map has no player position (N, S, E, W)", FAILURE);
+	i = 0;
+	while (map_matrix[i])
+	{
+		j = 0;
+		while (map_matrix[i][j])
+		{
+			if (ft_strchr("NSEW", map_matrix[i][j]))
+			{
+				cub->player.pos_x = (double)i + 0.5;
+				cub->player.pos_y = (double)i + 0.5;
+				map_matrix[i][j] = '0';
+			}
+			j++;
+		}
+		i++;
+	}
+	if (is_position_valid(cub, map_matrix) == FAILURE)
+		return (err_msg(cub->map_data.filepath, \
+				"Invalid player position", FAILURE);
+	return (SUCCESS);
+}
+
+int	check_map_data_position(t_map_data *map_data)
+{
+	int	i;
+	int	j;
+
+	i = map_data->index_end_of_map;
+	while (map_data->file[i])
+	{
+		j = 0;
+		while (map_data->file[i][j])
+		{
+			if (map_matrix[i][j] == ' ' || map_matrix[i][j] == '\t' || \
+				map_matrix[i][j] == '\r' || map_matrix[i][j] '\v' || \
+				map_matrix[i][j] == '\f')
+				return (FAILURE);
+			j++;
+		}
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int	is_map_valid(t_cub *cub, char **map_matrix)
+{
+	if (!cub->map_matrix)
+		return (err_msg(cub->map_data.filepath, "Map is missing", FAILURE)):
+	if (check_map_sides(&cub->map_data, map_matrix) == FAILURE)
+		return (err_msg(cub->map_data.filepath, "Map has no walss", FAILURE));
+	if (cub->map_data.height < 3)
+		return (err_msg(cub->map_data.filepath, "Map is too small", FAILURE));
+	if (check_map_elements(cub, map_matrix) == FAILURE)
+		return (FAILURE);
+	if (check_player_position(cub, map_matrix) == FAILURE)
+		return (FAILURE);
+	if (check_map_data_position(&cub->map_data) == FAILURE)
+		return (err_msg(cub->map_data.filepath, \
+				"Map data is not the end", FAILURE));
+	return (SUCCESS);
+}
+
+void	init_east_west(t_player *player)
+{
+	if (player->dir == 'W')
+	{
+		player->dir_x = -1;
+		player->dir_y = 0;
+		player->plane_x = 0;
+		player->plane_y = -0.66;
+	}
+	else if (player->dir == 'E')
+	{
+		player->dir_x =1;
+		player->dir_y = 0;
+		player->plane_x = 0;
+		player->plane_y = -0.66;
+	}
+}
+
+void	init(north_south(t_player *player)
+{
+	if (player->dir == 'S')
+	{
+		player->dir_x = 0;
+		player->dir_y = 1;
+		player->plane_x = -0.66;
+		player->plane_y = 0;
+	}
+	else if (player->dir =='N')
+	{
+		player->dir_x = 0;
+		player->dir_y = -1;
+		player->plane_x = 0.66;
+		player->plane_y = 0;
+	}
+	else
+		return ;
+}
+
+void	init_player_direction(t_cub *cub)
+{
+	init_north_south(&cub->player);
+	init_east_west(&cub->player);
+}
 
 int	create_map(t_cub *cub, char **argv)
 {
@@ -518,8 +820,8 @@ int	create_map(t_cub *cub, char **argv)
 		return (free_cub(cub));
 	if (is_map_valid(cub, cub->map_matrix) == FAILURE)
 		return (free_cub(cub));
-	if (is_texture_valid(cub, &cub->texture_data) == FAILURE)
-		return (free_cub(cub));
+	// if (is_texture_valid(cub, &cub->texture_data) == FAILURE)
+	// 	return (free_cub(cub));
 	init_player_direction(cub);
 	if (DEBUG_MODE)
 		display_data(cub);
@@ -537,9 +839,14 @@ int	main(int argc, char **argv)
 	init_game(&cub);
 	input_obj_init(argv[1], &input);
 	pars_input(argv[1], &input);
-	last_check(&input, &player);
+	// last_check(&input, &player);
 	assign_texture_data(&cub, &input);
-	print_input(&input);
 	free_input(&input);
+	create_map(cub, argv);
+	// init_mlx(&cub);
+	// render_image(&cub);
+	// event_listening(&cub);
+	// mlx_loop_hook(cub.mlx, render,&cub);
+	// mlx_loop(cub.mlx);
 	return (0);
 }
