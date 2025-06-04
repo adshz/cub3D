@@ -29,7 +29,8 @@
 typedef struct s_file_input
 {
 	int		textures_counter;
-	int		map_size;
+	int		map_rows;
+	int		map_cols;
 	char	player_spawn_direction;
 	char	**textures_path;
 	int		**map;

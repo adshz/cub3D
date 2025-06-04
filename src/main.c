@@ -96,6 +96,23 @@ void	init_map_data(t_map_data *map_data)
 	map_data->index_end_of_map = 0;
 }
 
+void	free_matrix(void **matrix)
+{
+	size_t	i;
+
+	i = 0;
+	while (matrix[i])
+	{
+		free(matrix[i]);
+		i++;
+	}
+	if (matrix)
+	{
+		free(matrix);
+		matrix = NULL;
+	}
+}
+
 void	free_map_data(t_cub *cub)
 {
 	if (cub->map_data.fd > 0)
@@ -185,22 +202,6 @@ void	init_game(t_cub *cub)
 	return ;
 }
 
-void	free_matrix(void **matrix)
-{
-	size_t	i;
-
-	i = 0;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		i++;
-	}
-	if (matrix)
-	{
-		free(matrix);
-		matrix = NULL;
-	}
-}
 
 int	*convert_rgb_type(char **rgb_matrix, int *rgb)
 {
@@ -322,7 +323,7 @@ void	assign_texture_data(t_cub *cub, t_file_input *map_file)
 
 enum e_signpost
 {
-	SUCCCESS,
+	SUCCESS,
 	FAILURE,
 	ERR,
 	BREAK,
@@ -372,7 +373,7 @@ bool	is_xpm_file(char *arg)
 
 int	err_msg(char *msg, char *str, int code)
 {
-	ft_putstr_fd(RED, "cub3D: Error", 2);
+	ft_putstr_fd(RED "cub3D: Error", 2);
 	if (msg)
 	{
 		ft_putstr_fd(": ", 2);
@@ -395,7 +396,7 @@ int	is_file_valid(char *arg, bool is_cub)
 		return (err_msg(arg, "is a directory", FAILURE));
 	fd = open(arg, O_RDONLY);
 	if (fd == -1)
-		return (err_msg(arg, sterror(errno), FAILURE));
+		return (err_msg(arg, strerror(errno), FAILURE));
 	close(fd);
 	if (is_cub && !is_cub_file(arg))
 		return (err_msg(arg, "is not a .cub file", FAILURE));
@@ -409,7 +410,7 @@ int	free_cub(t_cub *cub)
 	if (cub->textures)
 		free_matrix((void **)cub->textures);
 	if (cub->texture_pixels)
-		free_matrix((void **)cub->texture_pixels));
+		free_matrix((void **)cub->texture_pixels);
 	free_texture_data(&cub->texture_data);
 	free_map_data(cub);
 	return (FAILURE);
@@ -420,10 +421,10 @@ void	clean_exit(t_cub *cub, int code)
 	if (!cub)
 		exit(code);
 	if (cub->win_ptr && cub->mlx_ptr)
-		mlx_destory_window(cub->mlx_ptr, cub->win_ptr);
-	if (cub->mlx_tr)
+		mlx_destroy_window(cub->mlx_ptr, cub->win_ptr);
+	if (cub->mlx_ptr)
 	{
-		mlx_destory_display(cub->mlx_ptr);
+		mlx_destroy_display(cub->mlx_ptr);
 		mlx_loop_end(cub->mlx_ptr);
 		free(cub->mlx_ptr);
 	}
@@ -495,7 +496,7 @@ void	parse_map_data(char *filepath, t_cub *cub)
 	cub->map_data.file = ft_calloc(cub->map_data.line_count + 1, sizeof(char *));
 	if (!(cub->map_data.file))
 	{
-		err_msg(NULL, "Failed to allocate memory", FAILURE)
+		err_msg(NULL, "Failed to allocate memory", FAILURE);
 		return ;
 	}
 	cub->map_data.fd = open(filepath, O_RDONLY);
@@ -503,7 +504,7 @@ void	parse_map_data(char *filepath, t_cub *cub)
 		err_msg(filepath, strerror(errno), FAILURE);
 	else
 	{
-		fill_matrix(row, column, i, cub);
+		fill_matrix(row, col, i, cub);
 		close(cub->map_data.fd);
 	}
 }
@@ -534,7 +535,7 @@ int	fill_map_matrix(t_map_data *map_data, char **map_matrix, int index)
 		j = 0;
 		map_matrix[i] = malloc(sizeof(char) * (map_data->width + 1));
 		if (!map_matrix[i])
-			return (err_msg(NULL, ERR_MALLOC, FAILURE);
+			return (err_msg(NULL, ERR_MALLOC, FAILURE));
 		while (map_data->file[index][j] && map_data->file[index[j] != '\n')
 		{
 			map_data[i][j] = map_data->file[index][j];
@@ -554,7 +555,7 @@ int	get_map_info(t_cub *cub, char **file, int i)
 	cub->map_data.height = count_map_lines(cub, file, i);
 	cub->map_matrix = malloc(sizeof(char *) * (cub->map_data.height + 1));
 	if (!cub->map_matrix)
-		return (err_msg(NULL, ERR_MALLOC, FAILURE);
+		return (err_msg(NULL, ERR_MALLOC, FAILURE));
 	if (fill_map_matrix(&cub->map_data, cub->map_matrix, i) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
@@ -595,7 +596,7 @@ int	get_valid_data(t_cub *cub, char **map, int i, int j)
 {
 	while (map[i][j] == ' ' || map[i][j] == '\t' || map[i][j] == '\n')
 		j++;
-	if (ft_isdigit(map[i][j])
+	if (ft_isdigit(map[i][j]))
 	{
 		if (assign_map_data(cub, map, i) == FAILURE)
 			return (err_msg(cub->map_data.filepath, \
