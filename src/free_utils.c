@@ -77,31 +77,46 @@ void	malloc_obj(t_file_input *input)
 
 void	input_obj_init(char *file, t_file_input *input)
 {
-	int		j;
+	int		total_lines;
 	int		fd;
 	char	*line;
 
-	j = 0;
+	total_lines = 0;
 	line = NULL;
 	if (!check_extension(file))
 		something_went_wrong("Wrong file extension!", NULL);
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-		something_went_wrong("File doesn't exist! Stop trolling, please.", \
-				NULL);
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!(line))
-			break ;
-		line_check(line, &j);
-		free(line);
-	}
-	close(fd);
-	input->map_size = j + 2;
+  total_lines = get_total_lines(file);
+	input->map_size = total_lines + 1;
 	input->textures_counter = 0;
 	malloc_obj(input);
 }
+// void	input_obj_init(char *file, t_file_input *input)
+// {
+// 	int		j;
+// 	int		fd;
+// 	char	*line;
+//
+// 	j = 0;
+// 	line = NULL;
+// 	if (!check_extension(file))
+// 		something_went_wrong("Wrong file extension!", NULL);
+// 	fd = open(file, O_RDONLY);
+// 	if (fd == -1)
+// 		something_went_wrong("File doesn't exist! Stop trolling, please.", \
+// 				NULL);
+// 	while (1)
+// 	{
+// 		line = get_next_line(fd);
+// 		if (!(line))
+// 			break ;
+// 		line_check(line, &j);
+// 		free(line);
+// 	}
+// 	close(fd);
+// 	input->map_size = j + 2;
+// 	input->textures_counter = 0;
+// 	malloc_obj(input);
+// }
 
 void	free_input(t_file_input *input)
 {
