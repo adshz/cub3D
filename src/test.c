@@ -6,7 +6,7 @@
 /*   By: aalissa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:41:18 by aalissa           #+#    #+#             */
-/*   Updated: 2025/03/07 17:41:22 by aalissa          ###   ########.fr       */
+/*   Updated: 2025/06/05 16:32:21 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print_input(t_file_input *input)
 	{
 		printf("Row: faw data as follows:");
 		j = -1;
-		while (++j < input->map_size)
+		while (++j < input->map_cols)
 			printf("%d ", input->map[i][j]);
 		printf("\n");
 	}

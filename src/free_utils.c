@@ -6,54 +6,35 @@
 /*   By: aalissa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:38:33 by aalissa           #+#    #+#             */
-/*   Updated: 2025/03/07 17:38:53 by aalissa          ###   ########.fr       */
+/*   Updated: 2025/06/05 17:04:40 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// delete this
-void	border_setup(t_file_input *input)
+int	get_total_lines(char *filepath)
 {
-	int	i;
-	int	j;
-	int	map_size;
+	int		fd;
+	char	*line;
+	int		line_count;
 
-	map_size = input->map_size;
-	j = -1;
-	while (++j < map_size)
+	line = NULL;
+	line_count = 0;
+	fd = open(filepath, O_RDONLY);
+	if (fd < 0)
+		err_msg(filepath, strerror(errno), errno);
+	else
 	{
-		input->map[0][j] = 42;
-		input->map[map_size - 1][j] = 42;
+		line = get_next_line(fd);
+		while (line != NULL)
+		{
+			line_count++;
+			free(line);
+			line = get_next_line(fd);
+		}
+		close(fd);
 	}
-	i = -1;
-	while (++i < map_size)
-	{
-		input->map[i][0] = 42;
-		input->map[i][map_size - 1] = 42;
-	}
-}
-
-// delete this
-void	map_obj_init(t_file_input	*input)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	input->map = malloc(sizeof(int *) * (input->map_rows));
-	if (!input->map)
-		something_went_wrong("Memory allocation failed for map rows!", NULL);
-	while (++i < input->map_rows)
-	{
-		input->map[i] = malloc(sizeof(int) * input->map_cols);
-		if (!input->map[i])
-			something_went_wrong("Memory allocation failed for map row!", NULL);
-		j = -1;
-		while (++j < map_size)
-			input->map[i][j] = 21;
-	}
-	// border_setup(input);
+	return (line_count);
 }
 
 void	malloc_obj(t_file_input *input)
@@ -71,7 +52,6 @@ void	malloc_obj(t_file_input *input)
 		++j;
 	}
 	input->textures_path[6] = NULL;
-	// map_obj_init(input);
 }
 
 int	get_columns(char *file)
@@ -97,16 +77,11 @@ int	get_columns(char *file)
 		free(line);
 	}
 	close(fd);
-	return (j + 2);
+	return (j);
 }
 
 void	input_obj_init(char *file, t_file_input *input)
 {
-	int		total_lines;
-	int		fd;
-	char	*line;
-
-	line = NULL;
 	if (!check_extension(file))
 		something_went_wrong("Wrong file extension!", NULL);
 	input->map_rows = get_total_lines(file);
@@ -115,41 +90,13 @@ void	input_obj_init(char *file, t_file_input *input)
 	malloc_obj(input);
 }
 
-// void	input_obj_init(char *file, t_file_input *input)
-// {
-// 	int		j;
-// 	int		fd;
-// 	char	*line;
-//
-// 	j = 0;
-// 	line = NULL;
-// 	if (!check_extension(file))
-// 		something_went_wrong("Wrong file extension!", NULL);
-// 	fd = open(file, O_RDONLY);
-// 	if (fd == -1)
-// 		something_went_wrong("File doesn't exist! Stop trolling, please.", \
-// 				NULL);
-// 	while (1)
-// 	{
-// 		line = get_next_line(fd);
-// 		if (!(line))
-// 			break ;
-// 		line_check(line, &j);
-// 		free(line);
-// 	}
-// 	close(fd);
-// 	input->map_size = j + 2;
-// 	input->textures_counter = 0;
-// 	malloc_obj(input);
-// }
-
 void	free_input(t_file_input *input)
 {
 	int	i;
 
 	if (!input)
 		return ;
-	if (input->textures_path)
+	if (*(input->textures_path) != NULL)
 	{
 		i = -1;
 		while (input->textures_path[++i])
@@ -157,12 +104,12 @@ void	free_input(t_file_input *input)
 		free(input->textures_path);
 		input->textures_path = NULL;
 	}
-	if (input->map)
-	{
-		i = -1;
-		while (++i < input->map_size)
-			free(input->map[i]);
-		free(input->map);
-		input->map = NULL;
-	}
+	// if (input->map)
+	// {
+	// 	i = -1;
+	// 	while (++i < input->map_rows)
+	// 		free(input->map[i]);
+	// 	free(input->map);
+	// 	input->map = NULL;
+	// }
 }

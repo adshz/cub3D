@@ -6,7 +6,7 @@
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 15:22:32 by szhong            #+#    #+#             */
-/*   Updated: 2025/06/04 15:31:58 by szhong           ###   ########.fr       */
+/*   Updated: 2025/06/05 16:42:45 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cub3d.h"
@@ -27,10 +27,10 @@ void	debug_print_char_matrix(char **matrix)
 
 void	debug_display_minimap(t_minimap *minimap)
 {
-	printf(YELLOW "\n-------- MINIMAP --------\m" RESET);
-	printf("Minimap view distance: %d\n", minimap->view_dist);
+	printf(YELLOW "\n-------- MINIMAP --------\n" RESET);
+	printf("Minimap view distance: %d\n", minimap->distance);
 	printf("Minimap size: %d * %d\n", minimap->size, minimap->size);
-	debug_printf_char_tab(minimap->map);
+	debug_print_char_matrix(minimap->map);
 }
 
 void	debug_display_map_data(t_cub *cub)
@@ -38,7 +38,7 @@ void	debug_display_map_data(t_cub *cub)
 	printf(YELLOW "\n-------- MAP --------\n" RESET);
 	printf("Map height: %d\n", cub->map_data.height);
 	printf("Map width: %d\n", cub->map_data.width);
-	debug_printf_char_matrix(cub->map_matrix);
+	debug_print_char_matrix(cub->map_matrix);
 	printf(YELLOW "\n-------- TEXTURES & COLORS --------\n" RESET);
 	printf("Color ceiling #%lx\n", cub->texture_data.hex_ceiling);
 	printf("Color floor #%lx\n", cub->texture_data.hex_floor);

@@ -1,5 +1,5 @@
 #include "cub3d.h"
-
+/*
 void	copy_map(int **src, int ***dest, int size)
 {
 	int	i;
@@ -110,16 +110,14 @@ void	last_check(t_file_input *input, t_player_pos *player)
 {
 	int	i;
 	int	j;
-	int	size;
 	int	flag;	
 
-	size = input->map_size;
 	flag = 0;
 	i = -1;
-	while (++i < size)
+	while (++i < input->map_rows)
 	{
 		j = 0;
-		while (++j < size)
+		while (++j < input->map_cols)
 		{
 			if (input->map[i][j] == -42)
 				something_went_wrong("Invalid map character!", input);
@@ -133,4 +131,4 @@ void	last_check(t_file_input *input, t_player_pos *player)
 		}
 	}
 	printf("valid map\n");
-}
+}*/

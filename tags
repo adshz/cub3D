@@ -9,48 +9,63 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	5.9.0	//
-BREAK	./src/main.c	/^	BREAK,$/;"	e	enum:e_signpost	file:
+BREAK	./inc/cub3d.h	/^	BREAK,$/;"	e	enum:e_signpost
 BUFFER_SIZE	./inc/get_next_line.h	/^#  define BUFFER_SIZE /;"	d
-CONTINUE	./src/main.c	/^	CONTINUE$/;"	e	enum:e_signpost	file:
+CONTINUE	./inc/cub3d.h	/^	CONTINUE$/;"	e	enum:e_signpost
 CUB3D_H	./inc/cub3d.h	/^# define CUB3D_H$/;"	d
-DEBUG_MODE	./src/main.c	/^# define DEBUG_MODE /;"	d	file:
-ERR	./src/main.c	/^	ERR,$/;"	e	enum:e_signpost	file:
-FAILURE	./src/main.c	/^	FAILURE,$/;"	e	enum:e_signpost	file:
+DEBUG_MODE	./inc/cub3d.h	/^# define DEBUG_MODE /;"	d
+ERR	./inc/cub3d.h	/^	ERR,$/;"	e	enum:e_signpost
+ERR_MALLOC	./inc/cub3d.h	/^# define ERR_MALLOC /;"	d
+FAILURE	./inc/cub3d.h	/^	FAILURE,$/;"	e	enum:e_signpost
 GET_NEXT_LINE_H	./inc/get_next_line.h	/^# define GET_NEXT_LINE_H$/;"	d
 LIBFT_H	./inc/libft.h	/^# define LIBFT_H$/;"	d
-RED	./src/main.c	/^# define RED /;"	d	file:
-RESET	./src/main.c	/^# define RESET /;"	d	file:
-SUCCCESS	./src/main.c	/^	SUCCCESS,$/;"	e	enum:e_signpost	file:
-TEX_SIZE	./src/main.c	/^#define TEX_SIZE /;"	d	file:
-WIN_HEIGHT	./src/main.c	/^#define WIN_HEIGHT /;"	d	file:
-WIN_WIDTH	./src/main.c	/^#define WIN_WIDTH /;"	d	file:
+RED	./inc/cub3d.h	/^# define RED /;"	d
+RESET	./inc/cub3d.h	/^# define RESET /;"	d
+SUCCESS	./inc/cub3d.h	/^	SUCCESS,$/;"	e	enum:e_signpost
+TEX_SIZE	./inc/cub3d.h	/^# define TEX_SIZE /;"	d
+WIN_HEIGHT	./inc/cub3d.h	/^# define WIN_HEIGHT /;"	d
+WIN_WIDTH	./inc/cub3d.h	/^# define WIN_WIDTH /;"	d
+assign_map_data	./src/main.c	/^int	assign_map_data(t_cub *cub, char **map, int i)$/;"	f	typeref:typename:int
 assign_texture_data	./src/main.c	/^void	assign_texture_data(t_cub *cub, t_file_input *map_file)$/;"	f	typeref:typename:void
-border_setup	./src/free_utils.c	/^void	border_setup(t_file_input *input)$/;"	f	typeref:typename:void
-bpp	./src/main.c	/^	int		bpp;$/;"	m	struct:s_img	typeref:typename:int	file:
-ceiling	./src/main.c	/^	int				*ceiling;$/;"	m	struct:s_texture_data	typeref:typename:int *	file:
+bpp	./inc/cub3d.h	/^	int		bpp;$/;"	m	struct:s_img	typeref:typename:int
+ceiling	./inc/cub3d.h	/^	int				*ceiling;$/;"	m	struct:s_texture_data	typeref:typename:int *
 check_extension	./src/str_utils.c	/^bool	check_extension(char *str)$/;"	f	typeref:typename:bool
 check_has_no_digit	./src/main.c	/^bool	check_has_no_digit(char **rgb_matrix)$/;"	f	typeref:typename:bool
+check_map_data_position	./src/main.c	/^int	check_map_data_position(t_map_data *map_data)$/;"	f	typeref:typename:int
 check_map_data_type	./src/str_utils.c	/^int	check_map_data_type(char c, t_file_input *input)$/;"	f	typeref:typename:int
+check_map_elements	./src/main.c	/^int	check_map_elements(t_cub *cub, char **map_matrix)$/;"	f	typeref:typename:int
 check_map_enclosed	./src/floodfill.c	/^bool	check_map_enclosed(t_file_input *input, int y, int x)$/;"	f	typeref:typename:bool
+check_map_sides	./src/main.c	/^int	check_map_sides(t_map_data *map_data, char **map_matrix)$/;"	f	typeref:typename:int
+check_player_position	./src/main.c	/^int	check_player_position(t_cub *cub, char **map_matrix)$/;"	f	typeref:typename:int
+check_top_or_bottom	./src/main.c	/^int	check_top_or_bottom(char **map_matrix, int i, int j)$/;"	f	typeref:typename:int
 clean_exit	./src/main.c	/^void	clean_exit(t_cub *cub, int code)$/;"	f	typeref:typename:void
 configure_rgb	./src/main.c	/^int	*configure_rgb(char *line)$/;"	f	typeref:typename:int *
+convert_rgb_to_hex	./src/main.c	/^unsigned long	convert_rgb_to_hex(int *rgb_matrix)$/;"	f	typeref:typename:unsigned long
 convert_rgb_type	./src/main.c	/^int	*convert_rgb_type(char **rgb_matrix, int *rgb)$/;"	f	typeref:typename:int *
 copy_map	./src/floodfill.c	/^void	copy_map(int **src, int ***dest, int size)$/;"	f	typeref:typename:void
+count_map_lines	./src/main.c	/^int	count_map_lines(t_cub *cub, char **file, int i)$/;"	f	typeref:typename:int
 count_words	./src/ft_split.c	/^static size_t	count_words(char const *s, char c)$/;"	f	typeref:typename:size_t	file:
 create_map	./src/main.c	/^int	create_map(t_cub *cub, char **argv)$/;"	f	typeref:typename:int
-dir	./src/main.c	/^	char	dir;$/;"	m	struct:s_player	typeref:typename:char	file:
-dir_x	./src/main.c	/^	double	dir_x;$/;"	m	struct:s_player	typeref:typename:double	file:
-dir_y	./src/main.c	/^	double	dir_y;$/;"	m	struct:s_player	typeref:typename:double	file:
-e_signpost	./src/main.c	/^enum e_signpost$/;"	g	file:
-east	./src/main.c	/^	char			*east;$/;"	m	struct:s_texture_data	typeref:typename:char *	file:
-endian	./src/main.c	/^	int		endian;$/;"	m	struct:s_img	typeref:typename:int	file:
-err_msg	./src/main.c	/^int	err_msg(char *msg, char *str, int code)$/;"	f	typeref:typename:int
-fd	./src/main.c	/^	int		fd;$/;"	m	struct:s_map_data	typeref:typename:int	file:
-file	./src/main.c	/^	char	**file;$/;"	m	struct:s_map_data	typeref:typename:char **	file:
-filepath	./src/main.c	/^	char	*filepath;$/;"	m	struct:s_map_data	typeref:typename:char *	file:
+debug_display_map_data	./src/debug.c	/^void	debug_display_map_data(t_cub *cub)$/;"	f	typeref:typename:void
+debug_display_minimap	./src/debug.c	/^void	debug_display_minimap(t_minimap *minimap)$/;"	f	typeref:typename:void
+debug_display_player	./src/debug.c	/^void	debug_display_player(t_cub *cub)$/;"	f	typeref:typename:void
+debug_print_char_matrix	./src/debug.c	/^void	debug_print_char_matrix(char **matrix)$/;"	f	typeref:typename:void
+dir	./inc/cub3d.h	/^	char	dir;$/;"	m	struct:s_player	typeref:typename:char
+dir_x	./inc/cub3d.h	/^	double	dir_x;$/;"	m	struct:s_player	typeref:typename:double
+dir_y	./inc/cub3d.h	/^	double	dir_y;$/;"	m	struct:s_player	typeref:typename:double
+display_data	./src/debug.c	/^void	display_data(t_cub *cub)$/;"	f	typeref:typename:void
+e_signpost	./inc/cub3d.h	/^enum e_signpost$/;"	g
+east	./inc/cub3d.h	/^	char			*east;$/;"	m	struct:s_texture_data	typeref:typename:char *
+endian	./inc/cub3d.h	/^	int		endian;$/;"	m	struct:s_img	typeref:typename:int
+err_msg	./src/ft_errors.c	/^int	err_msg(char *msg, char *str, int code)$/;"	f	typeref:typename:int
+fd	./inc/cub3d.h	/^	int		fd;$/;"	m	struct:s_map_data	typeref:typename:int
+file	./inc/cub3d.h	/^	char	**file;$/;"	m	struct:s_map_data	typeref:typename:char **
+filepath	./inc/cub3d.h	/^	char	*filepath;$/;"	m	struct:s_map_data	typeref:typename:char *
+fill_map_matrix	./src/main.c	/^int	fill_map_matrix(t_map_data *map_data, char **map_matrix, int index)$/;"	f	typeref:typename:int
 fill_matrix	./src/main.c	/^void	fill_matrix(int row, int column, int i, t_cub *cub)$/;"	f	typeref:typename:void
+find_biggest_len	./src/main.c	/^size_t	find_biggest_len(t_map_data *map_data, int i)$/;"	f	typeref:typename:size_t
 flood_fill	./src/floodfill.c	/^bool	flood_fill(int **map, int y, int x, int size)$/;"	f	typeref:typename:bool
-floor	./src/main.c	/^	int				*floor;$/;"	m	struct:s_texture_data	typeref:typename:int *	file:
+floor	./inc/cub3d.h	/^	int				*floor;$/;"	m	struct:s_texture_data	typeref:typename:int *
 free_cub	./src/main.c	/^int	free_cub(t_cub *cub)$/;"	f	typeref:typename:int
 free_input	./src/free_utils.c	/^void	free_input(t_file_input *input)$/;"	f	typeref:typename:void
 free_map	./src/floodfill.c	/^void	free_map(int **map, int size)$/;"	f	typeref:typename:void
@@ -59,11 +74,16 @@ free_matrix	./src/main.c	/^void	free_matrix(void **matrix)$/;"	f	typeref:typenam
 free_texture_data	./src/main.c	/^void	free_texture_data(t_texture_data *texture_data)$/;"	f	typeref:typename:void
 front	./inc/cub3d.h	/^	int		*front;$/;"	m	struct:s_flood_fill_data	typeref:typename:int *
 ft_atoi	./src/ft_atoi.c	/^int	ft_atoi(const char *str)$/;"	f	typeref:typename:int
+ft_calloc	./src/main.c	/^void	*ft_calloc(size_t nmemb, size_t size)$/;"	f	typeref:typename:void *
 ft_extract_line	./src/get_next_line.c	/^char	*ft_extract_line(char *ptr)$/;"	f	typeref:typename:char *
 ft_fill_buffer	./src/get_next_line.c	/^char	*ft_fill_buffer(int fd, char *ptr)$/;"	f	typeref:typename:char *
 ft_isdigit	./src/ft_isdigit.c	/^int	ft_isdigit(int c)$/;"	f	typeref:typename:int
 ft_isnumber	./src/ft_isnumber.c	/^int	ft_isnumber(const char *str)$/;"	f	typeref:typename:int
+ft_memset	./src/main.c	/^void	*ft_memset(void *s, int c, size_t n)$/;"	f	typeref:typename:void *
 ft_new_line	./src/get_next_line.c	/^char	*ft_new_line(char *ptr)$/;"	f	typeref:typename:char *
+ft_putchar_fd	./src/main.c	/^void	ft_putchar_fd(char c, int fd)$/;"	f	typeref:typename:void
+ft_putnbr_fd	./src/main.c	/^void	ft_putnbr_fd(int n, int fd)$/;"	f	typeref:typename:void
+ft_putstr_fd	./src/ft_strings.c	/^void	ft_putstr_fd(char *s, int fd)$/;"	f	typeref:typename:void
 ft_split	./src/ft_split.c	/^char	**ft_split(char const *s, char c)$/;"	f	typeref:typename:char **
 ft_strchr	./src/get_next_line_utils.c	/^char	*ft_strchr(char *s, int c)$/;"	f	typeref:typename:char *
 ft_strjoin	./src/get_next_line_utils.c	/^char	*ft_strjoin(char *s1, char *s2)$/;"	f	typeref:typename:char *
@@ -72,107 +92,117 @@ ft_strtrim	./src/ft_strtrim.c	/^char	*ft_strtrim(char const *s1, char const *set
 ft_substr	./src/ft_substr.c	/^char	*ft_substr(char const *s, unsigned int start, size_t len)$/;"	f	typeref:typename:char *
 get_columns	./src/free_utils.c	/^int	get_columns(char *file)$/;"	f	typeref:typename:int
 get_direction_texture_data	./src/main.c	/^int	get_direction_texture_data(t_texture_data *texture_data, char *line)$/;"	f	typeref:typename:int
+get_map_data	./src/main.c	/^int	get_map_data(t_cub *cub, char **map)$/;"	f	typeref:typename:int
+get_map_info	./src/main.c	/^int	get_map_info(t_cub *cub, char **file, int i)$/;"	f	typeref:typename:int
 get_next_line	./src/get_next_line.c	/^char	*get_next_line(int fd)$/;"	f	typeref:typename:char *
-get_total_lines	./src/main.c	/^int	get_total_lines(char *filepath)$/;"	f	typeref:typename:int
-has_moved	./src/main.c	/^	int		has_moved;$/;"	m	struct:s_player	typeref:typename:int	file:
-height	./src/main.c	/^	int		height;$/;"	m	struct:s_map_data	typeref:typename:int	file:
-hex_ceiling	./src/main.c	/^	unsigned long	hex_ceiling;$/;"	m	struct:s_texture_data	typeref:typename:unsigned long	file:
-hex_floor	./src/main.c	/^	unsigned long	hex_floor;$/;"	m	struct:s_texture_data	typeref:typename:unsigned long	file:
-img_initial_data_addr	./src/main.c	/^	char	*img_initial_data_addr;$/;"	m	struct:s_img	typeref:typename:char *	file:
-img_ptr	./src/main.c	/^	void	*img_ptr;$/;"	m	struct:s_img	typeref:typename:void *	file:
-index	./src/main.c	/^	int				index;$/;"	m	struct:s_texture_data	typeref:typename:int	file:
-index_end_of_map	./src/main.c	/^	int		index_end_of_map;$/;"	m	struct:s_map_data	typeref:typename:int	file:
+get_total_lines	./src/free_utils.c	/^static int	get_total_lines(char *filepath)$/;"	f	typeref:typename:int	file:
+get_valid_data	./src/main.c	/^int	get_valid_data(t_cub *cub, char **map, int i, int j)$/;"	f	typeref:typename:int
+has_moved	./inc/cub3d.h	/^	int		has_moved;$/;"	m	struct:s_player	typeref:typename:int
+height	./inc/cub3d.h	/^	int		height;$/;"	m	struct:s_map_data	typeref:typename:int
+hex_ceiling	./inc/cub3d.h	/^	unsigned long	hex_ceiling;$/;"	m	struct:s_texture_data	typeref:typename:unsigned long
+hex_floor	./inc/cub3d.h	/^	unsigned long	hex_floor;$/;"	m	struct:s_texture_data	typeref:typename:unsigned long
+img_initial_data_addr	./inc/cub3d.h	/^	char	*img_initial_data_addr;$/;"	m	struct:s_img	typeref:typename:char *
+img_ptr	./inc/cub3d.h	/^	void	*img_ptr;$/;"	m	struct:s_img	typeref:typename:void *
+index	./inc/cub3d.h	/^	int				index;$/;"	m	struct:s_texture_data	typeref:typename:int
+index_end_of_map	./inc/cub3d.h	/^	int		index_end_of_map;$/;"	m	struct:s_map_data	typeref:typename:int
 init_data	./src/main.c	/^void	init_data(t_cub *cub)$/;"	f	typeref:typename:void
+init_east_west	./src/main.c	/^void	init_east_west(t_player *player)$/;"	f	typeref:typename:void
 init_game	./src/main.c	/^void	init_game(t_cub *cub)$/;"	f	typeref:typename:void
 init_map_data	./src/main.c	/^void	init_map_data(t_map_data *map_data)$/;"	f	typeref:typename:void
 init_mlx_img	./src/main.c	/^void	init_mlx_img(t_img *mlx_img)$/;"	f	typeref:typename:void
+init_north_south	./src/main.c	/^void	init_north_south(t_player *player)$/;"	f	typeref:typename:void
 init_player	./src/main.c	/^void	init_player(t_player *player)$/;"	f	typeref:typename:void
+init_player_direction	./src/main.c	/^void	init_player_direction(t_cub *cub)$/;"	f	typeref:typename:void
 init_texture_data	./src/main.c	/^void	init_texture_data(t_texture_data *texture_data)$/;"	f	typeref:typename:void
 input_obj_init	./src/free_utils.c	/^void	input_obj_init(char *file, t_file_input *input)$/;"	f	typeref:typename:void
 is_blank	./src/get_next_line_utils.c	/^int	is_blank(char i)$/;"	f	typeref:typename:int
 is_cub_file	./src/main.c	/^bool	is_cub_file(char *arg)$/;"	f	typeref:typename:bool
 is_dir	./src/main.c	/^bool	is_dir(char *arg)$/;"	f	typeref:typename:bool
 is_file_valid	./src/main.c	/^int	is_file_valid(char *arg, bool is_cub)$/;"	f	typeref:typename:int
+is_map_valid	./src/main.c	/^int	is_map_valid(t_cub *cub, char **map_matrix)$/;"	f	typeref:typename:int
+is_position_valid	./src/main.c	/^int	is_position_valid(t_cub *cub, char **map_matrix)$/;"	f	typeref:typename:int
+is_rgb_valid	./src/main.c	/^int	is_rgb_valid(int *rgb)$/;"	f	typeref:typename:int
+is_texture_valid	./src/main.c	/^int	is_texture_valid(t_cub *cub, t_texture_data *textures)$/;"	f	typeref:typename:int
+is_whitespace	./src/main.c	/^int	is_whitespace(char c)$/;"	f	typeref:typename:int
 is_xpm_file	./src/main.c	/^bool	is_xpm_file(char *arg)$/;"	f	typeref:typename:bool
 last_check	./src/floodfill.c	/^void	last_check(t_file_input *input, t_player_pos *player)$/;"	f	typeref:typename:void
 line_assigment	./src/parsing.c	/^void	line_assigment(char *line, t_file_input *input)$/;"	f	typeref:typename:void
 line_check	./src/str_utils.c	/^void	line_check(char *line, int *max)$/;"	f	typeref:typename:void
-line_count	./src/main.c	/^	int		line_count;$/;"	m	struct:s_map_data	typeref:typename:int	file:
+line_count	./inc/cub3d.h	/^	int		line_count;$/;"	m	struct:s_map_data	typeref:typename:int
 main	./src/main.c	/^int	main(int argc, char **argv)$/;"	f	typeref:typename:int
 malloc_obj	./src/free_utils.c	/^void	malloc_obj(t_file_input *input)$/;"	f	typeref:typename:void
 map	./inc/cub3d.h	/^	int		**map;$/;"	m	struct:s_file_input	typeref:typename:int **
 map	./inc/cub3d.h	/^	int		**map;$/;"	m	struct:s_flood_fill_data	typeref:typename:int **
-map_assigment	./src/parsing.c	/^void	map_assigment(char *line, t_file_input *input)$/;"	f	typeref:typename:void
 map_cols	./inc/cub3d.h	/^	int		map_cols;$/;"	m	struct:s_file_input	typeref:typename:int
-map_data	./src/main.c	/^	t_map_data		map_data;$/;"	m	struct:s_cub	typeref:typename:t_map_data	file:
-map_matrix	./src/main.c	/^	char			**map_matrix;$/;"	m	struct:s_cub	typeref:typename:char **	file:
-map_obj_init	./src/free_utils.c	/^void	map_obj_init(t_file_input	*input)$/;"	f	typeref:typename:void
+map_data	./inc/cub3d.h	/^	t_map_data		map_data;$/;"	m	struct:s_cub	typeref:typename:t_map_data
+map_matrix	./inc/cub3d.h	/^	char			**map_matrix;$/;"	m	struct:s_cub	typeref:typename:char **
 map_rows	./inc/cub3d.h	/^	int		map_rows;$/;"	m	struct:s_file_input	typeref:typename:int
-mlx_img	./src/main.c	/^	t_img			mlx_img;$/;"	m	struct:s_cub	typeref:typename:t_img	file:
-mlx_ptr	./src/main.c	/^	void			*mlx_ptr;$/;"	m	struct:s_cub	typeref:typename:void *	file:
-move_x	./src/main.c	/^	int		move_x;$/;"	m	struct:s_player	typeref:typename:int	file:
-move_y	./src/main.c	/^	int		move_y;$/;"	m	struct:s_player	typeref:typename:int	file:
+mlx_img	./inc/cub3d.h	/^	t_img			mlx_img;$/;"	m	struct:s_cub	typeref:typename:t_img
+mlx_ptr	./inc/cub3d.h	/^	void			*mlx_ptr;$/;"	m	struct:s_cub	typeref:typename:void *
+move_x	./inc/cub3d.h	/^	int		move_x;$/;"	m	struct:s_player	typeref:typename:int
+move_y	./inc/cub3d.h	/^	int		move_y;$/;"	m	struct:s_player	typeref:typename:int
 my_strchr	./src/my_strchr.c	/^char	*my_strchr(char const *s, int c)$/;"	f	typeref:typename:char *
 my_strlen	./src/my_strlen.c	/^size_t	my_strlen(const char *s)$/;"	f	typeref:typename:size_t
-north	./src/main.c	/^	char			*north;$/;"	m	struct:s_texture_data	typeref:typename:char *	file:
+north	./inc/cub3d.h	/^	char			*north;$/;"	m	struct:s_texture_data	typeref:typename:char *
 pars_input	./src/parsing.c	/^void	pars_input(char *file, t_file_input *input)$/;"	f	typeref:typename:void
 parse_map_data	./src/main.c	/^void	parse_map_data(char *filepath, t_cub *cub)$/;"	f	typeref:typename:void
-plane_x	./src/main.c	/^	double	plane_x;$/;"	m	struct:s_player	typeref:typename:double	file:
-plane_y	./src/main.c	/^	double	plane_y;$/;"	m	struct:s_player	typeref:typename:double	file:
-player	./src/main.c	/^	t_player		player;$/;"	m	struct:s_cub	typeref:typename:t_player	file:
+plane_x	./inc/cub3d.h	/^	double	plane_x;$/;"	m	struct:s_player	typeref:typename:double
+plane_y	./inc/cub3d.h	/^	double	plane_y;$/;"	m	struct:s_player	typeref:typename:double
+player	./inc/cub3d.h	/^	t_player		player;$/;"	m	struct:s_cub	typeref:typename:t_player
 player_pos_init	./src/utils.c	/^void	player_pos_init(t_player_pos *player, int x_pos, int y_pos)$/;"	f	typeref:typename:void
 player_spawn_direction	./inc/cub3d.h	/^	char	player_spawn_direction;$/;"	m	struct:s_file_input	typeref:typename:char
 player_x_pox	./inc/cub3d.h	/^	int	player_x_pox;$/;"	m	struct:s_player_pos	typeref:typename:int
 player_y_pos	./inc/cub3d.h	/^	int	player_y_pos;$/;"	m	struct:s_player_pos	typeref:typename:int
-pos	./src/main.c	/^	double			pos;$/;"	m	struct:s_texture_data	typeref:typename:double	file:
-pos_x	./src/main.c	/^	double	pos_x;$/;"	m	struct:s_player	typeref:typename:double	file:
-pos_y	./src/main.c	/^	double	pos_y;$/;"	m	struct:s_player	typeref:typename:double	file:
+pos	./inc/cub3d.h	/^	double			pos;$/;"	m	struct:s_texture_data	typeref:typename:double
+pos_x	./inc/cub3d.h	/^	double	pos_x;$/;"	m	struct:s_player	typeref:typename:double
+pos_y	./inc/cub3d.h	/^	double	pos_y;$/;"	m	struct:s_player	typeref:typename:double
 print_input	./src/test.c	/^void	print_input(t_file_input *input)$/;"	f	typeref:typename:void
 print_map	./src/test.c	/^void	print_map(int **map, int size)$/;"	f	typeref:typename:void
 process_queue_item	./src/floodfill.c	/^static bool	process_queue_item(t_flood_fill_data *data, t_point curr)$/;"	f	typeref:typename:bool	file:
 queue	./inc/cub3d.h	/^	t_point	*queue;$/;"	m	struct:s_flood_fill_data	typeref:typename:t_point *
 rear	./inc/cub3d.h	/^	int		*rear;$/;"	m	struct:s_flood_fill_data	typeref:typename:int *
-rotate	./src/main.c	/^	int		rotate;$/;"	m	struct:s_player	typeref:typename:int	file:
-s_cub	./src/main.c	/^typedef struct s_cub$/;"	s	file:
+rotate	./inc/cub3d.h	/^	int		rotate;$/;"	m	struct:s_player	typeref:typename:int
+s_cub	./inc/cub3d.h	/^typedef struct s_cub$/;"	s
 s_file_input	./inc/cub3d.h	/^typedef struct s_file_input$/;"	s
 s_flood_fill_data	./inc/cub3d.h	/^typedef struct s_flood_fill_data$/;"	s
-s_img	./src/main.c	/^typedef struct s_img$/;"	s	file:
-s_map_data	./src/main.c	/^typedef struct s_map_data$/;"	s	file:
-s_player	./src/main.c	/^typedef struct s_player$/;"	s	file:
+s_img	./inc/cub3d.h	/^typedef struct s_img$/;"	s
+s_map_data	./inc/cub3d.h	/^typedef struct s_map_data$/;"	s
+s_player	./inc/cub3d.h	/^typedef struct s_player$/;"	s
 s_player_pos	./inc/cub3d.h	/^typedef struct s_player_pos$/;"	s
 s_point	./inc/cub3d.h	/^typedef struct s_point$/;"	s
-s_texture_data	./src/main.c	/^typedef struct s_texture_data$/;"	s	file:
+s_texture_data	./inc/cub3d.h	/^typedef struct s_texture_data$/;"	s
+size	./inc/cub3d.h	/^	int				size;$/;"	m	struct:s_texture_data	typeref:typename:int
 size	./inc/cub3d.h	/^	int		size;$/;"	m	struct:s_flood_fill_data	typeref:typename:int
-size	./src/main.c	/^	int				size;$/;"	m	struct:s_texture_data	typeref:typename:int	file:
-size_line	./src/main.c	/^	int		size_line;$/;"	m	struct:s_img	typeref:typename:int	file:
+size_line	./inc/cub3d.h	/^	int		size_line;$/;"	m	struct:s_img	typeref:typename:int
 something_went_wrong	./src/utils.c	/^void	something_went_wrong(char *str, t_file_input *input)$/;"	f	typeref:typename:void
-south	./src/main.c	/^	char			*south;$/;"	m	struct:s_texture_data	typeref:typename:char *	file:
-step	./src/main.c	/^	double			step;$/;"	m	struct:s_texture_data	typeref:typename:double	file:
+south	./inc/cub3d.h	/^	char			*south;$/;"	m	struct:s_texture_data	typeref:typename:char *
+step	./inc/cub3d.h	/^	double			step;$/;"	m	struct:s_texture_data	typeref:typename:double
 str_cmp	./src/utils.c	/^bool	str_cmp(char *s1, char *s2, int k)$/;"	f	typeref:typename:bool
 str_len	./src/get_next_line_utils.c	/^int	str_len(char *str)$/;"	f	typeref:typename:int
-t_cub	./src/main.c	/^}	t_cub;$/;"	t	typeref:struct:s_cub	file:
+t_cub	./inc/cub3d.h	/^}	t_cub;$/;"	t	typeref:struct:s_cub
 t_file_input	./inc/cub3d.h	/^}	t_file_input;$/;"	t	typeref:struct:s_file_input
 t_flood_fill_data	./inc/cub3d.h	/^}	t_flood_fill_data;$/;"	t	typeref:struct:s_flood_fill_data
-t_img	./src/main.c	/^}	t_img;$/;"	t	typeref:struct:s_img	file:
-t_map_data	./src/main.c	/^}	t_map_data;$/;"	t	typeref:struct:s_map_data	file:
-t_player	./src/main.c	/^}	t_player;$/;"	t	typeref:struct:s_player	file:
+t_img	./inc/cub3d.h	/^}	t_img;$/;"	t	typeref:struct:s_img
+t_map_data	./inc/cub3d.h	/^}	t_map_data;$/;"	t	typeref:struct:s_map_data
+t_player	./inc/cub3d.h	/^}	t_player;$/;"	t	typeref:struct:s_player
 t_player_pos	./inc/cub3d.h	/^}	t_player_pos;$/;"	t	typeref:struct:s_player_pos
 t_point	./inc/cub3d.h	/^}	t_point;$/;"	t	typeref:struct:s_point
-t_texture_data	./src/main.c	/^}	t_texture_data;$/;"	t	typeref:struct:s_texture_data	file:
+t_texture_data	./inc/cub3d.h	/^}	t_texture_data;$/;"	t	typeref:struct:s_texture_data
 texture_assignment	./src/parsing.c	/^void	texture_assignment(char *line, t_file_input *input)$/;"	f	typeref:typename:void
-texture_data	./src/main.c	/^	t_texture_data	texture_data;$/;"	m	struct:s_cub	typeref:typename:t_texture_data	file:
-texture_pixels	./src/main.c	/^	int				**texture_pixels;$/;"	m	struct:s_cub	typeref:typename:int **	file:
-textures	./src/main.c	/^	int				**textures;$/;"	m	struct:s_cub	typeref:typename:int **	file:
+texture_data	./inc/cub3d.h	/^	t_texture_data	texture_data;$/;"	m	struct:s_cub	typeref:typename:t_texture_data
+texture_pixels	./inc/cub3d.h	/^	int				**texture_pixels;$/;"	m	struct:s_cub	typeref:typename:int **
+textures	./inc/cub3d.h	/^	int				**textures;$/;"	m	struct:s_cub	typeref:typename:int **
 textures_counter	./inc/cub3d.h	/^	int		textures_counter;$/;"	m	struct:s_file_input	typeref:typename:int
 textures_path	./inc/cub3d.h	/^	char	**textures_path;$/;"	m	struct:s_file_input	typeref:typename:char **
+turn_space_to_wall	./src/main.c	/^void	turn_space_to_wall(t_cub *cub)$/;"	f	typeref:typename:void
 valid_char	./src/str_utils.c	/^bool	valid_char(char c)$/;"	f	typeref:typename:bool
 valid_start_point	./src/str_utils.c	/^bool	valid_start_point(char c)$/;"	f	typeref:typename:bool
-west	./src/main.c	/^	char			*west;$/;"	m	struct:s_texture_data	typeref:typename:char *	file:
-width	./src/main.c	/^	int		width;$/;"	m	struct:s_map_data	typeref:typename:int	file:
-win_height	./src/main.c	/^	int				win_height;$/;"	m	struct:s_cub	typeref:typename:int	file:
-win_ptr	./src/main.c	/^	void			*win_ptr;$/;"	m	struct:s_cub	typeref:typename:void *	file:
-win_width	./src/main.c	/^	int				win_width;$/;"	m	struct:s_cub	typeref:typename:int	file:
+west	./inc/cub3d.h	/^	char			*west;$/;"	m	struct:s_texture_data	typeref:typename:char *
+width	./inc/cub3d.h	/^	int		width;$/;"	m	struct:s_map_data	typeref:typename:int
+win_height	./inc/cub3d.h	/^	int				win_height;$/;"	m	struct:s_cub	typeref:typename:int
+win_ptr	./inc/cub3d.h	/^	void			*win_ptr;$/;"	m	struct:s_cub	typeref:typename:void *
+win_width	./inc/cub3d.h	/^	int				win_width;$/;"	m	struct:s_cub	typeref:typename:int
+x	./inc/cub3d.h	/^	int				x;$/;"	m	struct:s_texture_data	typeref:typename:int
 x	./inc/cub3d.h	/^	int	x;$/;"	m	struct:s_point	typeref:typename:int
-x	./src/main.c	/^	int				x;$/;"	m	struct:s_texture_data	typeref:typename:int	file:
+y	./inc/cub3d.h	/^	int				y;$/;"	m	struct:s_texture_data	typeref:typename:int
 y	./inc/cub3d.h	/^	int	y;$/;"	m	struct:s_point	typeref:typename:int
-y	./src/main.c	/^	int				y;$/;"	m	struct:s_texture_data	typeref:typename:int	file:

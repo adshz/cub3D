@@ -42,7 +42,10 @@ SRCS = get_next_line.c \
 	   my_strlen.c \
 	   ft_isnumber.c \
 	   ft_strtrim.c \
-	   my_strchr.c 
+	   my_strchr.c  \
+	   debug.c \
+	   ft_errors.c \
+	   ft_strings.c 
 
 # Object files
 OBJS = $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
