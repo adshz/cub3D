@@ -23,7 +23,7 @@ void	texture_assignment(char *line, t_file_input *input)
 	j = 0;
 	k = 0;
 	len = 0;
-	while (i < 6 && input->textures_path[i] != NULL)
+	while (input->textures_path[i] != NULL)
 		i++;
 	if (i >= 6)
 		something_went_wrong("Too many textures!", NULL);
@@ -69,6 +69,12 @@ void	texture_assignment(char *line, t_file_input *input)
 
 void	line_assigment(char *line, t_file_input *input)
 {
+  int i;
+
+  i = 0
+	while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
+		i++;
+  line = line + i;
 	if (str_cmp(line, "NO", 2) || str_cmp(line, "SO", 2)
 		|| str_cmp(line, "WE", 2) || str_cmp(line, "EA", 2)
 		|| str_cmp(line, "F", 1) || str_cmp(line, "C", 1))
@@ -76,8 +82,6 @@ void	line_assigment(char *line, t_file_input *input)
 		input->textures_counter += 1;
 		texture_assignment(line, input);
 	}
-	// else
-	// 	map_assigment(line, input);
 }
 
 void	pars_input(char *file, t_file_input *input)

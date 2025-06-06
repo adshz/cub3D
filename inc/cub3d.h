@@ -129,6 +129,7 @@ typedef struct s_file_input
 {
 	int		textures_counter;
 	int		map_rows;
+  //remove map_cols
 	int		map_cols;
 	char	player_spawn_direction;
 	char	**textures_path;
