@@ -109,6 +109,27 @@ typedef struct s_minimap
 	int		tile_size;
 }	t_minimap;
 
+typedef struct s_ray
+{
+  double  camera_x;
+  double  dir_x;
+  double  dir_y;
+  int     map_x;
+  int     map_y;
+  int     step_x;
+  int     step_y;
+  double  sidedist_x;
+  double  sidedist_y;
+  double  deltadist_x;
+  double  deltadist_y;
+  double  wall_dist;
+  double  wall_x;
+  int     side;
+  int     line_height;
+  int     draw_start;
+  int     draw_end;
+} t_ray;
+
 typedef struct s_cub
 {
 	void			*mlx_ptr;
@@ -117,6 +138,7 @@ typedef struct s_cub
 	int				win_width;
 	t_player		player;
 	t_texture_data	texture_data;
+  t_ray     ray;
 	char			**map_matrix;
 	t_map_data		map_data;
 	t_img			mlx_img;

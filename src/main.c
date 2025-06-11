@@ -124,9 +124,10 @@ void	init_data(t_cub *cub)
 	return ;
 }
 
-void	init_game(t_cub *cub)
+void	init_game(t_cub *cub, t_file_input *input)
 {
 	init_data(cub);
+	input_obj_init(argv[1], &input);
 	return ;
 }
 
@@ -850,6 +851,322 @@ unsigned long	convert_rgb_to_hex(int *rgb_matrix)
 	return (result);
 }
 
+void parse_file(char **argv, t_cub *cub, t_file_input *input)
+{
+	if (is_file_valid(argv[1], true) == FAILURE)
+		clean_exit(cub, FAILURE);
+	parse_map_data(argv[1], cub);
+	pars_input(argv[1], &input);
+}
+
+void  assign_data(t_cub *cub, t_file_input *input)
+{
+	assign_texture_data(&cub, &input);
+  free(input);
+	if (get_map_data(cub, cub->map_data.file) == FAILURE)
+		return (free_cub(cub));
+}
+
+int validate_data(t_cub *cub)
+{
+	if (is_map_valid(cub, cub->map_matrix) == FAILURE)
+		return (free_cub(cub));
+	if (is_texture_valid(&cub, &cub.texture_data) == FAILURE)
+		return (free_cub(&cub));
+	cub.texture_data.hex_floor = convert_rgb_to_hex(cub.texture_data.floor);
+	cub.texture_data.hex_ceiling = convert_rgb_to_hex(cub.texture_data.ceiling);
+	init_player_direction(cub);
+	if (DEBUG_MODE)
+		display_data(cub);
+  return (SUCCESS);
+}
+
+void  init_mlx(t_cub *cub)
+{
+  cub->mlx_ptr = mlx_init();
+  if (!cub->mlx)
+    clean_exit(cub, err_msg("mlx", "Fail to start mlx", FAILURE));
+  cub->win_ptr = mlx_new_window(cub->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "42Cub3D");
+  if (!cub->win)
+    clean_exit(cub, err_msg("mlx", "Fail to create a mlx window", FAILURE));
+	if (BONUS)
+		mlx_mouse_move(cub->mlx_ptr, cub->win_ptr, cub->win_width / 2,
+			cub->win_height / 2);
+  return ;
+}
+
+int *xpm_to_img(t_cub *cub, char *path)
+{
+  t_img tmp;
+  int   *buffer;
+  int   y;
+  int   x;
+
+  init_texture_img(cub, &tmp, path);
+
+}
+
+void  transform_textures(t_cub *cub)
+{
+	cub->textures = ft_calloc(5, sizeof * cub->textures);
+	if (!cub->textures)
+		clean_exit(cub, err_msg(NULL, ERR_MALLOC, 1));
+	cub->textures[NORTH] = xpm_to_img(cub, cub->texture_data.north);
+	cub->textures[SOUTH] = xpm_to_img(cub, cub->texture_data.south);
+	cub->textures[EAST] = xpm_to_img(cub, cub->texture_data.east);
+	cub->textures[WEST] = xpm_to_img(cub, cub->texture_data.west);
+}
+
+void  init_texture_pixels(t_cub *cub)
+{
+  int i;
+
+  if (cub->texture_pixels)
+    free_matrix((void **)cub->texture_pixels);
+  cub->texture_pixels = ft_calloc(cub->win_height + 1, sizeof(int **));
+  if (!cub->texture_pixels)
+    clean_exit(cub, err_msg(NULL, ERR_MALLOC, 1));
+  i = 0;
+  while (i < cub->win_height)
+  {
+    cub->texture_pixels[i] = ft_calloc(cub->win_width + 1, sizeof * cub->texture_pixels);
+    if (!cub->texture_pixels[i])
+      clean_exit(cub, err_msg(NULL, ERR_MALLOC, 1));
+    i++;
+  }
+}
+
+void  init_ray(t_ray *ray)
+{
+	ray->camera_x = 0;
+	ray->dir_x = 0;
+	ray->dir_y = 0;
+	ray->map_x = 0;
+	ray->map_y = 0;
+	ray->step_x = 0;
+	ray->step_y = 0;
+	ray->sidedist_x = 0;
+	ray->sidedist_y = 0;
+	ray->deltadist_x = 0;
+	ray->deltadist_y = 0;
+	ray->wall_dist = 0;
+	ray->wall_x = 0;
+	ray->side = 0;
+	ray->line_height = 0;
+	ray->draw_start = 0;
+	ray->draw_end = 0;
+}
+
+int build_raycasting(t_player *player, t_cub *cub)
+{
+  t_ray ray;
+  int   x;
+
+  x = 0;
+  ray = cub->ray;
+  while (x < cub->win_width)
+  {
+    init_raycasting_data(x, &ray, player);
+    set_dda(&ray, player);
+    perform_dda(cub, &ray);
+    calculate_line_height(&ray, cub, player);
+    update_texture_pixels(cub, &cub->texture_data, &ray, x);
+    x++;
+  }
+  return (SUCCESS);
+}
+
+void  init_img(t_cub *cub, t_img *img, int width, int height)
+{
+	img->img = NULL;
+	img->addr = NULL;
+	img->pixel_bits = 0;
+	img->size_line = 0;
+	img->endian = 0;
+  img->img = mlx_new_image(data->mlx, width, height);
+  if (!img->img)
+    clean_exit(cub, err_msg("mlx", "Failed to create minilibx image", 1));
+  img->addr = (int *)mlx_get_data_addr(img->img, &img->pixel_bits, &img->size_line, &img->endian);
+  return ;
+}
+
+void	set_image_pixel(t_img *image, int x, int y, int color)
+{
+	int	pixel;
+
+	pixel = y * (image->size_line / 4) + x;
+	image->addr[pixel] = color;
+}
+
+void  set_frame_image_pixel(t_cub *cub, t_img *image, int x, int y)
+{
+  if (cub->texture_pixels[y][x] > 0)
+    set_image_pixel(image, x, y, cub->texture_pixels[y][x]);
+  else if (y < cub->win_height / 2)
+    set_image_pixel(image, x, y, cub->texture_data.hex_ceiling);
+  else if (y < cub->win_height - 1)
+    set_image_pixel(image, x, y, cub->texture_data.hex_floor);
+  return ;
+}
+
+void  render_frame(t_cub *cub)
+{
+  t_img image;
+  int   x;
+  int   y;
+
+  image.img_ptr = NULL;
+  init_img(cub, &image, cub->win_width, cub->win_height);
+  y = 0;
+  while (y < cub->win_height)
+  {
+    x = 0;
+    while (x < cub->win_width)
+    {
+      set_frame_image_pixel(cub, &image, x, y);
+      x++;
+    }
+    y++;
+  }
+  mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr, image.img, 0, 0);
+  mlx_destroy_image(cub->mlx_ptr, image.img);
+}
+
+void  render_raycast(t_cub *cub)
+{
+  init_texture_pixels(cub);
+  init_ray(&cub->ray);
+  build_raycasting(&cub->player, cub);
+  render_frame(cub);
+}
+
+# define MINIMAP_PIXEL_SIZE 128
+# define MINIMAP_VIEW_DIST 4
+# define MINIMAP_COLOR_PLAYER 0x00FF00
+# define MINIMAP_COLOR_WALL 0x808080
+# define MINIMAP_COLOR_FLOOR 0xE6E6E6
+# define MINIMAP_COLOR_SPACE 0x404040
+
+int get_minimap_offset(t_minimap *minimap, int mapsize, int pos)
+{
+  if (pos > minimap->view_dist && mapsize - pos > minimap->view_dist + 1)
+    return (pos - minimap->view_dist);
+  if (pos > minimap->view_dist && mapsize - pos <= minimap->view_dist + 1)
+    return (mapsize - minimap->size);
+  return (0);
+}
+
+char  *add_minimap_line(t_cub *cub, t_minimap *minimap, int y)
+{
+  char  *line;
+  int   x;
+
+  line = ft_calloc(minimap->size + 1, sizeof * line);
+  if (!line)
+    return (NULL);
+  x = 0;
+  while (x < minimap->size && x < cub->map_data.width)
+  {
+		if (!is_valid_map_coord(y + minimap->offset_y, cub->map_data.height)
+			|| !is_valid_map_coord(x + minimap->offset_x, cub->map_data.width))
+			line[x] = '\0';
+		else if ((int)cub->player.pos_x == (x + minimap->offset_x)
+			&& (int)cub->player.pos_y == (y + minimap->offset_y))
+			line[x] = 'P';
+		else if (cub->map[y + minimap->offset_y][x + minimap->offset_x] == '1')
+			line[x] = '1';
+		else if (cub->map[y + minimap->offset_y][x + minimap->offset_x] == '0')
+			line[x] = '0';
+		else
+			line[x] = '\0';
+		x++;
+  }
+}
+
+char  **generate_minimap(t_cub *cub, t_minimap *minimap)
+{
+  char  **minimap_tmp;
+  int   y;
+
+  minimap_tmp = ft_calloc(minimap->size, sizeof * minimap_tmp);
+  if (!minimap_tmp)
+    return (NULL);
+  y = 0;
+  while (y < minimap->size && y < cub->map_data.height)
+  {
+    minimap_tmp[y] = add_minimap_line(cub, minimap, y);
+    if (!minimap_tmp[y])
+    {
+      free_matrix((void **)minimap_tmp);
+      return (NULL);
+    }
+    y++;
+  }
+  return (minimap_tmp);
+}
+
+
+void	render_minimap_image(t_cub *cub, t_minimap *minimap)
+{
+	int	img_size;
+
+	img_size = MINIMAP_PIXEL_SIZE + minimap->tile_size;
+	init_img(cub, &cub->minimap, img_size, img_size);
+	draw_minimap(minimap);
+	mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr, cub->minimap.img,
+		minimap->tile_size, cub->win_height
+		- (MINIMAP_PIXEL_SIZE + (minimap->tile_size * 2)));
+	mlx_destroy_image(cub->mlx_ptr, cub->minimap.img);
+}
+
+void  render_minimap(t_cub *cub)
+{
+  t_minimap minimap;
+
+  minimap.map = NULL;
+  minimap.img = &cub->minimap;
+  minimap.view_dist = MINIMAP_VIEW_DIST;
+  minimap.size (2 * minimap.view_dist) + 1;
+  minimap.tile_size = get_minimap_offset(&minimap, cub->map_data.width, (int)cub->player.pos_x);
+  minimap.offset_y = get_minimap_offset(&minimap, cub->map_data.height, (int)cub->player.pos_y);
+  minimap.map = generate_minimap(cub, &minimap);
+  if (!minimap.map)
+  {
+    err_msg(NULL, ERR_MALLOC, 0);
+    return ;
+  }
+  if (MINIMAP_DEBUG_MSG)
+    debug_display_minimap(&minimap);
+  render_minimap_image(cub, &minimap);
+  free_matrix((void **)minimap.map);
+}
+
+void  render_game(t_cub *cub)
+{
+  render_raycast(cub);
+  if (BONUS)
+    render_minimap(cub);
+}
+
+void	event_listening(t_cub *cub)
+{
+	mlx_hook(cub->win, ClientMessage, NoEventMask, quit_cub3d, cub);
+	mlx_hook(cub->win, KeyPress, KeyPressMask, key_press_handler, cub);
+	mlx_hook(cub->win, KeyRelease, KeyReleaseMask, key_release_handler, cub);
+	if (BONUS)
+		mlx_hook(cub->win, MotionNotify, PointerMotionMask,
+			mouse_motion_handler, cub);
+}
+
+int	render_wrapper(t_cub *cub)
+{
+	cub->player.has_moved += move_player(cub);
+	if (cub->player.has_moved == 0)
+		return (0);
+	render_game(cub);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_cub			cub;
@@ -857,23 +1174,16 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		something_went_wrong("enter one map, no more no less", NULL);
-	init_game(&cub);
-	input_obj_init(argv[1], &input);
-	pars_input(argv[1], &input);
-	assign_texture_data(&cub, &input);
-	// here need to convert files for textures
-	if (is_texture_valid(&cub, &cub.texture_data) == FAILURE)
-		return (free_input(&input), free_cub(&cub));
-	free_input(&input);
-	cub.texture_data.hex_floor = convert_rgb_to_hex(cub.texture_data.floor);
-	cub.texture_data.hex_ceiling = convert_rgb_to_hex(cub.texture_data.ceiling);
-	if (create_map(&cub, argv) == FAILURE)
-		return (free_cub(&cub));
-	// last_check(&input, &player);
-	// init_mlx(&cub);
-	// render_image(&cub);
-	// event_listening(&cub);
-	// mlx_loop_hook(cub.mlx, render,&cub);
-	// mlx_loop(cub.mlx);
+	init_game(&cub &input);
+  parse_file(argv[1], &cub, &input);
+  assign_data(&cub, &input);
+  if (validate_data(&cub) != SUCCESS)
+    return (FAILURE);
+	init_mlx(&cub);
+  transform_textures(&cub)
+	render_game(&cub);
+	event_listening(&cub);
+	mlx_loop_hook(cub.mlx_ptr, render_wrapper,&cub);
+	mlx_loop(cub.mlx_ptr);
 	return (0);
 }
