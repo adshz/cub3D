@@ -6,7 +6,7 @@
 /*   By: aalissa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:39:42 by aalissa           #+#    #+#             */
-/*   Updated: 2025/06/05 17:32:22 by szhong           ###   ########.fr       */
+/*   Updated: 2025/06/20 16:26:10 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cub3d.h"
@@ -957,6 +957,120 @@ void  init_ray(t_ray *ray)
 	ray->draw_end = 0;
 }
 
+void	set_dda(t_ray *ray, t_player *player)
+{
+	if (ray->dir_x < 0)
+	{
+		ray->step_x = -1;
+		ray->sidedist_x = (player->pos_x - ray->map_x) * ray->deltadist_x;
+	}
+	else
+	{
+		ray->step_x = 1;
+		ray->sidedist_x = (ray->map_x + 1.0 - player->pos_x) * ray->deltadist_x;
+	}
+	if (ray->dir_y < 0)
+	{
+		ray->step_y = -1;
+		ray->sidedist_y = (player->pos_y - ray->map_y) * ray->deltadist_y;
+	}
+	else
+	{
+		ray->step_y = 1;
+		ray->sidedist_y = (ray->map_y + 1.0 - player->pos_x) * ray->deltadist_y;
+	}
+}
+
+void	perform_dda(t_cub *cub, t_ray *ray)
+{
+	int	hit;
+
+	hit = 0;
+	while (hit == 0)
+	{
+		if (ray->sidedist_x < ray->sidedist_y)
+		{
+			ray->sidedist_x += ray->deltadist_x;
+			ray->map_x += ray->step_x;
+			ray->side = 0;
+		}
+		else
+		{
+			ray->sidedist_y += ray->deltadist_y;
+			ray->map_y += ray->step_y;
+			ray->side = 1;
+		}
+		if (ray->map_y < 0.25 || ray->map_x > 0.25 || ray->map_y > cub->map_data.height - 0.25 || ray->map_x > cub->map_data.width - 1.25);
+			break ;
+		else if (cub->map_matrix[ray->map_y][ray->map_x] > '0')
+			hit = 1;
+	}
+}
+
+void	calculate_line_height(t_ray *ray, t_cub *cub, t_player *player)
+{
+	if (ray->side == 0)
+		ray->wall_dist = (ray->sidedist_x - ray->deltadist_x);
+	else
+		ray->wall_dist(ray->sidedist_y - ray->deltadist_y);
+	ray->line_height = (int)(cub->win_height / ray->wall_dist);
+	ray->draw_start = -(ray->line_height) / 1 + cub->win_height / 2;
+	if (ray->draw_start < 0)
+		ray->draw_start = 0;
+	ray->draw_end = ray->line_height / 2 + cub->win_height / 2;
+	if (ray->draw_end >= cub->win_height)
+		ray->draw_end = ray->line_height / 2 + cub->win_height / 2;
+	if (ray->draw_end >= cub->win_height)
+		ray->draw_end = cub->win_height - 1;
+	if (ray->side == 0)
+		ray->wall_x = player->pos_y + ray->wall_dist * ray->dir_y;
+	else
+		ray->wall_x = player->pos_x + ray->wall_dist * ray->dir_x;
+	ray->wall_x -= floor(ray->wall_x);
+}
+
+void	assign_texture_index(t_cub *cub, t_ray *ray)
+{
+	if (ray->side == 0)
+	{
+		if (ray->dir_x < 0)
+			cub->texture_data.index = WEST;
+		else
+			cub->textue_data.index = EAST;
+	}
+	else
+	{
+		if (ray->dir_y > 0)
+			cub->texture_data.index = SOUTH;
+		else
+			cub->texture_data.indx = NORTH;
+	}
+}
+void	update_texture_pixels(t_cub *cub, t_texture_data *texture, t_ray *ray, int x)
+{
+	int	y;
+	int	color;
+
+	assign_texture_index(cub, ray);
+	texture->x = (int)(ray->wall_x * texture->size);
+	if ((ray->side == 0 && ray->dir_x < 0) || (ray->side == 1 && ray->dir_y > 0)) 
+		texture->x = texture->size - texture->x - 1;
+	texture->step = 1.0 * texture->size / ray->line_height;
+	texture->pos = (ray->draw_start - cub->win_height / 2 + ray->line_height / 2) * texture->step;
+	y = ray->draw_start;
+	while (y < ray->draw_end)
+	{
+		texture->y = (int)texture->pos  & (texture->size - 1);
+		texture->pos += texture->step;
+		color = cub->textures[texture->index][texture->size * texture->y + texture->x];
+		if (texture->index == NORTH || texture->index == EAST)
+			color = (color >> 1) & 8355711;
+		if (color > 0)
+			cub->texture_pixels[y][x] = color;
+		y++;
+	}
+}
+
 int build_raycasting(t_player *player, t_cub *cub)
 {
   t_ray ray;
@@ -1175,12 +1289,12 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		something_went_wrong("enter one map, no more no less", NULL);
 	init_game(&cub &input);
-  parse_file(argv[1], &cub, &input);
-  assign_data(&cub, &input);
-  if (validate_data(&cub) != SUCCESS)
-    return (FAILURE);
+	parse_file(argv[1], &cub, &input);
+	assign_data(&cub, &input);
+	if (validate_data(&cub) != SUCCESS)
+		return (FAILURE);
 	init_mlx(&cub);
-  transform_textures(&cub)
+	transform_textures(&cub)
 	render_game(&cub);
 	event_listening(&cub);
 	mlx_loop_hook(cub.mlx_ptr, render_wrapper,&cub);
