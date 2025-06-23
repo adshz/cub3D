@@ -1071,6 +1071,18 @@ void	update_texture_pixels(t_cub *cub, t_texture_data *texture, t_ray *ray, int 
 	}
 }
 
+void  init_raycasting_data(int x, t_ray *ray, t_player *player)
+{
+  init_ray(ray);
+  ray->camera_x = 2 * x / (double)WIN_WIDTH - 1;
+  ray->dir_x = player->dir_x + player->plane_x * ray->camera_x;
+  ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
+  ray->map_x = (int)player->pos_x;
+  ray->map_y = (int)player->pos_y;
+  ray->deltadist_x = fabs(1 / ray->dir_x);
+  ray->deltadis_y = fabs(1 / ray->dir_y);
+}
+
 int build_raycasting(t_player *player, t_cub *cub)
 {
   t_ray ray;
