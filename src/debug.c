@@ -11,14 +11,6 @@
 /* ************************************************************************** */
 #include "cub3d.h"
 
-void	debug_display_minimap(t_minimap *minimap)
-{
-	printf(YELLOW "\n---- MINIMAP\n" RESET);
-	printf("Minimap view distance: %d\n", minimap->view_dist);
-	printf("Minimap size: %d * %d\n", minimap->size, minimap->size);
-	debug_print_char_matrix(minimap->map);
-}
-
 void	debug_print_char_matrix(char **matrix)
 {
 	int	i;

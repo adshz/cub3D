@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*   is_rgb_valid.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 16:54:21 by szhong            #+#    #+#             */
-/*   Updated: 2025/06/24 16:54:59 by szhong           ###   ########.fr       */
+/*   Created: 2025/07/04 17:53:38 by szhong            #+#    #+#             */
+/*   Updated: 2025/07/04 17:54:45 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cub3d.h"
 
-size_t	find_biggest_len(t_map_data *map_data, int i)
+int	is_rgb_valid(int *rgb)
 {
-	size_t	biggest_len;
+	int	i;
 
-	biggest_len = ft_strlen(map_data->file[i]);
-	while (map_data->file[i])
+	i = 0;
+	while (i < 3)
 	{
-		if (ft_strlen(map_data->file[i]) > biggest_len)
-			biggest_len = ft_strlen(map_data->file[i]);
+		if (rgb[i] < 0 || rgb[i] > 255)
+			return (ft_putnbr_fd(rgb[i], 2), \
+			err_msg(NULL, " is invalid RGB value", FAILURE));
 		i++;
 	}
-	return (biggest_len);
-}
-
-int	is_whitespace(char c)
-{
-	if (c != ' ' && c != '\t' && c != '\r' && c != '\n' \
-		&& c != '\v' && c != '\f')
-		return (FAILURE);
 	return (SUCCESS);
 }

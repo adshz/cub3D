@@ -26,26 +26,58 @@ NAME = game
 SRC_DIR = ./src
 OBJ_DIR = ./obj
 
-SRCS = get_next_line.c \
-       get_next_line_utils.c \
-       main.c \
-       utils.c \
-       parsing.c \
-       free_utils.c\
-       floodfill.c \
-       test.c \
-       str_utils.c \
-	   ft_atoi.c \
-	   ft_split.c \
-	   ft_isdigit.c \
-	   ft_substr.c \
-	   my_strlen.c \
-	   ft_isnumber.c \
-	   ft_strtrim.c \
-	   my_strchr.c  \
-	   debug.c \
-	   ft_errors.c \
-	   ft_strings.c 
+SRCS = \
+		init/init_data.c \
+		init/init_img.c \
+		init/init_mlx.c \
+		init/init_texture.c \
+		cub_libft/ft_atoi.c \
+		cub_libft/ft_isnumber.c \
+		cub_libft/ft_split.c \
+		cub_libft/ft_substr.c \
+		cub_libft/str_utils.c \
+		cub_libft/ft_calloc.c \
+		cub_libft/ft_memset.c \
+		cub_libft/ft_strings.c \
+		cub_libft/my_strchr.c  \
+		cub_libft/ft_isdigit.c \
+		cub_libft/ft_putnbr.c \
+		cub_libft/my_strlen.c \
+		cub_libft/ft_strtrim.c \
+		parser/create_map.c \
+		parser/game_map.c \
+		parser/get_file_data.c \
+		parser/parse_data.c \
+		parser/utils.c \
+		parser/validator/is_rgb_valid.c \
+		parser/validator/is_valid_map_border.c \
+		parser/validator/is_valid_textures.c \
+		parser/validator/is_valid_file.c \
+		parser/validator/is_valid_map.c \
+		player/direction.c \
+		player/movement.c \
+		player/position.c \
+		player/rotation.c \
+		player/user_input.c \
+		render/raycasting.c \
+		render/render.c \
+		render/texture.c \
+		render/utils.c \
+		render/minimap/minimap.c \
+		render/minimap/render.c \
+		utils/ft_errors.c \
+		utils/clean.c \
+		utils/fill_matrix.c \
+		utils/configure_rgb.c \
+		utils/quit_game.c \
+		debug.c \
+		floodfill.c \
+		get_next_line_utils.c \
+		main.c \
+		utils.c \
+		parsing.c \
+		free_utils.c\
+		get_next_line.c \
 
 # Object files
 OBJS = $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRCS)))

@@ -38,40 +38,11 @@ void	texture_assignment(char *line, t_file_input *input)
 	input->textures_path[i][j] = '\0';
 }
 
-// delte this
-// void	map_assigment(char *line, t_file_input *input)
-// {
-// 	int	i;
-// 	int	j;
-// 	int	map_size;
-//
-// 	i = 0;
-// 	map_size = input->map_size;
-// 	if (!input || !input->map)
-// 		return ;
-// 	while (i < map_size && input->map[i] && input->map[i][1] != 21)
-// 		++i;
-// 	if (i >= map_size || !input->map[i])
-// 		return ;
-// 	j = 0;
-// 	while (line[j] && j < map_size - 1)
-// 	{
-// 		input->map[i][j + 1] = check_map_data_type(line[j], input);
-// 		++j;
-// 	}
-// 	while (j < map_size - 1)
-// 	{
-// 		input->map[i][j + 1] = 21;
-// 		++j;
-// 	}
-// 	input->map[i][map_size - 1] = 42;
-// }
-
 void	line_assigment(char *line, t_file_input *input)
 {
   int i;
 
-  i = 0
+  i = 0;
 	while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
 		i++;
   line = line + i;
