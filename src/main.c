@@ -45,7 +45,7 @@ int	main(int argc, char **argv)
 	init_game(argv, &cub, &input);
 	parse_file(argv, &cub, &input);
 	assign_data(&cub, &input);
-	print_input(&input);
+	// print_input(&input);
 	if (validate_data(&cub) != SUCCESS)
 		return (FAILURE);
 	init_mlx(&cub);

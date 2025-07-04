@@ -172,7 +172,6 @@ typedef struct s_file_input
 {
 	int		textures_counter;
 	int		map_rows;
-  //remove map_cols
 	int		map_cols;
 	char	player_spawn_direction;
 	char	**textures_path;
@@ -285,5 +284,6 @@ void	debug_display_map_data(t_cub *cub);
 void	debug_display_player(t_cub *cub);
 void	display_data(t_cub *cub);
 int		assign_map_data(t_cub *cub, char **map, int i);
+int		get_path_location(char *line, int i);
 
 #endif

@@ -16,8 +16,8 @@ int	fill_map_matrix(t_map_data *map_data, char **map_matrix, int index)
 	int	i;
 	int	j;
 
-	map_data->width = find_biggest_len(map_data, index);
 	i = 0;
+	map_data->width = find_biggest_len(map_data, i);
 	while (i < map_data->height)
 	{
 		j = 0;

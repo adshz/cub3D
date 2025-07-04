@@ -11,16 +11,33 @@
 /* ************************************************************************** */
 #include "cub3d.h"
 
+int	get_map_data_location(char **map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map[i])
+	{
+		j = get_path_location(map[i], 0);
+		if (ft_isdigit(map[i][j]) == 1)
+			break ;
+		i++;
+	}
+	return (i);
+}
+
 int	get_map_data(t_cub *cub, char **map)
 {
 	int	i;
 	int	j;
 	int	ret;
 
-	i = 0;
+	i = get_map_data_location(map);
 	while (map[i])
 	{
-		j = 0;
+		cub->map_data.file = cub->map_data.file + i;
+		j = get_path_location(map[i], 0);
 		while (map[i][j])
 		{
 			ret = get_valid_data(cub, map, i, j);
