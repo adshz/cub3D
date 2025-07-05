@@ -24,9 +24,9 @@ int	fill_map_matrix(t_map_data *map_data, char **map_matrix, int index)
 		map_matrix[i] = malloc(sizeof(char) * (map_data->width + 1));
 		if (!map_matrix[i])
 			return (err_msg(NULL, ERR_MALLOC, FAILURE));
-		while (map_data->file[index][j] && map_data->file[index][j] != '\n')
+		while (map_data->file[i][j] && map_data->file[i][j] != '\n')
 		{
-			map_matrix[i][j] = map_data->file[index][j];
+			map_matrix[i][j] = map_data->file[i][j];
 			j++;
 		}
 		while (j < map_data->width)
