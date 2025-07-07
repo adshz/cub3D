@@ -55,46 +55,49 @@ static char	*add_minimap_line(t_cub *cub, t_minimap *minimap, int y)
 	return (line);
 }
 
-static char  **generate_minimap(t_cub *cub, t_minimap *minimap)
+static char	**generate_minimap(t_cub *cub, t_minimap *minimap)
 {
-  char  **minimap_tmp;
-  int   y;
+	char	**minimap_tmp;
+	int	y;
 
-  minimap_tmp = ft_calloc(minimap->size, sizeof * minimap_tmp);
-  if (!minimap_tmp)
-    return (NULL);
-  y = 0;
-  while (y < minimap->size && y < cub->map_data.height)
-  {
-    minimap_tmp[y] = add_minimap_line(cub, minimap, y);
-    if (!minimap_tmp[y])
-    {
-      free_matrix((void **)minimap_tmp);
-      return (NULL);
-    }
-    y++;
-  }
-  return (minimap_tmp);
+	minimap_tmp = ft_calloc(minimap->size, sizeof * minimap_tmp);
+	if (!minimap_tmp)
+		return (NULL);
+	y = 0;
+	while (y < minimap->size && y < cub->map_data.height)
+	{
+		minimap_tmp[y] = add_minimap_line(cub, minimap, y);
+		if (!minimap_tmp[y])
+		{
+			free_matrix((void **)minimap_tmp);
+			return (NULL);
+		}
+		y++;
+	}
+	return (minimap_tmp);
 }
 
-void  render_minimap(t_cub *cub)
+void	render_minimap(t_cub *cub)
 {
-  t_minimap minimap;
+	t_minimap	minimap;
 
-  minimap.map = NULL;
-  minimap.img = &cub->minimap;
-  minimap.distance = MINIMAP_VIEW_DIST;
-  minimap.size =  (2 * minimap.distance) + 1;
-  minimap.tile_size = get_minimap_offset(&minimap, cub->map_data.width, (int)cub->player.pos_x);
-  minimap.offset_y = get_minimap_offset(&minimap, cub->map_data.height, (int)cub->player.pos_y);
-  minimap.map = generate_minimap(cub, &minimap);
-  if (!minimap.map)
-  {
-    err_msg(NULL, ERR_MALLOC, 0);
-    return ;
-  }
-  if (MINIMAP_DEBUG_MODE)
-    debug_display_minimap(&minimap);
-  render_minimap_image(cub, &minimap);
-  free_matrix((void **)minimap.map);
+	minimap.map = NULL;
+	minimap.img = &cub->minimap;
+	minimap.distance = MINIMAP_VIEW_DIST;
+	minimap.size =  (2 * minimap.distance) + 1;
+	minimap.tile_size = MINIMAP_PIXEL_SIZE / (2 * minimap.distance);
+	minimap.offset_x = get_minimap_offset(&minimap, cub->map_data.width, \
+									(int)cub->player.pos_x);
+	minimap.offset_y = get_minimap_offset(&minimap, cub->map_data.height, \
+									(int)cub->player.pos_y);
+	minimap.map = generate_minimap(cub, &minimap);
+	if (!minimap.map)
+	{
+		err_msg(NULL, ERR_MALLOC, 0);
+		return ;
+	}
+	if (MINIMAP_DEBUG_MODE)
+		debug_display_minimap(&minimap);
+	render_minimap_image(cub, &minimap);
+	free_matrix((void **)minimap.map);
 }

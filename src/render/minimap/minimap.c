@@ -78,7 +78,7 @@ static void	draw_minimap(t_minimap *minimap)
 		x = 0;
 		while (x < minimap->size)
 		{
-			if (!minimap->map[x] || !minimap->map[y][x] \
+			if (!minimap->map[y] || !minimap->map[y][x] \
 				|| minimap->map[y][x] == '\0')
 				break ;
 			draw_minimap_tile(minimap, x, y);

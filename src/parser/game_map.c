@@ -27,7 +27,7 @@ int	count_map_lines(t_cub *cub, char **file, int i)
 			break ;
 		i++;
 	}
-	cub->map_data.index_end_of_map = i;
+	cub->map_data.index_end_of_map = i - get_map_data_location(file);
 	return (i - start);
 }
 

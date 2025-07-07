@@ -210,7 +210,6 @@ void	free_map(int **map, int size);
 bool	valid_char(char c);
 bool	valid_start_point(char c);
 void	last_check(t_file_input *input, t_player_pos *player);
-void	print_input(t_file_input *input);
 bool	check_extension(char *str);
 void	input_obj_init(char *file, t_file_input *input);
 void	pars_input(char *v, t_file_input *input);
@@ -285,5 +284,6 @@ void	debug_display_player(t_cub *cub);
 void	display_data(t_cub *cub);
 int		assign_map_data(t_cub *cub, char **map, int i);
 int		get_path_location(char *line, int i);
+int		get_map_data_location(char **map);
 
 #endif

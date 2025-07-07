@@ -58,7 +58,7 @@ int	is_file_valid(char *arg, bool is_cub)
 	close(fd);
 	if (is_cub && !is_cub_file(arg))
 		return (err_msg(arg, "is not a .cub file", FAILURE));
-	if (!is_cub && is_xpm_file(arg))
+	if (!is_cub && !is_xpm_file(arg))
 		return (err_msg(arg, "is not a .xpm file", FAILURE));
 	return (SUCCESS);
 }

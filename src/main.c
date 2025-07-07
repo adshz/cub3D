@@ -20,21 +20,6 @@ void	init_game(char **argv, t_cub *cub, t_file_input *input)
 	return ;
 }
 
-void	print_input(t_file_input *input)
-{
-	int	i;
-
-	if (!input)
-	{
-		printf("Input is NULL!\n");
-		return ;
-	}
-	printf("Textures Paths: raw data as follows\n");
-	i = -1;
-	while (input->textures_path[++i])
-		printf("  [%d]: here======================= %s\n", i, input->textures_path[i]);
-}
-
 int	main(int argc, char **argv)
 {
 	t_cub			cub;
@@ -45,7 +30,6 @@ int	main(int argc, char **argv)
 	init_game(argv, &cub, &input);
 	parse_file(argv, &cub, &input);
 	assign_data(&cub, &input);
-	// print_input(&input);
 	if (validate_data(&cub) != SUCCESS)
 		return (FAILURE);
 	init_mlx(&cub);

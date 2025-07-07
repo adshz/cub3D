@@ -83,7 +83,6 @@ void	input_obj_init(char *file, t_file_input *input)
 	if (!check_extension(file))
 		something_went_wrong("Wrong file extension!", NULL);
 	input->map_rows = get_total_lines(file);
-  //TODO remove this 
 	input->map_cols = get_columns(file);
 	input->textures_counter = 0;
 	malloc_obj(input);

@@ -53,6 +53,7 @@ void	debug_display_player(t_cub *cub)
 	printf(YELLOW "\n-------- PLAYER --------\n" RESET);
 	printf("Player pos: ");
 	printf("x = %f, y = %f\n", cub->player.pos_x, cub->player.pos_y);
+	printf("Player direction: %c ", cub->player.dir);
 	printf("(x = %f, y = %f)\n", cub->player.dir_x, cub->player.dir_y);
 }
 
