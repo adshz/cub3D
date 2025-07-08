@@ -71,5 +71,6 @@ void	init_data(t_cub *cub)
 	init_mlx_img(&cub->mlx_img);
 	cub->texture_pixels = NULL;
 	cub->textures = NULL;
+	cub->raw_file = NULL;
 	return ;
 }

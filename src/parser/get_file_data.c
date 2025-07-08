@@ -61,6 +61,7 @@ int	get_direction_texture_data(t_texture_data *texture_data, char *line)
 		{
 			tmp = copy_input_struct(line + get_path_location(line, i + 1));
 			texture_data->floor = configure_rgb(tmp);
+			free(tmp);
 			if (texture_data->floor == NULL)
 				return (FAILURE);
 		}
@@ -68,6 +69,7 @@ int	get_direction_texture_data(t_texture_data *texture_data, char *line)
 		{
 			tmp = copy_input_struct(line + get_path_location(line, i + 1));
 			texture_data->ceiling = configure_rgb(tmp);
+			free(tmp);
 			if (texture_data->ceiling == NULL)
 				return (FAILURE); 
 		}

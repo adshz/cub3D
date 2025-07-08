@@ -45,6 +45,7 @@ void	assign_data(t_cub *cub, t_file_input *input)
 {
 	assign_texture_data(cub, input);
 	free_input(input);
+	cub->raw_file = cub->map_data.file;
 	if (get_map_data(cub, cub->map_data.file) == FAILURE)
 		return ((void)free_cub(cub));
 }

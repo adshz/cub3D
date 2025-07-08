@@ -48,8 +48,8 @@ void	free_map_data(t_cub *cub)
 {
 	if (cub->map_data.fd > 0)
 		close(cub->map_data.fd);
-	if (cub->map_data.file)
-		free_matrix((void **)cub->map_data.file);
+	if (cub->raw_file)
+		free_matrix((void **)cub->raw_file);
 	if (cub->map_matrix)
 		free_matrix((void **)cub->map_matrix);
 }

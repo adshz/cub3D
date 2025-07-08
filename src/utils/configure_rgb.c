@@ -44,7 +44,6 @@ static bool	check_has_no_digit(char **rgb_matrix)
 	{
 		j = 0;
 		nbr = rgb_matrix[i] + get_path_location(rgb_matrix[i], 0);
-		nbr = ft_strtrim(nbr, "\n");
 		while (nbr[j])
 		{
 			if (ft_isdigit(nbr[j]) == 0)

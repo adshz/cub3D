@@ -165,6 +165,7 @@ typedef struct s_cub
 	int				**texture_pixels;
 	int				**textures;
 	t_img			minimap;
+	char			**raw_file;
 }	t_cub;
 
 // Old Header need to go through them
