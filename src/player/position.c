@@ -14,8 +14,8 @@
 static bool	is_wall_collision(t_cub *cub, double x, double y)
 {
 	if (cub->map_matrix[(int)y][(int)x] == '0')
-		return (false);
-	return (true);
+		return (true);
+	return (false);
 }
 
 static bool	is_in_map(t_cub *cub, double x, double y)

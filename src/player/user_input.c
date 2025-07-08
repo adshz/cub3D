@@ -20,10 +20,7 @@ static int	key_press_handler(int key, t_cub *cub)
 	if (key == XK_Right)
 		cub->player.rotate += 1;
 	if (key == XK_w)
-	{
-		 printf("W key pressed - setting move_y to 1\n");
 		cub->player.move_y = 1;
-	}
 	if (key == XK_d)
 		cub->player.move_x = 1;
 	if (key == XK_s)
@@ -38,10 +35,7 @@ static int	key_release_handler(int key, t_cub *cub)
 	if (key == XK_Escape)
 		quit_game(cub);
 	if (key == XK_w && cub->player.move_y == 1)
-	{
-		 printf("W key released - resetting move_y\n");
 		cub->player.move_y = 0;
-	}
 	if (key == XK_d && cub->player.move_x == 1)
 		cub->player.move_x -= 1;
 	if (key == XK_s && cub->player.move_y == -1)

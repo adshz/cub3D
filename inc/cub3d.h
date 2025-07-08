@@ -36,7 +36,7 @@
 # define WIN_HEIGHT 512
 # define WIN_WIDTH 1024
 # define TEX_SIZE 64
-# define MOVESPEED 0.0125
+# define MOVESPEED 0.3
 # define ROTSPEED 0.015
 # define ERR_MALLOC "Could not allocate memory"
 # define DIST_EDGE_MOUSE_WRAP 20

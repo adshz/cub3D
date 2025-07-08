@@ -36,8 +36,8 @@ static int	move_right(t_cub *cub)
 	double	new_x;
 	double	new_y;
 
-	new_x = cub->player.pos_x + cub->player.dir_y * MOVESPEED;
-	new_y = cub->player.pos_y - cub->player.dir_x * MOVESPEED;
+	new_x = cub->player.pos_x - cub->player.dir_y * MOVESPEED;
+	new_y = cub->player.pos_y + cub->player.dir_x * MOVESPEED;
 	return (validate_move(cub, new_x, new_y));
 }
 
@@ -46,8 +46,8 @@ static int	move_left(t_cub *cub)
 	double	new_x;
 	double	new_y;
 
-	new_x = cub->player.pos_x - cub->player.dir_y * MOVESPEED;
-	new_y = cub->player.pos_y + cub->player.dir_x * MOVESPEED;
+	new_x = cub->player.pos_x + cub->player.dir_y * MOVESPEED;
+	new_y = cub->player.pos_y - cub->player.dir_x * MOVESPEED;
 	return (validate_move(cub, new_x, new_y));
 }
 
