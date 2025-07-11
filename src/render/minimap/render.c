@@ -55,26 +55,27 @@ static char	*add_minimap_line(t_cub *cub, t_minimap *minimap, int y)
 	return (line);
 }
 
-static char	**generate_minimap(t_cub *cub, t_minimap *minimap)
+static char **generate_minimap(t_cub *cub, t_minimap *minimap)
 {
-	char	**minimap_tmp;
-	int	y;
+    char    **minimap_tmp;
+    int     y;
 
-	minimap_tmp = ft_calloc(minimap->size, sizeof * minimap_tmp);
-	if (!minimap_tmp)
-		return (NULL);
-	y = 0;
-	while (y < minimap->size && y < cub->map_data.height)
-	{
-		minimap_tmp[y] = add_minimap_line(cub, minimap, y);
-		if (!minimap_tmp[y])
-		{
-			free_matrix((void **)minimap_tmp);
-			return (NULL);
-		}
-		y++;
-	}
-	return (minimap_tmp);
+    /* +1 ⇒ minimap_tmp[minimap->size] == NULL (calloc zeroes it) */
+    minimap_tmp = ft_calloc(minimap->size + 1, sizeof * minimap_tmp);
+    if (!minimap_tmp)
+        return (NULL);
+    y = 0;
+    while (y < minimap->size && y < cub->map_data.height)
+    {
+        minimap_tmp[y] = add_minimap_line(cub, minimap, y);
+        if (!minimap_tmp[y])
+        {
+            free_matrix((void **)minimap_tmp); /* safe: sentinel row is NULL */
+            return (NULL);
+        }
+        ++y;
+    }
+    return (minimap_tmp);
 }
 
 void	render_minimap(t_cub *cub)
