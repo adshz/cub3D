@@ -46,17 +46,17 @@ int	get_direction_texture_data(t_texture_data *texture_data, char *line)
 	while (line[i])
 	{
 		if (line[i] == 'N' && line[i + 1] == 'O' && !(texture_data->north))
-			texture_data->north = copy_input_struct(line + \
-										get_path_location(line, i + 2));
+			texture_data->north = copy_input_struct(line
+					+ get_path_location(line, i + 2));
 		else if (line[i] == 'S' && line[i + 1] == 'O' && !(texture_data->south))
-			texture_data->south = copy_input_struct(line + \
-										get_path_location(line, i + 2));
+			texture_data->south = copy_input_struct(line
+					+ get_path_location(line, i + 2));
 		else if (line[i] == 'W' && line[i + 1] == 'E' && !(texture_data->west))
-			texture_data->west = copy_input_struct(line + \
-										get_path_location(line, i + 2));
+			texture_data->west = copy_input_struct(line
+					+ get_path_location(line, i + 2));
 		else if (line[i] == 'E' && line[i + 1] == 'A' && !(texture_data->east))
-			texture_data->east = copy_input_struct(line + \
-										get_path_location(line, i + 2));
+			texture_data->east = copy_input_struct(line
+					+ get_path_location(line, i + 2));
 		else if (!texture_data->floor && line[i] == 'F')
 		{
 			tmp = copy_input_struct(line + get_path_location(line, i + 1));
@@ -71,7 +71,7 @@ int	get_direction_texture_data(t_texture_data *texture_data, char *line)
 			texture_data->ceiling = configure_rgb(tmp);
 			free(tmp);
 			if (texture_data->ceiling == NULL)
-				return (FAILURE); 
+				return (FAILURE);
 		}
 		i++;
 	}
@@ -85,10 +85,9 @@ void	assign_texture_data(t_cub *cub, t_file_input *map_file)
 	i = 0;
 	while (map_file->textures_path[i])
 	{
-		if (1 == get_direction_texture_data(&cub->texture_data, \
-									map_file->textures_path[i]))
+		if (1 == get_direction_texture_data(&cub->texture_data
+				, map_file->textures_path[i]))
 			break ;
 		i++;
 	}
 }
-

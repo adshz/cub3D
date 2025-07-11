@@ -49,7 +49,8 @@ void	parse_map_data(char *filepath, t_cub *cub)
 	col = 0;
 	cub->map_data.line_count = get_total_lines(filepath);
 	cub->map_data.filepath = filepath;
-	cub->map_data.file = ft_calloc(cub->map_data.line_count + 1, sizeof(char *));
+	cub->map_data.file = ft_calloc(cub->map_data.line_count
+			+ 1, sizeof(char *));
 	if (!(cub->map_data.file))
 	{
 		err_msg(NULL, "Failed to allocate memory", FAILURE);

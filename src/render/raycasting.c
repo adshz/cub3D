@@ -66,9 +66,9 @@ static void	perform_dda(t_cub *cub, t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		if (ray->map_y < 0.25 || ray->map_x < 0.25 || \
-			ray->map_y > cub->map_data.height - 0.25 || \
-			ray->map_x > cub->map_data.width - 1.25)
+		if (ray->map_y < 0.25 || ray->map_x < 0.25
+			|| ray->map_y > cub->map_data.height - 0.25
+			|| ray->map_x > cub->map_data.width - 1.25)
 			break ;
 		else if (cub->map_matrix[ray->map_y][ray->map_x] > '0')
 			hit = 1;
@@ -98,7 +98,7 @@ static void	calculate_line_height(t_ray *ray, t_cub *cub, t_player *player)
 int	build_raycasting(t_player *player, t_cub *cub)
 {
 	t_ray	ray;
-	int	x;
+	int		x;
 
 	x = 0;
 	ray = cub->ray;

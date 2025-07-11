@@ -42,9 +42,9 @@ int	get_valid_data(t_cub *cub, char **map, int i, int j)
 	if (ft_isdigit(map[i][j]))
 	{
 		if (assign_map_data(cub, map, i) == FAILURE)
-			return (err_msg(cub->map_data.filepath, \
-				"Please check if map description is wrong or incomplete", \
-				FAILURE));
+			return (err_msg(cub->map_data.filepath,
+					"Please check if map description is wrong or incomplete",
+					FAILURE));
 		return (SUCCESS);
 	}
 	return (CONTINUE);

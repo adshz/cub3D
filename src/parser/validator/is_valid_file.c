@@ -29,8 +29,8 @@ static bool	is_cub_file(char *arg)
 	size_t	len;
 
 	len = ft_strlen(arg);
-	if ((arg[len - 3] != 'c' || arg[len - 2] != 'u' || arg[len - 1] != 'b' || \
-	 arg[len - 4] != '.'))
+	if ((arg[len - 3] != 'c' || arg[len - 2] != 'u'
+			|| arg[len - 1] != 'b' || arg[len - 4] != '.'))
 		return (false);
 	return (true);
 }
@@ -40,8 +40,8 @@ static bool	is_xpm_file(char *arg)
 	size_t	len;
 
 	len = ft_strlen(arg);
-	if ((arg[len - 3] != 'x' || arg[len - 2] != 'p' || arg[len - 1] != 'm' || \
-	 arg[len - 4] != '.'))
+	if ((arg[len - 3] != 'x' || arg[len - 2] != 'p'
+			|| arg[len - 1] != 'm' || arg[len - 4] != '.'))
 		return (false);
 	return (true);
 }

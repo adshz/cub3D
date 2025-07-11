@@ -67,7 +67,7 @@ static int	mouse_motion_handler(int x, int y, t_cub *cub)
 {
 	static int	old_x = WIN_WIDTH / 2;
 
-	wrap_mouse_position(cub,x, y);
+	wrap_mouse_position(cub, x, y);
 	if (old_x == x)
 		return (0);
 	else if (old_x > x)
@@ -82,7 +82,12 @@ void	event_listening(t_cub *cub)
 {
 	mlx_hook(cub->win_ptr, ClientMessage, NoEventMask, quit_game, cub);
 	mlx_hook(cub->win_ptr, KeyPress, KeyPressMask, key_press_handler, cub);
-	mlx_hook(cub->win_ptr, KeyRelease, KeyReleaseMask, key_release_handler, cub);
+	mlx_hook(
+		cub->win_ptr,
+		KeyRelease,
+		KeyReleaseMask,
+		key_release_handler,
+		cub);
 	if (BONUS)
 		mlx_hook(cub->win_ptr, MotionNotify, PointerMotionMask,
 			mouse_motion_handler, cub);

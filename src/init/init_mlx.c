@@ -16,7 +16,8 @@ void	init_mlx(t_cub *cub)
 	cub->mlx_ptr = mlx_init();
 	if (!cub->mlx_ptr)
 		clean_exit(cub, err_msg("mlx", "Fail to start mlx", FAILURE));
-	cub->win_ptr = mlx_new_window(cub->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "42Cub3D");
+	cub->win_ptr = mlx_new_window(cub->mlx_ptr, WIN_WIDTH,
+			WIN_HEIGHT, "42Cub3D");
 	if (!cub->win_ptr)
 		clean_exit(cub, err_msg("mlx", "Fail to create a mlx window", FAILURE));
 	if (BONUS)

@@ -19,9 +19,8 @@ int	*xpm_to_img(t_cub *cub, char *path)
 	int		x;
 
 	init_texture_img(cub, &tmp, path);
-	buffer = ft_calloc(1, \
-					sizeof * buffer \
-					* cub->texture_data.size * cub->texture_data.size);
+	buffer = ft_calloc(1,
+			sizeof * buffer * cub->texture_data.size * cub->texture_data.size);
 	if (!buffer)
 		clean_exit(cub, err_msg(NULL, ERR_MALLOC, 1));
 	y = 0;
@@ -30,8 +29,8 @@ int	*xpm_to_img(t_cub *cub, char *path)
 		x = 0;
 		while (x < cub->texture_data.size)
 		{
-			buffer[y * cub->texture_data.size + x] = \
-				tmp.img_initial_data_addr[y * cub->texture_data.size + x];
+			buffer[y * cub->texture_data.size + x]
+				= tmp.img_initial_data_addr[y * cub->texture_data.size + x];
 			++x;
 		}
 		y++;

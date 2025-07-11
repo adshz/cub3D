@@ -19,8 +19,8 @@ int	is_rgb_valid(int *rgb)
 	while (i < 3)
 	{
 		if (rgb[i] < 0 || rgb[i] > 255)
-			return (ft_putnbr_fd(rgb[i], 2), \
-			err_msg(NULL, " is invalid RGB value", FAILURE));
+			return (ft_putnbr_fd(rgb[i], 2),
+				err_msg(NULL, " is invalid RGB value", FAILURE));
 		i++;
 	}
 	return (SUCCESS);

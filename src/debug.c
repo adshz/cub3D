@@ -14,7 +14,7 @@
 void	debug_print_char_matrix(char **matrix)
 {
 	int	i;
-	
+
 	printf("\n");
 	i = 0;
 	while (matrix[i])

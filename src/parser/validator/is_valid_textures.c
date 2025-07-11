@@ -32,26 +32,27 @@ int	validate_data(t_cub *cub)
 	if (is_texture_valid(cub, &cub->texture_data) == FAILURE)
 		return (free_cub(cub));
 	cub->texture_data.hex_floor = convert_rgb_to_hex(cub->texture_data.floor);
-	cub->texture_data.hex_ceiling = convert_rgb_to_hex(cub->texture_data.ceiling);
+	cub->texture_data.hex_ceiling = convert_rgb_to_hex(
+			cub->texture_data.ceiling);
 	init_player_direction(cub);
 	if (DEBUG_MODE)
 		display_data(cub);
-  return (SUCCESS);
+	return (SUCCESS);
 }
 
 int	is_texture_valid(t_cub *cub, t_texture_data *textures)
 {
-	if (!textures->north || !textures->south || !textures->west \
-		|| !textures->east)
+	if (!textures->north || !textures->south
+		|| !textures->west || !textures->east)
 		return (err_msg(cub->map_data.filepath, "Textures missing", FAILURE));
 	if (!textures->floor || !textures->ceiling)
 		return (err_msg(cub->map_data.filepath, "Colours missing", FAILURE));
-	if (is_file_valid(textures->north, false) == FAILURE || \
-		is_file_valid(textures->south, false) == FAILURE || \
-		is_file_valid(textures->west, false) == FAILURE || \
-		is_file_valid(textures->east, false) == FAILURE || \
-		is_rgb_valid(textures->floor) == FAILURE || \
-		is_rgb_valid(textures->ceiling) == FAILURE)
+	if (is_file_valid(textures->north, false) == FAILURE
+		|| is_file_valid(textures->south, false) == FAILURE
+		|| is_file_valid(textures->west, false) == FAILURE
+		|| is_file_valid(textures->east, false) == FAILURE
+		|| is_rgb_valid(textures->floor) == FAILURE
+		|| is_rgb_valid(textures->ceiling) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
 }

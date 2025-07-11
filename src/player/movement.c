@@ -18,7 +18,7 @@ static int	move_forward(t_cub *cub)
 
 	new_x = cub->player.pos_x + cub->player.dir_x * MOVESPEED;
 	new_y = cub->player.pos_y + cub->player.dir_y * MOVESPEED;
-	return (validate_move(cub, new_x ,new_y));
+	return (validate_move(cub, new_x, new_y));
 }
 
 static int	move_backward(t_cub *cub)
@@ -52,7 +52,7 @@ static int	move_left(t_cub *cub)
 }
 
 int	move_player(t_cub *cub)
-{ 
+{
 	int	moved;
 
 	moved = 0;

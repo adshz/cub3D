@@ -39,7 +39,7 @@ static void	render_frame(t_cub *cub)
 			set_frame_image_pixel(cub, &image, x, y);
 			x++;
 		}
-	y++;
+		y++;
 	}
 	mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr, image.img_ptr, 0, 0);
 	mlx_destroy_image(cub->mlx_ptr, image.img_ptr);

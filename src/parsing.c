@@ -40,12 +40,12 @@ void	texture_assignment(char *line, t_file_input *input)
 
 void	line_assigment(char *line, t_file_input *input)
 {
-  int i;
+	int	i;
 
-  i = 0;
+	i = 0;
 	while (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
 		i++;
-  line = line + i;
+	line = line + i;
 	if (str_cmp(line, "NO", 2) || str_cmp(line, "SO", 2)
 		|| str_cmp(line, "WE", 2) || str_cmp(line, "EA", 2)
 		|| str_cmp(line, "F", 1) || str_cmp(line, "C", 1))

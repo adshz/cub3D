@@ -15,8 +15,8 @@ static int	check_top_or_bottom(char **map_matrix, int i, int j)
 {
 	if (!map_matrix || !map_matrix[i] || !map_matrix[i][j])
 		return (FAILURE);
-	while (map_matrix[i][j] == ' ' || map_matrix[i][j] == '\t' || \
-		map_matrix[i][j] == '\r' || map_matrix[i][j] == '\v' || \
+	while (map_matrix[i][j] == ' ' || map_matrix[i][j] == '\t' ||
+		map_matrix[i][j] == '\r' || map_matrix[i][j] == '\v' ||
 		map_matrix[i][j] == '\f')
 		j++;
 	while (map_matrix[i][j])

@@ -17,22 +17,20 @@ void	init_img(t_cub *cub, t_img *img, int width, int height)
 	img->img_ptr = mlx_new_image(cub->mlx_ptr, width, height);
 	if (!img->img_ptr)
 		clean_exit(cub, err_msg("mlx", "Minilibx image creation failure", 1));
-	img->img_initial_data_addr = (int *)mlx_get_data_addr(img->img_ptr, &img->bpp, \
-												&img->size_line, &img->endian);
+	img->img_initial_data_addr = (int *)mlx_get_data_addr(img->img_ptr,
+			&img->bpp, &img->size_line, &img->endian);
 	return ;
 }
 
 void	init_texture_img(t_cub *cub, t_img *image, char *filepath)
 {
 	init_mlx_img(image);
-	image->img_ptr = mlx_xpm_file_to_image(cub->mlx_ptr, filepath, \
-									&cub->texture_data.size, \
-										&cub->texture_data.size);
+	image->img_ptr = mlx_xpm_file_to_image(cub->mlx_ptr, filepath,
+			&cub->texture_data.size, &cub->texture_data.size);
 	if (image->img_ptr == NULL)
 		clean_exit(cub, err_msg("mlx", "Failed to create mlx image", 1));
-	image->img_initial_data_addr = (int *)mlx_get_data_addr(image->img_ptr, \
-														&image->bpp, \
-										&image->size_line, &image->endian);
+	image->img_initial_data_addr = (int *)mlx_get_data_addr(image->img_ptr,
+			&image->bpp, &image->size_line, &image->endian);
 	return ;
 }
 

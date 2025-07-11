@@ -46,11 +46,10 @@ int	validate_move(t_cub *cub, double new_x, double new_y)
 		cub->player.pos_x = new_x;
 		moved = 1;
 	}
-	if (is_valid_pos(cub, cub->player.pos_x , new_y))
+	if (is_valid_pos(cub, cub->player.pos_x, new_y))
 	{
 		cub->player.pos_y = new_y;
 		moved = 1;
 	}
 	return (moved);
 }
-

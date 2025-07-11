@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "cub3d.h"
 
-void  init_ray(t_ray *ray)
+void	init_ray(t_ray *ray)
 {
 	ray->camera_x = 0;
 	ray->dir_x = 0;

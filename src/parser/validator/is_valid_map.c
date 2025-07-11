@@ -23,16 +23,16 @@ static int	check_map_elements(t_cub *cub, char **map_matrix)
 		j = 0;
 		while (map_matrix[i][j])
 		{
-			while (map_matrix[i][j] == ' ' || map_matrix[i][j] == '\t' || \
-				map_matrix[i][j] == '\r' || map_matrix[i][j] == '\v' || \
-				map_matrix[i][j] == '\f')
+			while (map_matrix[i][j] == ' '
+				|| map_matrix[i][j] == '\t' || map_matrix[i][j] == '\r'
+				|| map_matrix[i][j] == '\v' || map_matrix[i][j] == '\f')
 				j++;
 			if (!(ft_strchr("10NSEW", map_matrix[i][j])))
-				return (err_msg(cub->map_data.filepath, \
-					"Invalid character in map", FAILURE));
+				return (err_msg(cub->map_data.filepath
+						, "Invalid character in map", FAILURE));
 			if (ft_strchr("NSEW", map_matrix[i][j]) && cub->player.dir != '0')
-				return (err_msg(cub->map_data.filepath, \
-					"Only one player is allowed", FAILURE));
+				return (err_msg(cub->map_data.filepath
+						, "Only one player is allowed", FAILURE));
 			if (ft_strchr("NSEW", map_matrix[i][j]) && cub->player.dir == '0')
 				cub->player.dir = map_matrix[i][j];
 			j++;
@@ -49,12 +49,12 @@ static int	is_position_valid(t_cub *cub, char **map_matrix)
 
 	i = (int)cub->player.pos_y;
 	j = (int)cub->player.pos_x;
-	if (ft_strlen(map_matrix[i - 1]) < (size_t)j || \
-		ft_strlen(map_matrix[i + 1]) < (size_t)j || \
-		is_whitespace(map_matrix[i][j - 1]) == SUCCESS || \
-		is_whitespace(map_matrix[i][j + 1]) == SUCCESS || \
-		is_whitespace(map_matrix[i - 1][j]) == SUCCESS || \
-		is_whitespace(map_matrix[i + 1][j]) == SUCCESS)
+	if (ft_strlen(map_matrix[i - 1]) < (size_t)j
+		|| ft_strlen(map_matrix[i + 1]) < (size_t)j
+		|| is_whitespace(map_matrix[i][j - 1]) == SUCCESS
+		|| is_whitespace(map_matrix[i][j + 1]) == SUCCESS
+		|| is_whitespace(map_matrix[i - 1][j]) == SUCCESS
+		|| is_whitespace(map_matrix[i + 1][j]) == SUCCESS)
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -65,8 +65,8 @@ static int	check_player_position(t_cub *cub, char **map_matrix)
 	int	j;
 
 	if (cub->player.dir == '0')
-		return (err_msg(cub->map_data.filepath, \
-				"Map has no player position (N, S, E, W)", FAILURE));
+		return (err_msg(cub->map_data.filepath
+				, "Map has no player position (N, S, E, W)", FAILURE));
 	i = 0;
 	while (map_matrix[i])
 	{
@@ -84,8 +84,8 @@ static int	check_player_position(t_cub *cub, char **map_matrix)
 		i++;
 	}
 	if (is_position_valid(cub, map_matrix) == FAILURE)
-		return (err_msg(cub->map_data.filepath, \
-				"Invalid player position", FAILURE));
+		return (err_msg(cub->map_data.filepath
+				, "Invalid player position", FAILURE));
 	return (SUCCESS);
 }
 
@@ -100,9 +100,9 @@ static int	check_map_data_position(t_map_data *map_data)
 		j = 0;
 		while (map_data->file[i][j])
 		{
-			if (map_data->file[i][j] == ' ' || map_data->file[i][j] == '\t' || \
-				map_data->file[i][j] == '\r' || map_data->file[i][j] == '\v' || \
-				map_data->file[i][j] == '\f')
+			if (map_data->file[i][j] == ' ' || map_data->file[i][j] == '\t'
+				|| map_data->file[i][j] == '\r' || map_data->file[i][j] == '\v'
+				|| map_data->file[i][j] == '\f')
 				return (FAILURE);
 			j++;
 		}
@@ -124,7 +124,7 @@ int	is_map_valid(t_cub *cub, char **map_matrix)
 	if (check_player_position(cub, map_matrix) == FAILURE)
 		return (FAILURE);
 	if (check_map_data_position(&cub->map_data) == FAILURE)
-		return (err_msg(cub->map_data.filepath, \
-				"Map data is not the end", FAILURE));
+		return (err_msg(cub->map_data.filepath
+				, "Map data is not the end", FAILURE));
 	return (SUCCESS);
 }

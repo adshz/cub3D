@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 #include "cub3d.h"
 
-static void set_minimap_tile_pixels(t_minimap *minimap, int x, \
-											int y, int color)
+static void	set_minimap_tile_pixels(
+			t_minimap *minimap, int x, int y, int color)
 {
 	int	i;
 	int	j;
@@ -33,17 +33,20 @@ static void set_minimap_tile_pixels(t_minimap *minimap, int x, \
 static void	draw_minimap_tile(t_minimap *minimap, int x, int y)
 {
 	if (minimap->map[y][x] == 'P')
-		set_minimap_tile_pixels(minimap, x * minimap->tile_size, \
-						y * minimap->tile_size, MINIMAP_COLOR_PLAYER);
+		set_minimap_tile_pixels(
+			minimap, x * minimap->tile_size,
+			y * minimap->tile_size, MINIMAP_COLOR_PLAYER);
 	else if (minimap->map[y][x] == '1')
-		set_minimap_tile_pixels(minimap, x * minimap->tile_size, \
-						y * minimap->tile_size, MINIMAP_COLOR_WALL);
+		set_minimap_tile_pixels(
+			minimap, x * minimap->tile_size,
+			y * minimap->tile_size, MINIMAP_COLOR_WALL);
 	else if (minimap->map[y][x] == '0')
-		set_minimap_tile_pixels(minimap, x * minimap->tile_size, \
-						y * minimap->tile_size, MINIMAP_COLOR_FLOOR);
+		set_minimap_tile_pixels(
+			minimap, x * minimap->tile_size,
+			y * minimap->tile_size, MINIMAP_COLOR_FLOOR);
 	else if (minimap->map[y][x] == ' ')
-		set_minimap_tile_pixels(minimap, x * minimap->tile_size, \
-						y * minimap->tile_size, MINIMAP_COLOR_SPACE);
+		set_minimap_tile_pixels(minimap, x * minimap->tile_size,
+			y * minimap->tile_size, MINIMAP_COLOR_SPACE);
 }
 
 static void	set_minimap_border_image_pixels(t_minimap *minimap, int color)
@@ -78,7 +81,8 @@ static void	draw_minimap(t_minimap *minimap)
 		x = 0;
 		while (x < minimap->size)
 		{
-			if (!minimap->map[y] || !minimap->map[y][x] \
+			if (!minimap->map[y]
+				|| !minimap->map[y][x]
 				|| minimap->map[y][x] == '\0')
 				break ;
 			draw_minimap_tile(minimap, x, y);

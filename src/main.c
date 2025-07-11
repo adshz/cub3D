@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 	transform_textures(&cub);
 	render_game(&cub);
 	event_listening(&cub);
-	mlx_loop_hook(cub.mlx_ptr, render_wrapper,&cub);
+	mlx_loop_hook(cub.mlx_ptr, render_wrapper, &cub);
 	mlx_loop(cub.mlx_ptr);
 	return (0);
 }

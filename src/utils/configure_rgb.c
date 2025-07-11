@@ -80,4 +80,3 @@ int	*configure_rgb(char *line)
 		return (NULL);
 	return (convert_rgb_type(rgb_split, rgb));
 }
-

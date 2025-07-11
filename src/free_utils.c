@@ -44,8 +44,8 @@ void	malloc_obj(t_file_input *input)
 	j = 0;
 	input->textures_path = malloc(sizeof(char *) * 7);
 	if (!input->textures_path)
-		something_went_wrong("Memory allocation failed for textures path!", \
-				NULL);
+		something_went_wrong(
+			"Memory allocation failed for textures path!", NULL);
 	while (j < 6)
 	{
 		input->textures_path[j] = NULL;
@@ -64,8 +64,8 @@ int	get_columns(char *file)
 	line = NULL;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		something_went_wrong("File doesn't exist! Stop trolling, please.", \
-				NULL);
+		something_went_wrong(
+			"File doesn't exist! Stop trolling, please.", NULL);
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -102,12 +102,4 @@ void	free_input(t_file_input *input)
 		free(input->textures_path);
 		input->textures_path = NULL;
 	}
-	// if (input->map)
-	// {
-	// 	i = -1;
-	// 	while (++i < input->map_rows)
-	// 		free(input->map[i]);
-	// 	free(input->map);
-	// 	input->map = NULL;
-	// }
 }

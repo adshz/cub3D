@@ -20,7 +20,7 @@ int	count_map_lines(t_cub *cub, char **file, int i)
 	while (file[i])
 	{
 		j = 0;
-		while (file[i][j] == ' ' || file[i][j] == '\t' || file[i][j] == '\r' \
+		while (file[i][j] == ' ' || file[i][j] == '\t' || file[i][j] == '\r'
 			|| file[i][j] == '\v' || file[i][j] == '\f')
 			j++;
 		if (file[i][j] != '1')
@@ -51,14 +51,14 @@ static void	turn_space_to_wall(t_cub *cub)
 	while (cub->map_matrix[i])
 	{
 		j = 0;
-		while (cub->map_matrix[i][j] == ' ' || cub->map_matrix[i][j] == '\t' \
-			|| cub->map_matrix[i][j] == '\r' || cub->map_matrix[i][j] == '\v' \
+		while (cub->map_matrix[i][j] == ' ' || cub->map_matrix[i][j] == '\t'
+			|| cub->map_matrix[i][j] == '\r' || cub->map_matrix[i][j] == '\v'
 			|| cub->map_matrix[i][j] == '\f')
 			j ++;
 		while (cub->map_matrix[i][++j])
 		{
-			if (cub->map_matrix[i][j] == ' ' && \
-				j != cub->map_matrix[i][ft_strlen(cub->map_matrix[i]) -1])
+			if (cub->map_matrix[i][j] == ' '
+				&& j != cub->map_matrix[i][ft_strlen(cub->map_matrix[i]) - 1])
 				cub->map_matrix[i][j] = '1';
 		}
 		i++;
@@ -72,4 +72,3 @@ int	assign_map_data(t_cub *cub, char **map, int i)
 	turn_space_to_wall(cub);
 	return (SUCCESS);
 }
-

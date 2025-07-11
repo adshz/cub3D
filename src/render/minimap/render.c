@@ -13,11 +13,11 @@
 
 static int	get_minimap_offset(t_minimap *minimap, int mapsize, int pos)
 {
-  if (pos > minimap->distance && mapsize - pos > minimap->distance + 1)
-    return (pos - minimap->distance);
-  if (pos > minimap->distance && mapsize - pos <= minimap->distance + 1)
-    return (mapsize - minimap->size);
-  return (0);
+	if (pos > minimap->distance && mapsize - pos > minimap->distance + 1)
+		return (pos - minimap->distance);
+	if (pos > minimap->distance && mapsize - pos <= minimap->distance + 1)
+		return (mapsize - minimap->size);
+	return (0);
 }
 
 static bool	is_valid_map_coord(int coord, int size)
@@ -30,7 +30,7 @@ static bool	is_valid_map_coord(int coord, int size)
 static char	*add_minimap_line(t_cub *cub, t_minimap *minimap, int y)
 {
 	char	*line;
-	int	x;
+	int		x;
 
 	line = ft_calloc(minimap->size + 1, sizeof * line);
 	if (!line)
@@ -44,9 +44,11 @@ static char	*add_minimap_line(t_cub *cub, t_minimap *minimap, int y)
 		else if ((int)cub->player.pos_x == (x + minimap->offset_x)
 			&& (int)cub->player.pos_y == (y + minimap->offset_y))
 			line[x] = 'P';
-		else if (cub->map_matrix[y + minimap->offset_y][x + minimap->offset_x] == '1')
+		else if (cub->map_matrix[y + minimap->offset_y]
+			[x + minimap->offset_x] == '1')
 			line[x] = '1';
-		else if (cub->map_matrix[y + minimap->offset_y][x + minimap->offset_x] == '0')
+		else if (cub->map_matrix[y + minimap->offset_y]
+			[x + minimap->offset_x] == '0')
 			line[x] = '0';
 		else
 			line[x] = '\0';
@@ -55,27 +57,26 @@ static char	*add_minimap_line(t_cub *cub, t_minimap *minimap, int y)
 	return (line);
 }
 
-static char **generate_minimap(t_cub *cub, t_minimap *minimap)
+static char	**generate_minimap(t_cub *cub, t_minimap *minimap)
 {
-    char    **minimap_tmp;
-    int     y;
+	char	**minimap_tmp;
+	int		y;
 
-    /* +1 ⇒ minimap_tmp[minimap->size] == NULL (calloc zeroes it) */
-    minimap_tmp = ft_calloc(minimap->size + 1, sizeof * minimap_tmp);
-    if (!minimap_tmp)
-        return (NULL);
-    y = 0;
-    while (y < minimap->size && y < cub->map_data.height)
-    {
-        minimap_tmp[y] = add_minimap_line(cub, minimap, y);
-        if (!minimap_tmp[y])
-        {
-            free_matrix((void **)minimap_tmp); /* safe: sentinel row is NULL */
-            return (NULL);
-        }
-        ++y;
-    }
-    return (minimap_tmp);
+	minimap_tmp = ft_calloc(minimap->size + 1, sizeof * minimap_tmp);
+	if (!minimap_tmp)
+		return (NULL);
+	y = 0;
+	while (y < minimap->size && y < cub->map_data.height)
+	{
+		minimap_tmp[y] = add_minimap_line(cub, minimap, y);
+		if (!minimap_tmp[y])
+		{
+			free_matrix((void **)minimap_tmp);
+			return (NULL);
+		}
+		++y;
+	}
+	return (minimap_tmp);
 }
 
 void	render_minimap(t_cub *cub)
@@ -85,12 +86,14 @@ void	render_minimap(t_cub *cub)
 	minimap.map = NULL;
 	minimap.img = &cub->minimap;
 	minimap.distance = MINIMAP_VIEW_DIST;
-	minimap.size =  (2 * minimap.distance) + 1;
+	minimap.size = (2 * minimap.distance) + 1;
 	minimap.tile_size = MINIMAP_PIXEL_SIZE / (2 * minimap.distance);
-	minimap.offset_x = get_minimap_offset(&minimap, cub->map_data.width, \
-									(int)cub->player.pos_x);
-	minimap.offset_y = get_minimap_offset(&minimap, cub->map_data.height, \
-									(int)cub->player.pos_y);
+	minimap.offset_x = get_minimap_offset(
+			&minimap, cub->map_data.width,
+			(int)cub->player.pos_x);
+	minimap.offset_y = get_minimap_offset(
+			&minimap, cub->map_data.height,
+			(int)cub->player.pos_y);
 	minimap.map = generate_minimap(cub, &minimap);
 	if (!minimap.map)
 	{

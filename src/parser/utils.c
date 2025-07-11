@@ -27,7 +27,7 @@ size_t	find_biggest_len(t_map_data *map_data, int i)
 
 int	is_whitespace(char c)
 {
-	if (c != ' ' && c != '\t' && c != '\r' && c != '\n' \
+	if (c != ' ' && c != '\t' && c != '\r' && c != '\n'
 		&& c != '\v' && c != '\f')
 		return (FAILURE);
 	return (SUCCESS);

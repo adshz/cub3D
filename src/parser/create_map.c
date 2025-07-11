@@ -36,8 +36,6 @@ int	get_map_data(t_cub *cub, char **map)
 	i = get_map_data_location(map);
 	while (map[i])
 	{
-		// TODO: I can change this to a raw file
-		// so we can also focus on 
 		cub->map_data.file = cub->map_data.file + i;
 		j = get_path_location(map[i], 0);
 		while (map[i][j])
