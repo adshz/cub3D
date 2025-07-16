@@ -40,6 +40,27 @@ int	validate_data(t_cub *cub)
 	return (SUCCESS);
 }
 
+int	parse_rgb(int **target, char *line, int index)
+{
+	char	*tmp;
+
+	if (!(*target))
+	{
+		tmp = copy_input_struct(line + get_path_location(line, index));
+		*target = configure_rgb(tmp);
+		free(tmp);
+		if (!(*target))
+			return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
+void	parse_texture(char **target, char *line, int index)
+{
+	if (!(*target))
+		*target = copy_input_struct(line + get_path_location(line, index));
+}
+
 int	is_texture_valid(t_cub *cub, t_texture_data *textures)
 {
 	if (!textures->north || !textures->south

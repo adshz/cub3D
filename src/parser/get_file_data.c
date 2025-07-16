@@ -18,7 +18,7 @@ int	get_path_location(char *line, int i)
 	return (i);
 }
 
-static char	*copy_input_struct(char *source)
+char	*copy_input_struct(char *source)
 {
 	char	*tmp;
 	int		i;
@@ -38,41 +38,25 @@ static char	*copy_input_struct(char *source)
 
 int	get_direction_texture_data(t_texture_data *texture_data, char *line)
 {
-	int		i;
-	char	*tmp;
+	int	i;
 
 	i = 0;
-	tmp = NULL;
 	while (line[i])
 	{
-		if (line[i] == 'N' && line[i + 1] == 'O' && !(texture_data->north))
-			texture_data->north = copy_input_struct(line
-					+ get_path_location(line, i + 2));
-		else if (line[i] == 'S' && line[i + 1] == 'O' && !(texture_data->south))
-			texture_data->south = copy_input_struct(line
-					+ get_path_location(line, i + 2));
-		else if (line[i] == 'W' && line[i + 1] == 'E' && !(texture_data->west))
-			texture_data->west = copy_input_struct(line
-					+ get_path_location(line, i + 2));
-		else if (line[i] == 'E' && line[i + 1] == 'A' && !(texture_data->east))
-			texture_data->east = copy_input_struct(line
-					+ get_path_location(line, i + 2));
-		else if (!texture_data->floor && line[i] == 'F')
-		{
-			tmp = copy_input_struct(line + get_path_location(line, i + 1));
-			texture_data->floor = configure_rgb(tmp);
-			free(tmp);
-			if (texture_data->floor == NULL)
-				return (FAILURE);
-		}
-		else if (!texture_data->ceiling && line[i] == 'C')
-		{
-			tmp = copy_input_struct(line + get_path_location(line, i + 1));
-			texture_data->ceiling = configure_rgb(tmp);
-			free(tmp);
-			if (texture_data->ceiling == NULL)
-				return (FAILURE);
-		}
+		if (line[i] == 'N' && line[i + 1] == 'O')
+			parse_texture(&texture_data->north, line, i + 2);
+		else if (line[i] == 'S' && line[i + 1] == 'O')
+			parse_texture(&texture_data->south, line, i + 2);
+		else if (line[i] == 'W' && line[i + 1] == 'E')
+			parse_texture(&texture_data->west, line, i + 2);
+		else if (line[i] == 'E' && line[i + 1] == 'A')
+			parse_texture(&texture_data->east, line, i + 2);
+		else if (line[i] == 'F'
+			&& parse_rgb(&texture_data->floor, line, i + 1) == FAILURE)
+			return (FAILURE);
+		else if (line[i] == 'C'
+			&& parse_rgb(&texture_data->ceiling, line, i + 1) == FAILURE)
+			return (FAILURE);
 		i++;
 	}
 	return (SUCCESS);

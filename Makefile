@@ -54,6 +54,7 @@ SRCS = \
 		parser/validator/is_valid_textures.c \
 		parser/validator/is_valid_file.c \
 		parser/validator/is_valid_map.c \
+		parser/validator/map_elem.c \
 		player/direction.c \
 		player/movement.c \
 		player/position.c \
@@ -64,14 +65,15 @@ SRCS = \
 		render/texture.c \
 		render/utils.c \
 		render/minimap/minimap.c \
-		render/minimap/render.c \
+		render/minimap/mini_map_gen.c \
+		render/minimap/mini_map_utils.c \
+		render/minimap/mini_map_render.c \
 		utils/ft_errors.c \
 		utils/clean.c \
 		utils/fill_matrix.c \
 		utils/configure_rgb.c \
 		utils/quit_game.c \
 		debug.c \
-		floodfill.c \
 		get_next_line_utils.c \
 		main.c \
 		utils.c \
