@@ -20,7 +20,7 @@ INCLUDE = -I./inc  \
 	  -I./minilibx-linux
 
 # Executable name
-NAME = Cub3D
+NAME = cub3D
 
 # Source files
 SRC_DIR = ./src
