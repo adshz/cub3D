@@ -12,6 +12,7 @@
 
 #ifndef CUB3D_H
 # define CUB3D_H
+# define BONUS 1
 
 /* Libraries */
 # include <errno.h>
@@ -47,6 +48,7 @@
 # define MINIMAP_COLOR_SPACE 0x404040
 # define MINIMAP_DEBUG_MODE 0
 # define DEBUG_MODE 1
+# define DIST_EDGE_MOUSE_WRAP 20
 
 /* Enums */
 enum e_signpost
@@ -77,6 +79,37 @@ typedef struct s_map_data
 	int		width;
 	int		index_end_of_map;
 }	t_map_data;
+
+typedef struct s_file_input
+{
+	int		textures_counter;
+	int		map_rows;
+	int		map_cols;
+	char	player_spawn_direction;
+	char	**textures_path;
+	int		**map;
+}	t_file_input;
+
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}	t_point;
+
+typedef struct s_flood_fill_data
+{
+	t_point	*queue;
+	int		**map;
+	int		*front;
+	int		*rear;
+	int		size;
+}	t_flood_fill_data;
+
+typedef struct s_player_pos
+{
+	int	player_x_pox;
+	int	player_y_pos;
+}	t_player_pos;
 
 typedef struct s_player
 {
@@ -173,12 +206,13 @@ typedef struct s_cub
 /* Function Prototypes */
 
 /* Parsing */
-void	parse_file(char **argv, t_cub *cub, void *input);
+void	parse_file(char **argv, t_cub *cub, t_file_input *input);
 void	parse_map_data(char *filepath, t_cub *cub);
-void	assign_texture_data(t_cub *cub, void *map_file);
+void	assign_texture_data(t_cub *cub, t_file_input *map_file);
 void	parse_texture(char **target, char *line, int index);
 int		parse_rgb(int **target, char *line, int index);
 char	*copy_input_struct(char *source);
+void	pars_input(char *file, t_file_input *input);
 
 /* Validation */
 int		is_map_valid(t_cub *cub, char **map_matrix);
@@ -199,15 +233,40 @@ void	init_img(t_cub *cub, t_img *img, int width, int height);
 void	init_texture_data(t_texture_data *texture_data);
 void	init_player_direction(t_cub *cub);
 void	init_mlx(t_cub *cub);
+void	init_mlx_img(t_img *mlx_img);
+void	init_texture_img(t_cub *cub, t_img *image, char *filepath);
 
 /* Raycasting */
 int		build_raycasting(t_player *player, t_cub *cub);
+void	init_ray(t_ray *ray);
+void	update_texture_pixels(t_cub *cub, \
+						t_texture_data *texture, t_ray *ray, int x);
+
+/* Textures */
+int		is_texture_valid(t_cub *cub, t_texture_data *textures);
+int		*configure_rgb(char *line);
+int		is_rgb_valid(int *rgb);
+void	init_texture_pixels(t_cub *cub);
 
 /* Utilities */
 void	*ft_calloc(size_t nmemb, size_t size);
 void	free_matrix(void **matrix);
+void	display_data(t_cub *cub);
+void	fill_matrix(int row, int column, int i, t_cub *cub);
+void	free_input(t_file_input *input);
+void	assign_data(t_cub *cub, t_file_input *input);
+void	transform_textures(t_cub *cub);
+void	event_listening(t_cub *cub);
+void	line_check(char *line, int *max);
+bool	str_cmp(char *s1, char *s2, int k);
+bool	check_extension(char *str);
+int		get_path_location(char *line, int i);
+int		get_valid_data(t_cub *cub, char **map, int i, int j);
 int		err_msg(char *msg, char *str, int code);
-unsigned long	convert_rgb_to_hex(int *rgb_matrix);
+int		is_whitespace(char c);
+int		get_total_lines(char *filepath);
+int		validate_data(t_cub *cub);
+int		quit_game(t_cub *cub);
 
 /* Movement */
 int		move_player(t_cub *cub);
@@ -238,5 +297,14 @@ void	clean_exit(t_cub *cub, int code);
 int		free_cub(t_cub *cub);
 void	free_map_data(t_cub *cub);
 void	free_texture_data(t_texture_data *texture_data);
+
+/* libft */
+void	*ft_memset(void *s, int c, size_t n);
+void	ft_putnbr_fd(int n, int fd);
+void	ft_putstr_fd(char *s, int fd);
+
+/* extra */
+void	input_obj_init(char *file, t_file_input *input);
+void	something_went_wrong(char *str, t_file_input *input);
 
 #endif

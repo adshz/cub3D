@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "cub3d.h"
 
-unsigned long	convert_rgb_to_hex(int *rgb_matrix)
+static unsigned long	convert_rgb_to_hex(int *rgb_matrix)
 {
 	unsigned long	result;
 	int				r;
