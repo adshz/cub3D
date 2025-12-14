@@ -65,12 +65,8 @@ This produces the `cub3D` executable.
 
 **Examples:**
 ```bash
-# macOS (Apple Silicon & Intel)
-./cub3D maps/macos/simple.cub
-./cub3D maps/macos/demo.cub
-
-# Linux
-./cub3D maps/linux/works.cub
+./cub3D maps/classic/wolfenstein.cub   # Simple solid-color textures
+./cub3D maps/detailed/works.cub        # Detailed wolfenstein textures
 ```
 
 ## Controls
@@ -144,11 +140,11 @@ Cub3d/
 │   └── cub_libft/     # Custom C library functions
 ├── inc/               # Header files
 ├── maps/
-│   ├── macos/         # Maps for macOS (Apple Silicon & Intel)
-│   └── linux/         # Maps for Linux systems
+│   ├── classic/       # Maps with simple solid-color textures
+│   └── detailed/      # Maps with detailed wolfenstein textures
 ├── textures/
-│   ├── simple/        # Simple solid-color textures (macOS)
-│   └── wolfenstein/   # Detailed textures (Linux)
+│   ├── simple/        # Simple solid-color textures (PNG)
+│   └── wolfenstein/   # Detailed wolfenstein textures (PNG)
 └── Makefile
 ```
 
