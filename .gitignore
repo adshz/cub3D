@@ -1,8 +1,28 @@
+# Object files
 *.o
-*.pdf
+obj/
+
+# Executables
+cub3D
 game
-Cub3D
-*.txt
+
+# Libraries
+MLX42/
 minilibx-linux/
-.vscode
-.swp
+
+# macOS
+.DS_Store
+*.dSYM/
+
+# IDE/Editor
+.vscode/
+*.swp
+*~
+tags
+
+# Documents
+*.pdf
+*.txt
+
+# Build artifacts
+build/

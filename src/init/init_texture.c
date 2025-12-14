@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_texture.c                                     :+:      :+:    :+:   */
+/*   init_texture.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,43 +11,53 @@
 /* ************************************************************************** */
 #include "cub3d.h"
 
-int	*xpm_to_img(t_cub *cub, char *path)
+static uint32_t	get_pixel_color(mlx_texture_t *tex, int x, int y)
 {
-	t_img	tmp;
-	int		*buffer;
-	int		y;
-	int		x;
+	uint8_t		*pixel;
+	uint32_t	color;
 
-	init_texture_img(cub, &tmp, path);
-	buffer = ft_calloc(1,
-			sizeof * buffer * cub->texture_data.size * cub->texture_data.size);
+	pixel = &tex->pixels[(y * tex->width + x) * tex->bytes_per_pixel];
+	color = (pixel[0] << 24) | (pixel[1] << 16) | (pixel[2] << 8) | 0xFF;
+	return (color);
+}
+
+uint32_t	*png_to_buffer(t_cub *cub, char *path)
+{
+	mlx_texture_t	*tex;
+	uint32_t		*buffer;
+	int				y;
+	int				x;
+
+	tex = mlx_load_png(path);
+	if (!tex)
+		clean_exit(cub, err_msg(path, "Failed to load PNG texture", FAILURE));
+	cub->texture_data.size = tex->width;
+	buffer = ft_calloc(tex->width * tex->height, sizeof(uint32_t));
 	if (!buffer)
-		clean_exit(cub, err_msg(NULL, ERR_MALLOC, 1));
-	y = 0;
-	while (y < cub->texture_data.size)
 	{
-		x = 0;
-		while (x < cub->texture_data.size)
-		{
-			buffer[y * cub->texture_data.size + x]
-				= tmp.img_initial_data_addr[y * cub->texture_data.size + x];
-			++x;
-		}
-		y++;
+		mlx_delete_texture(tex);
+		clean_exit(cub, err_msg(NULL, ERR_MALLOC, FAILURE));
 	}
-	mlx_destroy_image(cub->mlx_ptr, tmp.img_ptr);
+	y = -1;
+	while (++y < (int)tex->height)
+	{
+		x = -1;
+		while (++x < (int)tex->width)
+			buffer[y * tex->width + x] = get_pixel_color(tex, x, y);
+	}
+	mlx_delete_texture(tex);
 	return (buffer);
 }
 
 void	transform_textures(t_cub *cub)
 {
-	cub->textures = ft_calloc(5, sizeof * cub->textures);
+	cub->textures = ft_calloc(5, sizeof(uint32_t *));
 	if (!cub->textures)
-		clean_exit(cub, err_msg(NULL, ERR_MALLOC, 1));
-	cub->textures[NORTH] = xpm_to_img(cub, cub->texture_data.north);
-	cub->textures[SOUTH] = xpm_to_img(cub, cub->texture_data.south);
-	cub->textures[EAST] = xpm_to_img(cub, cub->texture_data.east);
-	cub->textures[WEST] = xpm_to_img(cub, cub->texture_data.west);
+		clean_exit(cub, err_msg(NULL, ERR_MALLOC, FAILURE));
+	cub->textures[NORTH] = png_to_buffer(cub, cub->texture_data.north);
+	cub->textures[SOUTH] = png_to_buffer(cub, cub->texture_data.south);
+	cub->textures[EAST] = png_to_buffer(cub, cub->texture_data.east);
+	cub->textures[WEST] = png_to_buffer(cub, cub->texture_data.west);
 }
 
 void	init_texture_data(t_texture_data *texture_data)

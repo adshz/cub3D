@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   render.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,38 +11,38 @@
 /* ************************************************************************** */
 #include "cub3d.h"
 
-static void	set_frame_image_pixel(t_cub *cub, t_img *image, int x, int y)
+static void	clear_image(mlx_image_t *img)
+{
+	ft_memset(img->pixels, 0, img->width * img->height * sizeof(uint32_t));
+}
+
+static void	set_frame_pixel(t_cub *cub, int x, int y)
 {
 	if (cub->texture_pixels[y][x] > 0)
-		set_image_pixel(image, x, y, cub->texture_pixels[y][x]);
+		put_pixel(cub->frame, x, y, cub->texture_pixels[y][x]);
 	else if (y < cub->win_height / 2)
-		set_image_pixel(image, x, y, cub->texture_data.hex_ceiling);
+		put_pixel(cub->frame, x, y, cub->texture_data.hex_ceiling);
 	else if (y < cub->win_height - 1)
-		set_image_pixel(image, x, y, cub->texture_data.hex_floor);
-	return ;
+		put_pixel(cub->frame, x, y, cub->texture_data.hex_floor);
 }
 
 static void	render_frame(t_cub *cub)
 {
-	t_img	image;
-	int		x;
-	int		y;
+	int	x;
+	int	y;
 
-	image.img_ptr = NULL;
-	init_img(cub, &image, cub->win_width, cub->win_height);
+	clear_image(cub->frame);
 	y = 0;
 	while (y < cub->win_height)
 	{
 		x = 0;
 		while (x < cub->win_width)
 		{
-			set_frame_image_pixel(cub, &image, x, y);
+			set_frame_pixel(cub, x, y);
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(cub->mlx_ptr, cub->win_ptr, image.img_ptr, 0, 0);
-	mlx_destroy_image(cub->mlx_ptr, image.img_ptr);
 }
 
 static void	render_raycast(t_cub *cub)
@@ -60,11 +60,14 @@ void	render_game(t_cub *cub)
 		render_minimap(cub);
 }
 
-int	render_wrapper(t_cub *cub)
+void	render_wrapper(void *param)
 {
+	t_cub	*cub;
+
+	cub = (t_cub *)param;
 	cub->player.has_moved += move_player(cub);
 	if (cub->player.has_moved == 0)
-		return (0);
+		return ;
 	render_game(cub);
-	return (0);
+	cub->player.has_moved = 0;
 }

@@ -26,7 +26,11 @@ int	main(int argc, char **argv)
 	t_file_input	input;
 
 	if (argc != 2)
-		something_went_wrong("enter one map, no more no less", NULL);
+	{
+		ft_putstr_fd(RED "Error: Invalid number of arguments\n" RESET, 2);
+		print_usage();
+		return (EXIT_FAILURE);
+	}
 	init_game(argv, &cub, &input);
 	parse_file(argv, &cub, &input);
 	assign_data(&cub, &input);
@@ -35,8 +39,8 @@ int	main(int argc, char **argv)
 	init_mlx(&cub);
 	transform_textures(&cub);
 	render_game(&cub);
-	event_listening(&cub);
-	mlx_loop_hook(cub.mlx_ptr, render_wrapper, &cub);
-	mlx_loop(cub.mlx_ptr);
+	setup_hooks(&cub);
+	mlx_loop(cub.mlx);
+	mlx_terminate(cub.mlx);
 	return (0);
 }

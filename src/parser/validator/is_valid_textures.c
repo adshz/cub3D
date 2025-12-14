@@ -21,7 +21,8 @@ static unsigned long	convert_rgb_to_hex(int *rgb_matrix)
 	r = rgb_matrix[0];
 	g = rgb_matrix[1];
 	b = rgb_matrix[2];
-	result = ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+	result = ((r & 0xff) << 24) | ((g & 0xff) << 16)
+		| ((b & 0xff) << 8) | 0xff;
 	return (result);
 }
 

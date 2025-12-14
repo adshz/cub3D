@@ -60,17 +60,16 @@ static void	init_player(t_player *player)
 
 void	init_data(t_cub *cub)
 {
-	cub->mlx_ptr = NULL;
-	cub->win_ptr = NULL;
+	cub->mlx = NULL;
+	cub->frame = NULL;
 	cub->win_height = WIN_HEIGHT;
 	cub->win_width = WIN_WIDTH;
 	init_player(&cub->player);
 	init_texture_data(&cub->texture_data);
 	cub->map_matrix = NULL;
 	init_map_data(&cub->map_data);
-	init_mlx_img(&cub->mlx_img);
 	cub->texture_pixels = NULL;
 	cub->textures = NULL;
+	cub->minimap_img = NULL;
 	cub->raw_file = NULL;
-	return ;
 }

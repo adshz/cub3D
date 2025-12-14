@@ -24,9 +24,16 @@
 # include <string.h>
 # include <time.h>
 # include <unistd.h>
-# include <X11/keysym.h>
-# include <X11/X.h>
-# include "mlx.h"
+# include "MLX42/MLX42.h"
+
+/* Key code aliases for compatibility */
+# define KEY_ESC MLX_KEY_ESCAPE
+# define KEY_W MLX_KEY_W
+# define KEY_A MLX_KEY_A
+# define KEY_S MLX_KEY_S
+# define KEY_D MLX_KEY_D
+# define KEY_LEFT MLX_KEY_LEFT
+# define KEY_RIGHT MLX_KEY_RIGHT
 # include "libft.h"
 # include "get_next_line.h"
 
@@ -37,7 +44,7 @@
 # define WIN_HEIGHT 512
 # define WIN_WIDTH 1024
 # define TEX_SIZE 64
-# define MOVESPEED 0.3
+# define MOVESPEED 0.1
 # define ROTSPEED 0.015
 # define ERR_MALLOC "Could not allocate memory"
 # define MINIMAP_PIXEL_SIZE 128
@@ -128,11 +135,10 @@ typedef struct s_player
 
 typedef struct s_img
 {
-	void	*img_ptr;
-	int		*img_initial_data_addr;
-	int		bpp;
-	int		size_line;
-	int		endian;
+	mlx_image_t	*img_ptr;
+	uint32_t	*pixels;
+	int			width;
+	int			height;
 }	t_img;
 
 typedef struct s_texture_data
@@ -156,7 +162,6 @@ typedef struct s_texture_data
 typedef struct s_minimap
 {
 	char	**map;
-	t_img	*img;
 	int		size;
 	int		offset_x;
 	int		offset_y;
@@ -187,8 +192,8 @@ typedef struct s_ray
 
 typedef struct s_cub
 {
-	void			*mlx_ptr;
-	void			*win_ptr;
+	mlx_t			*mlx;
+	mlx_image_t		*frame;
 	int				win_height;
 	int				win_width;
 	t_player		player;
@@ -196,10 +201,9 @@ typedef struct s_cub
 	t_ray			ray;
 	char			**map_matrix;
 	t_map_data		map_data;
-	t_img			mlx_img;
-	int				**texture_pixels;
-	int				**textures;
-	t_img			minimap;
+	uint32_t		**texture_pixels;
+	uint32_t		**textures;
+	mlx_image_t		*minimap_img;
 	char			**raw_file;
 }	t_cub;
 
@@ -222,19 +226,17 @@ int		is_file_valid(char *arg, bool is_cub);
 
 /* Rendering */
 void	render_game(t_cub *cub);
-int		render_wrapper(t_cub *cub);
+void	render_wrapper(void *param);
 void	render_minimap(t_cub *cub);
 void	render_minimap_image(t_cub *cub, t_minimap *minimap);
-void	set_image_pixel(t_img *image, int x, int y, int color);
+void	put_pixel(mlx_image_t *img, int x, int y, uint32_t color);
 
 /* Initialization */
 void	init_data(t_cub *cub);
-void	init_img(t_cub *cub, t_img *img, int width, int height);
 void	init_texture_data(t_texture_data *texture_data);
 void	init_player_direction(t_cub *cub);
 void	init_mlx(t_cub *cub);
-void	init_mlx_img(t_img *mlx_img);
-void	init_texture_img(t_cub *cub, t_img *image, char *filepath);
+void	setup_hooks(t_cub *cub);
 
 /* Raycasting */
 int		build_raycasting(t_player *player, t_cub *cub);
@@ -263,6 +265,7 @@ bool	check_extension(char *str);
 int		get_path_location(char *line, int i);
 int		get_valid_data(t_cub *cub, char **map, int i, int j);
 int		err_msg(char *msg, char *str, int code);
+void	print_usage(void);
 int		is_whitespace(char c);
 int		get_total_lines(char *filepath);
 int		validate_data(t_cub *cub);

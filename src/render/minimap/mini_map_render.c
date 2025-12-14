@@ -16,7 +16,6 @@ void	render_minimap(t_cub *cub)
 	t_minimap	minimap;
 
 	minimap.map = NULL;
-	minimap.img = &cub->minimap;
 	minimap.distance = MINIMAP_VIEW_DIST;
 	minimap.size = (2 * minimap.distance) + 1;
 	minimap.tile_size = MINIMAP_PIXEL_SIZE / (2 * minimap.distance);

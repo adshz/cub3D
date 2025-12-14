@@ -35,13 +35,13 @@ static bool	is_cub_file(char *arg)
 	return (true);
 }
 
-static bool	is_xpm_file(char *arg)
+static bool	is_png_file(char *arg)
 {
 	size_t	len;
 
 	len = ft_strlen(arg);
-	if ((arg[len - 3] != 'x' || arg[len - 2] != 'p'
-			|| arg[len - 1] != 'm' || arg[len - 4] != '.'))
+	if ((arg[len - 3] != 'p' || arg[len - 2] != 'n'
+			|| arg[len - 1] != 'g' || arg[len - 4] != '.'))
 		return (false);
 	return (true);
 }
@@ -58,7 +58,7 @@ int	is_file_valid(char *arg, bool is_cub)
 	close(fd);
 	if (is_cub && !is_cub_file(arg))
 		return (err_msg(arg, "is not a .cub file", FAILURE));
-	if (!is_cub && !is_xpm_file(arg))
-		return (err_msg(arg, "is not a .xpm file", FAILURE));
+	if (!is_cub && !is_png_file(arg))
+		return (err_msg(arg, "is not a .png file", FAILURE));
 	return (SUCCESS);
 }

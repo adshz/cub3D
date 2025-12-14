@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 #include "cub3d.h"
 
-void	set_image_pixel(t_img *image, int x, int y, int color)
+void	put_pixel(mlx_image_t *img, int x, int y, uint32_t color)
 {
-	image->img_initial_data_addr[y * (image->size_line / 4) + x] = color;
+	if (x >= 0 && x < (int)img->width && y >= 0 && y < (int)img->height)
+		mlx_put_pixel(img, x, y, color);
 }

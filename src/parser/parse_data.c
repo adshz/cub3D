@@ -16,6 +16,7 @@ int	fill_map_matrix(t_map_data *map_data, char **map_matrix, int index)
 	int	i;
 	int	j;
 
+	(void)index;
 	i = 0;
 	map_data->width = find_biggest_len(map_data, i);
 	while (i < map_data->height)
@@ -32,7 +33,6 @@ int	fill_map_matrix(t_map_data *map_data, char **map_matrix, int index)
 		while (j < map_data->width)
 			map_matrix[i][j++] = '\0';
 		i++;
-		index++;
 	}
 	map_matrix[i] = NULL;
 	return (SUCCESS);

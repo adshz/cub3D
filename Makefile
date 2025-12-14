@@ -15,9 +15,31 @@ ORANGE = \033[38;5;208m
 SHELL := bash
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
-MLX_FLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
-INCLUDE = -I./inc  \
-	  -I./minilibx-linux
+
+# OS detection
+UNAME_S := $(shell uname -s)
+
+# MLX42 configuration (cross-platform)
+MLX_DIR = MLX42
+MLX_REPO = https://github.com/codam-coding-college/MLX42.git
+MLX_BUILD = $(MLX_DIR)/build
+MLX_LIB = $(MLX_BUILD)/libmlx42.a
+
+ifeq ($(UNAME_S),Darwin)
+    # macOS - find GLFW via Homebrew
+    BREW_EXISTS := $(shell which brew 2>/dev/null)
+    GLFW_PREFIX := $(shell brew --prefix glfw 2>/dev/null || echo "")
+    ifeq ($(GLFW_PREFIX),)
+        GLFW_PREFIX = /opt/homebrew/opt/glfw
+    endif
+    MLX_FLAGS = -L$(MLX_BUILD) -lmlx42 -L$(GLFW_PREFIX)/lib -lglfw \
+                -framework Cocoa -framework OpenGL -framework IOKit
+    INCLUDE = -I./inc -I./$(MLX_DIR)/include -I$(GLFW_PREFIX)/include
+else
+    # Linux
+    MLX_FLAGS = -L$(MLX_BUILD) -lmlx42 -lglfw -ldl -pthread -lm
+    INCLUDE = -I./inc -I./$(MLX_DIR)/include
+endif
 
 # Executable name
 NAME = cub3D
@@ -96,20 +118,32 @@ define progress_bar
 endef
 
 # Default target
-all: launch $(NAME)
+all: $(MLX_LIB) launch $(NAME)
 	@printf "\n$(BOLD)$(CYAN) Cub3D Game Compiled$(DF)\n"
 
-# Build executable
-$(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS)  $(MLX_FLAGS) -o $(NAME)
+# Download and build MLX42
+$(MLX_LIB):
+	@if [ ! -d "$(MLX_DIR)" ]; then \
+		printf "$(D_Y)Downloading MLX42...$(DF)\n"; \
+		git clone $(MLX_REPO) $(MLX_DIR); \
+	fi
+	@if [ ! -d "$(MLX_BUILD)" ]; then \
+		printf "$(D_Y)Building MLX42 with CMake...$(DF)\n"; \
+		cmake -S $(MLX_DIR) -B $(MLX_BUILD) -DDEBUG=1; \
+		make -C $(MLX_BUILD) -j4; \
+	fi
 
-launch: 
+# Build executable
+$(NAME): $(MLX_LIB) $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) $(MLX_FLAGS) -o $(NAME)
+
+launch:
 	@$(call progress_bar)
 
-# Compile source files into object files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+# Compile source files into object files (depends on MLX being ready)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(MLX_LIB)
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@ 
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	@printf "█"
 
 # Clean object files
@@ -124,8 +158,36 @@ fclean: clean
 	@printf "$(CYAN)[CUB3D] Everything is Removed\n$(DF)"
 	@printf "$(BOLD)$(ORANGE)======== PROJECT RESET ========\n$(DF)"
 
+# Clean MLX42
+mlxclean:
+	@rm -rf $(MLX_DIR)
+	@printf "$(CYAN)[CUB3D] MLX42 Removed\n$(DF)"
+
+# Full clean including MLX42
+ffclean: fclean mlxclean
+
 # Rebuild project
 re: fclean all
 
+# Install dependencies
+deps:
+ifeq ($(UNAME_S),Darwin)
+	@printf "$(D_Y)Installing macOS dependencies...$(DF)\n"
+	@which brew > /dev/null || (printf "$(RED)Homebrew not found. Install from https://brew.sh$(DF)\n" && exit 1)
+	@brew install glfw cmake
+	@printf "$(GREEN)Dependencies installed successfully$(DF)\n"
+else
+	@printf "$(D_Y)Installing Linux dependencies...$(DF)\n"
+	@if [ -f /etc/debian_version ]; then \
+		sudo apt-get update && sudo apt-get install -y cmake libglfw3-dev; \
+	elif [ -f /etc/fedora-release ]; then \
+		sudo dnf install -y cmake glfw-devel; \
+	elif [ -f /etc/arch-release ]; then \
+		sudo pacman -S --noconfirm cmake glfw-wayland; \
+	else \
+		printf "$(RED)Unknown Linux distribution. Please install cmake and glfw manually.$(DF)\n"; \
+	fi
+	@printf "$(GREEN)Dependencies installed successfully$(DF)\n"
+endif
 
-.PHONY: all launch clean fclean re
+.PHONY: all launch clean fclean mlxclean ffclean re deps

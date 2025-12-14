@@ -25,7 +25,7 @@ void	init_texture_pixels(t_cub *cub)
 	while (i < cub->win_height)
 	{
 		cub->texture_pixels[i] = ft_calloc(cub->win_width + 1,
-				sizeof * cub->texture_pixels);
+				sizeof(uint32_t));
 		if (!cub->texture_pixels[i])
 			clean_exit(cub, err_msg(NULL, ERR_MALLOC, 1));
 		i++;
@@ -50,11 +50,25 @@ static void	assign_texture_index(t_cub *cub, t_ray *ray)
 	}
 }
 
+static uint32_t	apply_shade(uint32_t color)
+{
+	uint32_t	r;
+	uint32_t	g;
+	uint32_t	b;
+	uint32_t	a;
+
+	r = ((color >> 24) & 0xFF) >> 1;
+	g = ((color >> 16) & 0xFF) >> 1;
+	b = ((color >> 8) & 0xFF) >> 1;
+	a = color & 0xFF;
+	return ((r << 24) | (g << 16) | (b << 8) | a);
+}
+
 void	update_texture_pixels(t_cub *cub,
 		t_texture_data *texture, t_ray *ray, int x)
 {
-	int	y;
-	int	color;
+	int			y;
+	uint32_t	color;
 
 	assign_texture_index(cub, ray);
 	texture->x = (int)(ray->wall_x * texture->size);
@@ -72,9 +86,8 @@ void	update_texture_pixels(t_cub *cub,
 		color = cub->textures[texture->index]
 		[texture->size * texture->y + texture->x];
 		if (texture->index == NORTH || texture->index == EAST)
-			color = (color >> 1) & 8355711;
-		if (color > 0)
-			cub->texture_pixels[y][x] = color;
+			color = apply_shade(color);
+		cub->texture_pixels[y][x] = color;
 		y++;
 	}
 }

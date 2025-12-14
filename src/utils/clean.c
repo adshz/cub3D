@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   clean.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -15,15 +15,9 @@ void	clean_exit(t_cub *cub, int code)
 {
 	if (!cub)
 		exit(code);
-	if (cub->win_ptr && cub->mlx_ptr)
-		mlx_destroy_window(cub->mlx_ptr, cub->win_ptr);
-	if (cub->mlx_ptr)
-	{
-		mlx_destroy_display(cub->mlx_ptr);
-		mlx_loop_end(cub->mlx_ptr);
-		free(cub->mlx_ptr);
-	}
 	free_cub(cub);
+	if (cub->mlx)
+		mlx_terminate(cub->mlx);
 	exit(code);
 }
 
@@ -31,17 +25,15 @@ void	free_matrix(void **matrix)
 {
 	size_t	i;
 
+	if (!matrix)
+		return ;
 	i = 0;
 	while (matrix[i])
 	{
 		free(matrix[i]);
 		i++;
 	}
-	if (matrix)
-	{
-		free(matrix);
-		matrix = NULL;
-	}
+	free(matrix);
 }
 
 void	free_map_data(t_cub *cub)
