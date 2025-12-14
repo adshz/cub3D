@@ -2,6 +2,10 @@
 
 A raycasting game engine inspired by Wolfenstein 3D, developed as part of the 42 school curriculum. Renders a 3D maze from a first-person perspective using raycasting techniques.
 
+## Demo
+
+<video src="https://private-user-images.githubusercontent.com/51382734/526236824-4c3bfd63-b27e-4595-a734-c97d7a0941e7.mp4?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjU2Nzc1NjIsIm5iZiI6MTc2NTY3NzI2MiwicGF0aCI6Ii81MTM4MjczNC81MjYyMzY4MjQtNGMzYmZkNjMtYjI3ZS00NTk1LWE3MzQtYzk3ZDdhMDk0MWU3Lm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEyMTQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMjE0VDAxNTQyMlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTMyNTliNzA2MjExODE3ZDc5YjM4OWJhN2JiMDZiNjNmOTZiNzAwNjkwYTk2YjM3ODFkNDk2MDMwNmI2MDE4MzAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.VFldYCdpuN9aMbsHztKIGpteiSDM4ztkT_qWMcUio80" controls="controls" muted="muted" class="d-block rounded-bottom-2 border-top width-fit" style="max-height:640px; min-height: 200px"></video>
+
 ## Requirements
 
 ### Operating System
